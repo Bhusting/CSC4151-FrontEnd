@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/navigation_chore"
+        android:icon="@drawable/ic_list_black_24dp_chore"
+        android:title="Chore"/>
+
+    <item
+        android:id="@+id/navigation_task"
+        android:icon="@drawable/ic_star_black_24dp_task"
+        android:title="Task" />
+
+    <item
+        android:id="@+id/navigation_leaderboard"
+        android:icon="@drawable/ic_poll_black_24dp_leaderboard"
+        android:title="Leaderboard" />
+
+    <item
+        android:id="@+id/navigation_profile"
+        android:icon="@drawable/ic_person_black_24dp_profile"
+        android:title="Profile" />
+</menu>
