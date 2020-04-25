@@ -2,12 +2,25 @@
 <androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:theme="@style/ThemeOverlay.AppCompat.ActionBar">
 
-
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/my_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/takGreen"
+        android:backgroundTint="@color/takGreen"
+        android:elevation="4dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:logo="@drawable/ic_person_black_24dp_profile"
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+        app:title="Login"
+        app:titleTextColor="@color/takGrey"
+        app:titleMargin="10dp" />
     <Button
         android:id="@+id/button2"
         android:layout_width="match_parent"
@@ -23,23 +36,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent" />
-
-    <androidx.appcompat.widget.Toolbar
-        android:id="@+id/my_toolbar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/takGreen"
-        android:backgroundTint="@color/takGreen"
-        android:elevation="4dp"
-
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:logo="@drawable/ic_person_black_24dp_profile"
-        app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
-        app:title="Login"
-        app:titleMargin="10dp" />
-
     <Button
         android:id="@+id/loginButton"
         android:layout_width="match_parent"

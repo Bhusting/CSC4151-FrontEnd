@@ -59,4 +59,8 @@ public class MainActivity extends AppCompatActivity {
                     return false;
                 }
             };
+
+    public boolean ping(){
+        return false;
+    }
 }
