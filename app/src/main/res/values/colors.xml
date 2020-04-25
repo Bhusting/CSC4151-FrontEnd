@@ -6,4 +6,5 @@
     <color name="white">#FFFFFF</color>
     <color name="takGreen">#00d18f</color>
     <color name="takGrey">#363636</color>
+    <color name="takLightGrey">#949494</color>
 </resources>
