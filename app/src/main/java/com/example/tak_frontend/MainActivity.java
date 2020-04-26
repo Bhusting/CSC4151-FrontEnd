@@ -1,12 +1,11 @@
 package com.example.tak_frontend;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.view.MenuItem;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.ActionBarContextView;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
@@ -59,8 +58,4 @@ public class MainActivity extends AppCompatActivity {
                     return false;
                 }
             };
-
-    public boolean ping(){
-        return false;
-    }
 }

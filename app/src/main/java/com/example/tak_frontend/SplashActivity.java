@@ -9,8 +9,6 @@ import android.view.ActionMode;
 
 
 public class SplashActivity extends AppCompatActivity {
-    private static int SPLASH_TIME_OUT = 0;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -22,7 +20,7 @@ public class SplashActivity extends AppCompatActivity {
             public void run() {
                 try{
                     super.run();
-                    sleep(10000);
+                    sleep(100);
                 } catch (Exception e) {
                     e.printStackTrace();
                 } finally {
