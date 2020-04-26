@@ -4,11 +4,16 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
+import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 
 
-public class ChoreFragment extends Fragment {
+
+
+
+public class ChoreFragment<stringRequest> extends Fragment {
 
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
@@ -32,6 +37,7 @@ public class ChoreFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        getActivity().setTitle("Chore");
         if (getArguments() != null) {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
@@ -44,4 +50,15 @@ public class ChoreFragment extends Fragment {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_chore, container, false);
     }
+
+    public boolean ping(){
+        return false;
+    }
+
+
+
+
+
+
+
 };
