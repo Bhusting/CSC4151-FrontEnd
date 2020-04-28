@@ -1,12 +1,174 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent" android:layout_height="match_parent">
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/relativeLayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/takWhite">
 
+    <!--TODO: When top navbar is added, constrain residentName_Profile to it -->
+    <!--TODO: When Backend navigation is added, residentName_Profile should display resident name -->
     <TextView
+        android:id="@+id/houseString_Profile"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Profile Fragment Starter"
-        android:textSize="35sp"
-        android:layout_centerInParent="true"/>
+        android:layout_marginTop="8dp"
+        android:text="<houseString_Profile>"
+        android:textSize="20sp"
+        app:layout_constraintStart_toStartOf="@+id/profile_guideline_50per"
+        app:layout_constraintTop_toBottomOf="@+id/progressBar_Profile" />
 
-</RelativeLayout>
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/profile_guideline_10per"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.1" />
+
+    <TextView
+        android:id="@+id/residentName_Profile"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:layout_centerHorizontal="true"
+        android:text="<residentName_Profile>"
+        android:textSize="30sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.178" />
+
+    <!--A string. This literally just has the word "Level". It's fine hardcoded, since
+    we're only working in one language.-->
+    <TextView
+        android:id="@+id/levelTextString_Profile"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:text="Level:"
+        app:layout_constraintStart_toStartOf="@+id/profile_guideline_25per"
+        app:layout_constraintTop_toBottomOf="@+id/residentName_Profile" />
+
+    <!-- This is a guideline marking the vertical left quarter of the screen -->
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/profile_guideline_25per"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.25" />
+
+    <!-- This is a guideline marking the center of the screen, top to bottom -->
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/profile_guideline_50per"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.5" />
+
+    <TextView
+        android:id="@+id/xpTextString_Profile"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="XP:"
+        app:layout_constraintStart_toStartOf="@+id/levelTextString_Profile"
+        app:layout_constraintTop_toBottomOf="@+id/levelTextString_Profile" />
+
+    <!-- TODO: Constrain CENTER of progress bar to CENTER of screen. Hopefully that's a thing. -->
+    <ProgressBar
+        android:id="@+id/progressBar_Profile"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        app:layout_constraintEnd_toStartOf="@+id/profile_guideline_50per"
+        app:layout_constraintStart_toStartOf="@+id/profile_guideline_50per"
+        app:layout_constraintTop_toBottomOf="@+id/xpTextString_Profile" />
+
+    <TextView
+        android:id="@+id/levelValueString_Profile"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="<levelValueString_Profile>"
+        app:layout_constraintStart_toStartOf="@+id/profile_guideline_50per"
+        app:layout_constraintTop_toTopOf="@+id/levelTextString_Profile" />
+
+    <TextView
+        android:id="@+id/xpValueString_Profile"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="<xpValueString_Profile>"
+        app:layout_constraintStart_toStartOf="@+id/profile_guideline_50per"
+        app:layout_constraintTop_toBottomOf="@+id/levelTextString_Profile" />
+
+    <TextView
+        android:id="@+id/houseTextString_Profile"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="House:"
+        android:textSize="30sp"
+        app:layout_constraintBottom_toBottomOf="@+id/houseString_Profile"
+        app:layout_constraintStart_toStartOf="@+id/profile_guideline_10per"
+        app:layout_constraintTop_toTopOf="@+id/houseString_Profile" />
+
+    <TextView
+        android:id="@+id/infoTextString_Profile"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:text="Info:"
+        app:layout_constraintStart_toStartOf="@+id/profile_guideline_25per"
+        app:layout_constraintTop_toBottomOf="@+id/houseTextString_Profile" />
+
+    <!--TODO: infobarGuideline_Profile was placed before the navbar, TWEAK LATER-->
+
+    <androidx.core.widget.NestedScrollView
+        android:id="@+id/nestedScrollView"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:fillViewport="true"
+        app:layout_constraintBottom_toTopOf="@+id/infobarGuideline_Profile"
+        app:layout_constraintEnd_toStartOf="@+id/profile_guideline_90per"
+        app:layout_constraintStart_toStartOf="@+id/profile_guideline_10per"
+        app:layout_constraintTop_toBottomOf="@+id/infoTextString_Profile"
+        app:layout_constraintVertical_bias="0.0">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/infoString_Profile"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="<infoString_Profile>" />
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/infobarGuideline_Profile"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.75" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/profile_guideline_90per"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.9" />
+
+    <Button
+        android:id="@+id/leaveButton_Profile"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="36dp"
+        android:text="Leave House"
+        app:layout_constraintStart_toStartOf="@+id/profile_guideline_10per"
+        app:layout_constraintTop_toBottomOf="@+id/nestedScrollView" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
