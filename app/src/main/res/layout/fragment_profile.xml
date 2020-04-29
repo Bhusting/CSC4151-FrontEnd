@@ -14,7 +14,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
-        android:text="<houseString_Profile>"
+        android:text="houseString_Profile"
         android:textSize="20sp"
         app:layout_constraintStart_toStartOf="@+id/profile_guideline_50per"
         app:layout_constraintTop_toBottomOf="@+id/progressBar_Profile" />
@@ -32,7 +32,7 @@
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
         android:layout_centerHorizontal="true"
-        android:text="<residentName_Profile>"
+        android:text="residentName_Profile"
         android:textSize="30sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
@@ -91,7 +91,7 @@
         android:id="@+id/levelValueString_Profile"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="<levelValueString_Profile>"
+        android:text="levelValueString_Profile"
         app:layout_constraintStart_toStartOf="@+id/profile_guideline_50per"
         app:layout_constraintTop_toTopOf="@+id/levelTextString_Profile" />
 
@@ -99,7 +99,7 @@
         android:id="@+id/xpValueString_Profile"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="<xpValueString_Profile>"
+        android:text="xpValueString_Profile"
         app:layout_constraintStart_toStartOf="@+id/profile_guideline_50per"
         app:layout_constraintTop_toBottomOf="@+id/levelTextString_Profile" />
 
@@ -144,7 +144,7 @@
                 android:id="@+id/infoString_Profile"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="<infoString_Profile>" />
+                android:text="infoString_Profile" />
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
 
