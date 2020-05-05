@@ -18,11 +18,13 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:logo="@drawable/ic_person_black_24dp_profile"
+
         app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
         app:title="Login"
         app:titleTextColor="@color/takGrey"
-        app:titleMargin="10dp" />
+        app:titleMargin="10dp"/>
+    <!-- app:logo="@drawable/ic_person_black_24dp_profile"--> />
+
     <Button
         android:id="@+id/signUpButton"
         android:layout_width="match_parent"

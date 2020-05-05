@@ -41,7 +41,9 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Log.i("MyApp", "It clicked");
-               // sendAndRequestResponse();
+
+
+
                 Intent intent;
                 intent = new Intent(v.getContext(), MainActivity.class);
                 startActivity(intent);
@@ -50,7 +52,7 @@ public class LoginActivity extends AppCompatActivity {
 
     }
 
-    private void sendAndRequestResponse() {
+/*    private void sendAndRequestResponse() {
 
         //RequestQueue initialized
         mRequestQueue = Volley.newRequestQueue(this);
@@ -65,5 +67,7 @@ public class LoginActivity extends AppCompatActivity {
 
         mRequestQueue.add(mStringRequest);
         Log.i("MyApp", "It Sent");
-    }
+    }*/
+
+
 }
