@@ -2,6 +2,7 @@ package com.example.tak_frontend;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 
 import androidx.annotation.NonNull;
@@ -15,10 +16,13 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class MainActivity extends AppCompatActivity {
 
+    private static final String TAG = ".MainActivity";
     BottomNavigationView bottomNavigation;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
+        Log.d(TAG, "onCreate: entered main");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 

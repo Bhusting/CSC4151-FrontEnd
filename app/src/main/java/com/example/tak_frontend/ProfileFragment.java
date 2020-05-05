@@ -1,6 +1,7 @@
 package com.example.tak_frontend;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +13,7 @@ public class ProfileFragment extends Fragment {
 
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
+    private static final String TAG = ".ProfileFragment";
 
     private String mParam1;
     private String mParam2;
@@ -43,6 +45,7 @@ public class ProfileFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
+        Log.d(TAG, "onCreateView: profile");
         return inflater.inflate(R.layout.fragment_profile, container, false);
     }
 };
