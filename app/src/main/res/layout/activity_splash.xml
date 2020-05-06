@@ -20,24 +20,33 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
-        tools:ignore="ContentDescription"
         android:id="@+id/tak_needle_splash"
         android:layout_width="0dp"
         android:layout_height="146dp"
+        android:visibility="gone"
         app:layout_constraintBottom_toTopOf="@+id/indeterminateBar"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:srcCompat="@drawable/ic_tak_needle" />
+        app:srcCompat="@drawable/ic_tak_pushpin"
+        tools:ignore="ContentDescription" />
 
     <ImageView
-        android:id="@+id/tak_handle_splash"
-        android:layout_width="0dp"
-        android:layout_height="146dp"
-        android:layout_marginBottom="32dp"
+        android:id="@+id/green_box_splash"
+        android:layout_width="200dp"
+        android:layout_height="200dp"
         app:layout_constraintBottom_toBottomOf="@+id/tak_needle_splash"
-        app:layout_constraintEnd_toEndOf="@+id/tak_needle_splash"
-        app:layout_constraintStart_toStartOf="@+id/tak_needle_splash"
-        app:srcCompat="@drawable/ic_tak_handle_v2"
-        tools:ignore="ContentDescription" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:srcCompat="@drawable/ic_solid_box" />
+
+    <ImageView
+        android:id="@+id/tak_pushpinwhite_splash"
+        android:layout_width="138dp"
+        android:layout_height="137dp"
+        app:layout_constraintBottom_toTopOf="@+id/tak_needle_splash"
+        app:layout_constraintEnd_toEndOf="@+id/green_box_splash"
+        app:layout_constraintStart_toStartOf="@+id/green_box_splash"
+        app:layout_constraintTop_toTopOf="@+id/green_box_splash"
+        app:srcCompat="@drawable/ic_tak_pushpinbox" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
