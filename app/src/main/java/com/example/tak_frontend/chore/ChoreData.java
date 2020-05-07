@@ -1,4 +1,4 @@
-package com.example.tak_frontend;
+package com.example.tak_frontend.chore;
 
 import android.view.View;
 

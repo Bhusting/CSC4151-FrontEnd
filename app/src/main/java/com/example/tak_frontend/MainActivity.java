@@ -1,6 +1,5 @@
 package com.example.tak_frontend;
 
-import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
@@ -11,6 +10,7 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
+import com.example.tak_frontend.chore.ChoreFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 
@@ -47,7 +47,7 @@ public class MainActivity extends AppCompatActivity {
                 @Override public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                     switch (item.getItemId()) {
                         case R.id.navigation_chore:
-                            openFragment(ChoreFragment.newInstance("", ""));
+                            openFragment(ChoreFragment.newInstance());
                             return true;
                         case R.id.navigation_leaderboard:
                             openFragment(LeaderboardFragment.newInstance("", ""));
