@@ -60,6 +60,7 @@ public class MainActivity extends AppCompatActivity {
         bottomNavigation.setSelectedItemId(R.id.navigation_task);
 
         String accessToken = getIntent().getStringExtra(LoginActivity.EXTRA_ACCESS_TOKEN);
+        String idToken = getIntent().getStringExtra(LoginActivity.EXTRA_ACCESS_TOKEN);
         Toast toast = Toast.makeText(this, accessToken, Toast.LENGTH_LONG);
         toast.show();
         Log.d(TAG, "Token: " + accessToken);
@@ -67,13 +68,13 @@ public class MainActivity extends AppCompatActivity {
         EditText temp = findViewById(R.id.editText);
         temp.setText(accessToken);
 
-        OkHttpClient client = new OkHttpClient();
+        /*OkHttpClient client = new OkHttpClient();
         Request request = new Request.Builder()
                 .get()
                 .url(API_URL)
                 .addHeader("Authorization", "Bearer " + accessToken)
                 .build();
-
+*/
 
     }
 
