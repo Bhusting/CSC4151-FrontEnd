@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">tak_frontend</string>
+    <string name="com_auth0_client_id">lbpyXL3R9CZR5h13Vtd3EBygc51SAiLO</string>
+    <string name="com_auth0_domain">csc4151tak.auth0.com</string>
+    <string name="login">Log in</string>
+    <string name="logout">Log out</string>
 </resources>

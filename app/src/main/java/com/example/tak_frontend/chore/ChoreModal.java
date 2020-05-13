@@ -7,6 +7,7 @@ import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.EditText;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -16,11 +17,20 @@ import com.example.tak_frontend.R;
 
 
 public class ChoreModal extends DialogFragment {
-    private EditText choreTitle;
-    private EditText choreStatus;
+    private EditText choreTitle, choreStatus;
     private ChoreModalListener listener;
-    private Context mContext;
 
+
+
+    @Nullable
+    @Override
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.fragment_chore_modal, container, false);
+        choreTitle = view.findViewById(R.id.chore_modal_title_text);
+        choreStatus = view.findViewById(R.id.chore_modal_date_text);
+
+        return  view;
+    }
 
     @Override
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {

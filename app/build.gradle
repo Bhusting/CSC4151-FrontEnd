@@ -7,13 +7,15 @@ android {
     buildToolsVersion "29.0.3"
 
     defaultConfig {
-        applicationId "com.example.tak_frontend"
+        applicationId "csc4151tak.auth0.com"
         minSdkVersion 28
         targetSdkVersion 28
         versionCode 1
         versionName "1.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+
+        manifestPlaceholders = [auth0Domain: "@string/com_auth0_domain", auth0Scheme: "demo"]
     }
 
     buildTypes {
@@ -58,8 +60,11 @@ dependencies {
     implementation 'androidx.cardview:cardview'
     implementation 'com.android.volley:volley:1.1.1'
     implementation 'com.google.android.material:material:1.1.0'
-
-
+    implementation 'com.auth0.android:auth0:1.+'
+    implementation 'javax.servlet:javax.servlet-api:3.1.0'
+    implementation 'com.auth0:mvc-auth-commons:1.+'
+    implementation 'com.loopj.android:android-async-http:1.4.9'
+    implementation "com.squareup.okhttp3:okhttp:4.6.0"
 
     testImplementation 'junit:junit:4.13'
     androidTestImplementation 'androidx.test.ext:junit:1.1.1'
