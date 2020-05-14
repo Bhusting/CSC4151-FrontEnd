@@ -117,6 +117,7 @@ public class MainActivity extends AppCompatActivity {
                                     @Override
                                     public void onSuccess(UserProfile profile) {
                                         // Display the user profile
+                                        Log.d(TAG,"Entered getProfile");
                                         Log.d(TAG, "First: " + profile.getName());
                                         Log.d(TAG, "Last: " + profile.getFamilyName());
                                         Log.d(TAG, "ID: " + profile.getId());
@@ -125,14 +126,14 @@ public class MainActivity extends AppCompatActivity {
 
                                     @Override
                                     public void onFailure(ManagementException error) {
-                                        // Show error
+                                        Log.d(TAG,"getProfile ManagementException: "+ error.getDescription());
                                     }
                                 });
                     }
 
                     @Override
                     public void onFailure(AuthenticationException error) {
-                        // Show error
+                        Log.d(TAG,"getProfile AuthException");
                     }
                 });
     }

@@ -64,16 +64,16 @@ public class ChoreModal extends DialogFragment {
         return builder.create();
     }
 
-    @Override
+/*    @Override
     public void onAttach(@NonNull Context context) {
-        try {
+*//*        try {
             listener = (ChoreModalListener) getActivity();
         } catch (ClassCastException e) {
                 throw new ClassCastException(context.toString() +
                         "must implement ChoreModalListener");
         }
-        super.onAttach(context);
-    }
+        super.onAttach(context);*//*
+    }*/
 
     public interface ChoreModalListener{
         void applyData(ChoreData data);
