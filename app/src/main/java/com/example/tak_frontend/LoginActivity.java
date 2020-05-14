@@ -20,9 +20,11 @@ import com.auth0.android.Auth0;
 import com.auth0.android.Auth0Exception;
 import com.auth0.android.authentication.AuthenticationAPIClient;
 import com.auth0.android.authentication.AuthenticationException;
+import com.auth0.android.authentication.storage.CredentialsManagerException;
 import com.auth0.android.authentication.storage.SecureCredentialsManager;
 import com.auth0.android.authentication.storage.SharedPreferencesStorage;
 import com.auth0.android.callback.AuthenticationCallback;
+import com.auth0.android.callback.BaseCallback;
 import com.auth0.android.provider.AuthCallback;
 import com.auth0.android.provider.VoidCallback;
 import com.auth0.android.provider.WebAuthProvider;
@@ -56,6 +58,10 @@ public class LoginActivity extends AppCompatActivity {
             // Obtain the existing credentials and move to the next activity
             showNextActivity();
         }
+
+
+
+
         loginButton = findViewById(R.id.loginButton);
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -72,12 +78,12 @@ public class LoginActivity extends AppCompatActivity {
 
             }
         });
-        //.withScope("openid offline_access")
     }
     private void login() {
         WebAuthProvider.login(auth0)
                 .withScheme("demo")
                 .withAudience("https://tak")
+                .withScope("openid profile email offline_access read:current_user update:current_user_metadata")
                 .start(this, new AuthCallback() {
                     @Override
                     public void onFailure(@NonNull final Dialog dialog) {
@@ -106,8 +112,8 @@ public class LoginActivity extends AppCompatActivity {
                             public void run() {
                                 Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                                 intent.putExtra(EXTRA_ACCESS_TOKEN, credentials.getAccessToken());
-                                //intent.putExtra(EXTRA_ACCESS_TOKEN, credentials.getIdToken());
                                 Log.d(TAG, "ID: " + credentials.getIdToken());
+                                Log.d(TAG, "Token: " + credentials.getAccessToken());
                                 startActivity(intent);
                                 finish();
                             }
@@ -133,9 +139,60 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void showNextActivity() {
-        Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-        startActivity(intent);
-        finish();
+        credentialsManager.getCredentials(new BaseCallback<Credentials, CredentialsManagerException>() {
+            @Override
+            public void onSuccess(final Credentials credentials) {
+                // Move to the next activity
+                Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                intent.putExtra(EXTRA_ACCESS_TOKEN, credentials.getAccessToken());
+                intent.putExtra(EXTRA_ID_TOKEN, credentials.getIdToken());
+
+                startActivity(intent);
+                finish();
+            }
+
+            @Override
+            public void onFailure(CredentialsManagerException error) {
+                // Credentials could not be retrieved.
+                finish();
+            }
+        });
     }
+    private final AuthCallback loginCallback = new AuthCallback() {
+        @Override
+        public void onFailure(@NonNull final Dialog dialog) {
+            // Show error dialog
+        }
+
+        @Override
+        public void onFailure(AuthenticationException exception) {
+            // Show error message
+        }
+
+        @Override
+        public void onSuccess(@NonNull Credentials credentials) {
+            // User successfully authenticated
+            credentialsManager.saveCredentials(credentials);
+            showNextActivity();
+        }
+    };
+    private void doLogout() {
+        WebAuthProvider.logout(auth0)
+                .withScheme("demo")
+                .start(this, logoutCallback);
+    }
+
+    private VoidCallback logoutCallback = new VoidCallback() {
+        @Override
+        public void onSuccess(Void payload) {
+            credentialsManager.clearCredentials();
+        }
+
+        @Override
+        public void onFailure(Auth0Exception error) {
+            // Log out canceled, keep the user logged in
+            showNextActivity();
+        }
+    };
 
 }
