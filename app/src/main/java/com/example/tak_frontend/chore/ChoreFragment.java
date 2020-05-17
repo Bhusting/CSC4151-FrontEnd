@@ -78,7 +78,9 @@ public class ChoreFragment extends Fragment implements ChoreModal.ChoreModalList
         modal.setTargetFragment(ChoreFragment.this, 1);
     }
 
-
+/*    ChoreModal.ChoreModalListener modalListener(){
+        return false;
+    };*/
     @Override
     public void applyData(ChoreData data) {
             choreList.add(data);

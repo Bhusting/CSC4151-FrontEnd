@@ -2,6 +2,7 @@ package com.example.tak_frontend;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.JsonReader;
 import android.util.Log;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -15,16 +16,30 @@ import com.auth0.android.Auth0;
 import com.auth0.android.authentication.AuthenticationAPIClient;
 import com.auth0.android.authentication.AuthenticationException;
 import com.auth0.android.callback.BaseCallback;
+import com.auth0.android.jwt.JWT;
 import com.auth0.android.management.ManagementException;
 import com.auth0.android.management.UsersAPIClient;
 import com.auth0.android.result.UserProfile;
 import com.example.tak_frontend.chore.ChoreFragment;
 import com.example.tak_frontend.leaderboard.LeaderboardFragment;
+import com.example.tak_frontend.profile.Profile;
 import com.example.tak_frontend.profile.ProfileFragment;
 import com.example.tak_frontend.task.TaskFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
+import org.jetbrains.annotations.NotNull;
 import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.IOException;
+import java.util.UUID;
+
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.Headers;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -35,6 +50,9 @@ public class MainActivity extends AppCompatActivity {
     private UsersAPIClient usersClient;
     private AuthenticationAPIClient authenticationAPIClient;
 
+    protected String accessToken;
+    protected String idToken;
+
     BottomNavigationView bottomNavigation;
 
     @Override
@@ -42,17 +60,18 @@ public class MainActivity extends AppCompatActivity {
 
         Log.d(TAG, "onCreate: entered main");
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
 
         Auth0 auth0 = new Auth0(this);
         auth0.setOIDCConformant(true);
 
-        String accessToken = getIntent().getStringExtra(LoginActivity.EXTRA_ACCESS_TOKEN);
+        String[] temp = getIntent().getStringArrayExtra("Tokens");
+
+        accessToken = temp[0];
+        idToken = temp[1];
+
         usersClient = new UsersAPIClient(auth0, accessToken);
         authenticationAPIClient = new AuthenticationAPIClient(auth0);
-
-        getProfile(accessToken);
-
-        setContentView(R.layout.activity_main);
 
         Toolbar myToolbar = findViewById(R.id.my_toolbar);
         setSupportActionBar(myToolbar);
@@ -68,11 +87,18 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    public String getToken(){
-        return (getIntent().getStringExtra(LoginActivity.EXTRA_ACCESS_TOKEN));
+    public String[] getTokens(){
+        return (getIntent().getStringArrayExtra("Tokens"));
     }
 
     public void openFragment(Fragment fragment) {
+        //Bundle to hold Tokens
+        Bundle b = new Bundle();
+        b.putString("AuthToken", getTokens()[0]);
+        b.putString("IdToken", getTokens()[1]);
+        //Add bundle to Fragment
+        fragment.setArguments(b);
+        //Begin transaction
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         transaction.replace(R.id.container, fragment);
         transaction.addToBackStack(null);
@@ -90,7 +116,7 @@ public class MainActivity extends AppCompatActivity {
                         openFragment(LeaderboardFragment.newInstance("", ""));
                         return true;
                     case R.id.navigation_profile:
-                        openFragment(ProfileFragment.newInstance("", ""));
+                        openFragment(ProfileFragment.newInstance());
                         return true;
                     case R.id.navigation_task:
                         openFragment(TaskFragment.newInstance("", ""));
@@ -104,38 +130,6 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
         finish();
     }
-    public void testHTTP() throws JSONException {
-   }
 
-    private void getProfile(String accessToken) {
-        authenticationAPIClient.userInfo(accessToken)
-                .start(new BaseCallback<UserProfile, AuthenticationException>() {
-                    @Override
-                    public void onSuccess(UserProfile userinfo) {
-                        usersClient.getProfile(userinfo.getId())
-                                .start(new BaseCallback<UserProfile, ManagementException>() {
-                                    @Override
-                                    public void onSuccess(UserProfile profile) {
-                                        // Display the user profile
-                                        Log.d(TAG,"Entered getProfile");
-                                        Log.d(TAG, "First: " + profile.getName());
-                                        Log.d(TAG, "Last: " + profile.getFamilyName());
-                                        Log.d(TAG, "ID: " + profile.getId());
-                                        Log.d(TAG, "Email: " + profile.getEmail());
-                                    }
-
-                                    @Override
-                                    public void onFailure(ManagementException error) {
-                                        Log.d(TAG,"getProfile ManagementException: "+ error.getDescription());
-                                    }
-                                });
-                    }
-
-                    @Override
-                    public void onFailure(AuthenticationException error) {
-                        Log.d(TAG,"getProfile AuthException");
-                    }
-                });
-    }
 }
 

@@ -10,12 +10,6 @@ import android.widget.Button;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Toast;
-
-import com.android.volley.Request;
-import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.*;
 import com.auth0.android.Auth0;
 import com.auth0.android.Auth0Exception;
 import com.auth0.android.authentication.AuthenticationAPIClient;
@@ -23,14 +17,12 @@ import com.auth0.android.authentication.AuthenticationException;
 import com.auth0.android.authentication.storage.CredentialsManagerException;
 import com.auth0.android.authentication.storage.SecureCredentialsManager;
 import com.auth0.android.authentication.storage.SharedPreferencesStorage;
-import com.auth0.android.callback.AuthenticationCallback;
 import com.auth0.android.callback.BaseCallback;
 import com.auth0.android.provider.AuthCallback;
 import com.auth0.android.provider.VoidCallback;
 import com.auth0.android.provider.WebAuthProvider;
 import com.auth0.android.result.Credentials;
 
-import javax.xml.transform.ErrorListener;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -111,7 +103,9 @@ public class LoginActivity extends AppCompatActivity {
                             @Override
                             public void run() {
                                 Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-                                intent.putExtra(EXTRA_ACCESS_TOKEN, credentials.getAccessToken());
+                                String[] temp = {credentials.getAccessToken(), credentials.getIdToken()};
+
+                                intent.putExtra("Tokens", temp);
                                 Log.d(TAG, "ID: " + credentials.getIdToken());
                                 Log.d(TAG, "Token: " + credentials.getAccessToken());
                                 startActivity(intent);
