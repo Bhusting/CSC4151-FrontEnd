@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">Tak</string>
+    <string name="SigninString">Currently signed in as Mr. Whiskers</string>
 </resources>

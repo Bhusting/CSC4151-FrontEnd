@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/relativeLayout2"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    android:background="@color/takWhite">
+
+    <Button
+        android:id="@+id/joinHouseholdButton"
+        android:layout_width="286dp"
+        android:layout_height="98dp"
+        android:layout_marginTop="8dp"
+        android:text="Join An Existing Household"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/choiceSlugB" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/createjoin_guideline_20perh"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.2" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/createjoin_guideline_80perh"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.8" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/createjoin_guideline_10per"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.1" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/createjoin_guideline_50per"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.5" />
+
+    <TextView
+        android:id="@+id/Welcome"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Welcome!"
+        android:textSize="30sp"
+        app:layout_constraintBottom_toTopOf="@+id/createjoin_guideline_20perh"
+        app:layout_constraintEnd_toStartOf="@+id/createjoin_guideline_50per"
+        app:layout_constraintStart_toStartOf="@+id/createjoin_guideline_50per"
+        app:layout_constraintTop_toTopOf="@+id/createjoin_guideline_20perh"
+        tools:text="Welcome!" />
+
+    <TextView
+        android:id="@+id/choiceSlugA"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="Would you like to"
+        android:textSize="20sp"
+        app:layout_constraintEnd_toStartOf="@+id/createjoin_guideline_50per"
+        app:layout_constraintStart_toStartOf="@+id/createjoin_guideline_50per"
+        app:layout_constraintTop_toBottomOf="@+id/Welcome" />
+
+    <Button
+        android:id="@+id/createHouseholdButton"
+        android:layout_width="286dp"
+        android:layout_height="98dp"
+        android:text="Create A New Household"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/choiceSlugA" />
+
+    <TextView
+        android:id="@+id/choiceSlugB"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="Or"
+        android:textSize="20sp"
+        app:layout_constraintEnd_toStartOf="@+id/createjoin_guideline_50per"
+        app:layout_constraintStart_toStartOf="@+id/createjoin_guideline_50per"
+        app:layout_constraintTop_toBottomOf="@+id/createHouseholdButton" />
+
+    <TextView
+        android:id="@+id/signinIdentifier"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/SigninString"
+        app:layout_constraintStart_toStartOf="@+id/createjoin_guideline_10per"
+        app:layout_constraintTop_toTopOf="@+id/createjoin_guideline_80perh" />
+
+    <Button
+        android:id="@+id/altSignInButton"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Sign in as someone else"
+        app:layout_constraintEnd_toStartOf="@+id/createjoin_guideline_50per"
+        app:layout_constraintStart_toStartOf="@+id/createjoin_guideline_10per"
+        app:layout_constraintTop_toBottomOf="@+id/signinIdentifier" />
+</androidx.constraintlayout.widget.ConstraintLayout>
