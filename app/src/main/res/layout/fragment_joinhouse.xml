@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/CreateJoinHouseLayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/takWhite">
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/join_guideline_50per"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.5" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/join_guideline_10per"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.1" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/join_guideline_90per"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.9" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/join_guideline_20perh"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.2" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/join_guideline_50perh"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.5" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/join_guideline_85perh"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.85" />
+
+    <TextView
+        android:id="@+id/houseCodePromptSlug"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Please enter the house code."
+        android:textSize="30sp"
+        app:layout_constraintBottom_toTopOf="@+id/join_guideline_20perh"
+        app:layout_constraintEnd_toStartOf="@+id/join_guideline_50per"
+        app:layout_constraintStart_toStartOf="@+id/join_guideline_50per"
+        app:layout_constraintTop_toTopOf="@+id/join_guideline_20perh" />
+
+    <EditText
+        android:id="@+id/houseCodeInput"
+        android:layout_width="240dp"
+        android:layout_height="49dp"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:text="Type your house code here."
+        app:layout_constraintBottom_toTopOf="@+id/join_guideline_50perh"
+        app:layout_constraintEnd_toStartOf="@+id/join_guideline_50per"
+        app:layout_constraintStart_toStartOf="@+id/join_guideline_50per" />
+
+    <Button
+        android:id="@+id/joinButton"
+        android:layout_width="146dp"
+        android:layout_height="59dp"
+        android:layout_marginTop="8dp"
+        android:text="Join"
+        app:layout_constraintEnd_toStartOf="@+id/join_guideline_50per"
+        app:layout_constraintStart_toStartOf="@+id/join_guideline_50per"
+        app:layout_constraintTop_toTopOf="@+id/join_guideline_50perh" />
+
+    <TextView
+        android:id="@+id/joinInstructionText"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="The house code can be found in the profile page of anyone currently in the house. If they haven't given you the code yet, get it from them now."
+        app:layout_constraintEnd_toStartOf="@+id/join_guideline_90per"
+        app:layout_constraintStart_toStartOf="@+id/join_guideline_10per"
+        app:layout_constraintTop_toBottomOf="@+id/joinButton" />
+
+    <TextView
+        android:id="@+id/leaveJoinSlug"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Want to create a house instead?"
+        app:layout_constraintBottom_toTopOf="@+id/join_guideline_85perh"
+        app:layout_constraintStart_toStartOf="@+id/join_guideline_10per"
+        app:layout_constraintTop_toTopOf="@+id/join_guideline_85perh" />
+
+    <Button
+        android:id="@+id/backJoinButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Back"
+        app:layout_constraintStart_toStartOf="@+id/join_guideline_10per"
+        app:layout_constraintTop_toBottomOf="@+id/leaveJoinSlug" />
+</androidx.constraintlayout.widget.ConstraintLayout>
+
+
