@@ -54,11 +54,17 @@ dependencies {
     // Saved state module for ViewModel
     implementation "androidx.lifecycle:lifecycle-viewmodel-savedstate:$lifecycle_version"
     // Annotation processor
-    implementation "androidx.lifecycle:lifecycle-compiler:$lifecycle_version"
+    annotationProcessor "androidx.lifecycle:lifecycle-compiler:$lifecycle_version"
     implementation "androidx.paging:paging-runtime:$paging_version"
     implementation "androidx.work:work-runtime:$work_version"
     //Retrofit HTTP Client
     implementation "com.squareup.retrofit2:retrofit:$retro_version"
+
+    // Adds libraries defining annotations to only the compile classpath.
+    compileOnly 'com.google.dagger:dagger:2.27'
+    // Adds the annotation processor dependency to the annotation processor classpath.
+    annotationProcessor 'com.google.dagger:dagger-compiler:2.27'
+
 
 
     implementation 'androidx.appcompat:appcompat:1.1.0'
@@ -85,6 +91,7 @@ dependencies {
     implementation 'com.squareup.okhttp3:okhttp:4.6.0'
     implementation 'com.auth0.android:jwtdecode:2.0.0'
     implementation 'org.conscrypt:conscrypt-android:2.4.0'
+    implementation 'com.google.code.gson:gson:2.8.6'
 
 
     testImplementation 'junit:junit:4.13'

@@ -105,6 +105,8 @@ public class LoginActivity extends AppCompatActivity {
                                 Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                                 String[] temp = {credentials.getAccessToken(), credentials.getIdToken()};
 
+
+
                                 intent.putExtra("Tokens", temp);
                                 Log.d(TAG, "ID: " + credentials.getIdToken());
                                 Log.d(TAG, "Token: " + credentials.getAccessToken());

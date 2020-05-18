@@ -22,10 +22,11 @@ import okhttp3.Response;
 public class HttpClient  extends AppCompatActivity {
 
     private static final String TAG = ".HttpClient";
-    private static final String BASE_URL = "https://takkapp.azurewebsites.net/";
+
     public static final MediaType JSON = MediaType.parse("text/plain; charset=utf-8");
     private String accessToken;
     private JSONObject responseJSON;
+    private TakRepository repository;
 
 
     private OkHttpClient client;
@@ -33,6 +34,8 @@ public class HttpClient  extends AppCompatActivity {
 
     public HttpClient(String token){
         client = new OkHttpClient();
+        repository = new TakRepository(this.getApplication());
+       // Log.d(TAG, "Constructor Application ID: " + this.getApplication().toString());
         accessToken = token;
     }
 
@@ -64,6 +67,8 @@ public class HttpClient  extends AppCompatActivity {
                      if (response.code() == 200) { //code = 200
                          try {
                              responseJSON = new JSONObject(myResponse);
+                             repository.insert(responseJSON);
+
                          } catch (JSONException e){
                              e.printStackTrace();
                              Log.d(TAG, "GET JSONException: " + e.getCause());

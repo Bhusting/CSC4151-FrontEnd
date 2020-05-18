@@ -11,12 +11,14 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 
 import com.auth0.android.jwt.Claim;
 import com.auth0.android.jwt.JWT;
 import com.example.tak_frontend.HttpClient;
 import com.example.tak_frontend.MainActivity;
 import com.example.tak_frontend.R;
+import com.example.tak_frontend.TakViewModel;
 
 import org.jetbrains.annotations.NotNull;
 import org.json.JSONException;
@@ -49,6 +51,8 @@ public class ProfileFragment extends Fragment {
     private String accessToken;
     private String idToken;
     private String[] idProfile;
+    private TakViewModel  viewModel;
+
 
 
 
@@ -79,36 +83,15 @@ public class ProfileFragment extends Fragment {
         Bundle b = this.getArguments();
         accessToken = b.getString("AuthToken");
         idToken = b.getString("IdToken");
-        idProfile = getProfile(idToken);
-        String email = idProfile[0];
-        email = email.replace(".com", "");
-        Log.d(TAG, "httpGETProfile: Email : " + email);
-        String url = BASE_URL+ "Email/" + email ;
-        Log.d(TAG, "httpGETProfile: URL : " + url);
-
-        HttpClient client = new HttpClient(accessToken);
-        JSONObject jsonObject = client.httpGET(url);
 
 
-        if (jsonObject != null){
-            try {
-                UUID profID = UUID.fromString(jsonObject.get("profileId").toString());
-                String fnTemp = jsonObject.getString("firstName");
-                String lnTemp = jsonObject.getString("lastName");
-                int xp = jsonObject.getInt("xp");
-                UUID houseID = UUID.fromString(jsonObject.get("houseId").toString());
-                String emailTemp = jsonObject.getString("email");
-                profile = new Profile(profID, fnTemp, lnTemp, xp, houseID, email);
+        viewModel = new ViewModelProvider(this).get(TakViewModel.class);
 
-            } catch (JSONException e) {
 
-            }
-        } else {
-          Log.d(TAG, "httpGET json Null");
-        }
-        //Get Data from idToken
-        idProfile = getProfile(idToken);
-
+/*        viewModel.getProfile().observe(this, profileRepo -> {
+            profile = profileRepo;
+            refresh();
+        });*/
     }
 
     @Override
@@ -119,13 +102,16 @@ public class ProfileFragment extends Fragment {
         houseTextView = view.findViewById(R.id.houseString_Profile);
         profileName = view.findViewById(R.id.residentName_Profile);
         xpTextView = view.findViewById(R.id.xpValueString_Profile);
-        houseTextView.setText(profile.HouseId.toString());
-        profileName.setText(profile.FirstName + " " + profile.LastName);
-        xpTextView.setText(String.valueOf(profile.XP));
-
+        refresh();
         return view;
     }
 
+    public void refresh(){
+        //houseTextView.setText(profile.HouseId.toString());
+        profile = new Profile(viewModel.getProfile());
+        profileName.setText(profile.FirstName + " " + profile.LastName);
+        xpTextView.setText(String.valueOf(profile.XP));
+    }
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
@@ -163,14 +149,5 @@ public class ProfileFragment extends Fragment {
 
 
 
-    @NotNull
-    private String[] getProfile(String idToken) {
-        JWT jwt = new JWT(idToken);
-        Claim userEmail = jwt.getClaim("email");
-        Claim userFName = jwt.getClaim("given_name");
-        Claim userLName = jwt.getClaim("family_name");
-        String[] temp ={ userEmail.asString(), userFName.asString(), userLName.asString()};
 
-        return temp;
-    }
 };
