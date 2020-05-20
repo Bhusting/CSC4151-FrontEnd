@@ -2,9 +2,13 @@ package com.example.tak_frontend.profile;
 
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.UUID;
 public class Profile {
+
+    private  static  final  String TAG = ".Profile";
 
     public UUID ProfileId;
 
@@ -24,7 +28,7 @@ public class Profile {
         FirstName = profile.FirstName;
         LastName = profile.LastName;
         this.XP = profile.XP;
-        HouseId =profile.HouseId;
+        HouseId = profile.HouseId;
         Email = profile.Email;
     }
 
@@ -35,5 +39,17 @@ public class Profile {
         this.XP = XP;
         HouseId = houseId;
         Email = email;
+    }
+
+    public static Profile fromJson(JSONObject object) throws JSONException {
+        UUID profID = UUID.fromString(object.getString("profileId"));
+        String fnTemp = object.getString("firstName");
+        String lnTemp = object.getString("lastName");
+        int xp = object.getInt("xp");
+        UUID houseID = UUID.fromString(object.getString("houseId"));
+        houseID = UUID.fromString(object.getString("houseId"));
+        String emailTemp = object.getString("email");
+        Profile profile = new Profile(profID, fnTemp, lnTemp, xp, houseID, emailTemp);
+        return profile;
     }
 }

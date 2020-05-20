@@ -61,6 +61,7 @@ public class MainActivity extends AppCompatActivity {
     private String taskFrag = "task";
     private String leadFrag = "lead";
     private String profileFrag = "profile";
+    private Bundle b;
 
 
     BottomNavigationView bottomNavigation;
@@ -80,12 +81,25 @@ public class MainActivity extends AppCompatActivity {
         accessToken = temp[0];
         idToken = temp[1];
 
+        //Bundle to hold Tokens
+        b = new Bundle();
+        b.putString("AuthToken", getTokens()[0]);
+        b.putString("IdToken", getTokens()[1]);
+
+
+
         usersClient = new UsersAPIClient(auth0, accessToken);
         authenticationAPIClient = new AuthenticationAPIClient(auth0);
 
-        viewModel = new ViewModelProvider(this).get(TakViewModel.class);
-        viewModel.setTokens(idToken, accessToken);
-        viewModel.getProfileRequest();
+        viewModel = new ViewModelProvider(this,
+                new TakViewModelFactory(this.getApplication(), b))
+                .get(TakViewModel.class);
+
+
+
+        //ProfileFragment.newInstance(b);
+
+
 
 
         Toolbar myToolbar = findViewById(R.id.my_toolbar);
@@ -99,6 +113,7 @@ public class MainActivity extends AppCompatActivity {
         Toast toast = Toast.makeText(this, accessToken, Toast.LENGTH_LONG);
         toast.show();
         Log.d(TAG, "Token: " + accessToken);
+
 
     }
 
@@ -133,13 +148,13 @@ public class MainActivity extends AppCompatActivity {
                     case R.id.navigation_leaderboard:
                         if(curFragment != leadFrag) {
                             curFragment = leadFrag;
-                            openFragment(LeaderboardFragment.newInstance("", ""));
+                            openFragment(LeaderboardFragment.newInstance());
                         }
                         return true;
                     case R.id.navigation_profile:
                         if(curFragment != profileFrag){
                             curFragment = profileFrag;
-                            openFragment(ProfileFragment.newInstance());
+                            openFragment(ProfileFragment.newInstance(b));
                         }
                         return true;
                     case R.id.navigation_task:

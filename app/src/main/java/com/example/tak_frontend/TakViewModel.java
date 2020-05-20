@@ -5,62 +5,55 @@ import android.app.Application;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.lifecycle.AndroidViewModel;
+import androidx.lifecycle.Lifecycle;
+import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
+import androidx.lifecycle.Observer;
 
 import com.example.tak_frontend.chore.ChoreData;
+import com.example.tak_frontend.leaderboard.LeaderboardData;
 import com.example.tak_frontend.profile.Profile;
 import com.example.tak_frontend.task.TaskData;
+import java.util.LinkedList;
 
-import java.util.Collection;
-import java.util.Iterator;
-import java.util.List;
-import java.util.ListIterator;
 
 public class TakViewModel extends AndroidViewModel {
 
     private TakRepository repository;
-    private String idToken;
-    private String accessToken;
-/*    private LiveData<List<ChoreData>> allChores;
-
-    private LiveData<List<TaskData>> allTasks;*/
-
-    private MutableLiveData<List<ChoreData>> allChores = new MutableLiveData<>();
-    private MutableLiveData<Profile> allProfile = new MutableLiveData<>();
-    private MutableLiveData<List<TaskData>> allTasks = new MutableLiveData<>();
 
 
 
-    public TakViewModel(@NonNull Application application) {
+    public TakViewModel(@NonNull Application application, String tempAccess, String tempID) {
         super(application);
-        repository = new TakRepository(application);
-    }
 
-    public void getProfileRequest(){
-        repository.getProfileRequest();
-    }
-
-
-    public void setTokens(String id, String access){
-        idToken = id;
-        accessToken = access;
-        repository.ifTokenNotSet(accessToken, idToken);
-    }
-    public void refresh(){
+        repository = new TakRepository(application, tempAccess, tempID);
         repository.fetchAll();
     }
-/*    public void insert(Profile profile){
-        repository.insert(profile);
-    }*/
-    public void update(Profile profile){
+
+    //Fetches all data from server
+    public void refresh() {
+        repository.fetchAll();
+    }
+    //GET for profile
+    public void fetchProfile(){ repository.fetchProfile(); }
+    //GET for leaderboard
+    public void fetchLeaderboard() { repository.fetchLeaderboard(); }
+
+    //POST changes Profile TODO
+    public void update(Profile profile) {
         repository.update(profile);
     }
-    public void delete(Profile profile){
+
+    //Delete HTTP request, TODO
+    public void delete(Profile profile) {
         repository.delete(profile);
     }
-    public Profile getProfile(){
-        return allProfile.getValue();
-    }
+
+
+    //Returns Profile LiveData
+    public LiveData<Profile> getProfile(){  return repository.getProfileLiveData(); }
+    //Returns Leaderboard List LiveData
+    public LiveData<LeaderboardData> getLeaderboard(){  return repository.getLeaderboardData(); }
 }
 

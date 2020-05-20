@@ -11,50 +11,25 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
-import com.auth0.android.jwt.Claim;
-import com.auth0.android.jwt.JWT;
-import com.example.tak_frontend.HttpClient;
-import com.example.tak_frontend.MainActivity;
 import com.example.tak_frontend.R;
 import com.example.tak_frontend.TakViewModel;
-
-import org.jetbrains.annotations.NotNull;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.io.IOException;
-import java.util.UUID;
-
-import okhttp3.Call;
-import okhttp3.Callback;
-import okhttp3.FormBody;
-import okhttp3.MediaType;
-import okhttp3.MultipartBody;
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.RequestBody;
-import okhttp3.Response;
-import okio.BufferedSink;
+import com.example.tak_frontend.TakViewModelFactory;
 
 
 public class ProfileFragment extends Fragment {
 
 
     private static final String TAG = ".ProfileFragment";
-    private static final String BASE_URL = "https://takkapp.azurewebsites.net/Profile/";
     private Profile profile;
     private TextView houseTextView;
     private TextView profileName;
     private TextView xpTextView;
-    private String accessToken;
-    private String idToken;
-    private String[] idProfile;
+    private Bundle b;
+
     private TakViewModel  viewModel;
-
-
-
 
 
 
@@ -62,11 +37,9 @@ public class ProfileFragment extends Fragment {
         // Required empty public constructor
     }
 
-    public static ProfileFragment newInstance() {
+    public static ProfileFragment newInstance(Bundle args) {
         ProfileFragment fragment = new ProfileFragment();
-        Bundle args = new Bundle();
         fragment.setArguments(args);
-
         return fragment;
     }
     @Override
@@ -79,19 +52,7 @@ public class ProfileFragment extends Fragment {
         getActivity().setTitle("Profile");
 
         //Get Tokens
-
-        Bundle b = this.getArguments();
-        accessToken = b.getString("AuthToken");
-        idToken = b.getString("IdToken");
-
-
-        viewModel = new ViewModelProvider(this).get(TakViewModel.class);
-
-
-/*        viewModel.getProfile().observe(this, profileRepo -> {
-            profile = profileRepo;
-            refresh();
-        });*/
+        b = this.getArguments();
     }
 
     @Override
@@ -102,19 +63,30 @@ public class ProfileFragment extends Fragment {
         houseTextView = view.findViewById(R.id.houseString_Profile);
         profileName = view.findViewById(R.id.residentName_Profile);
         xpTextView = view.findViewById(R.id.xpValueString_Profile);
-        refresh();
+
         return view;
     }
 
     public void refresh(){
         //houseTextView.setText(profile.HouseId.toString());
-        profile = new Profile(viewModel.getProfile());
         profileName.setText(profile.FirstName + " " + profile.LastName);
         xpTextView.setText(String.valueOf(profile.XP));
     }
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+        viewModel = new ViewModelProvider(getActivity(),
+                new TakViewModelFactory(getActivity().getApplication(), b))
+                .get(TakViewModel.class);
+
+        viewModel.getProfile().observe(getViewLifecycleOwner(), new Observer<Profile>(){
+            @Override
+            public void onChanged(Profile obsProfile) {
+                Log.d(TAG, "Profile Data Changed");
+                profile = obsProfile;
+                refresh();
+            }
+        });
     }
 
     @Override

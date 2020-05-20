@@ -1,26 +1,22 @@
 package com.example.tak_frontend;
 
 import android.app.Application;
-import android.os.AsyncTask;
 import android.util.Log;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
-import androidx.lifecycle.Observer;
 
-import com.auth0.android.jwt.Claim;
 import com.auth0.android.jwt.JWT;
 import com.example.tak_frontend.chore.ChoreData;
+import com.example.tak_frontend.leaderboard.LeaderboardData;
 import com.example.tak_frontend.profile.Profile;
 import com.example.tak_frontend.task.TaskData;
 
 import org.jetbrains.annotations.NotNull;
-import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.IOException;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.UUID;
 
@@ -36,33 +32,28 @@ public class TakRepository {
 
     */
 
-    private MutableLiveData<List<ChoreData>> allChores = new MutableLiveData<>();
+    private MutableLiveData<LinkedList<ChoreData>> allChores = new MutableLiveData<>();
     private MutableLiveData<Profile> profileLiveData = new MutableLiveData<>();
-    private MutableLiveData<List<TaskData>> allTasks = new MutableLiveData<>();
+    private MutableLiveData<LinkedList<TaskData>> allTasks = new MutableLiveData<>();
+    private MutableLiveData<LeaderboardData> leaderboardLiveData = new MutableLiveData<>();
 
 
-    private HttpClient client;
+    private TakDao client;
 
     private String accessToken;
     private String idToken;
     private String email;
     private String fName;
     private String lName;
+    private UUID houseIDRepo;
 
-    public TakRepository(Application application) {
-
-    }
-
-    public void ifTokenNotSet(String Atoken, String IDtoken ) {
-        if (accessToken == null) {
-            accessToken = Atoken;
-        }
-        if(idToken == null){
-            idToken = IDtoken;
-        }
+    public TakRepository(Application application, String tempAccess, String tempID) {
+        accessToken = tempAccess;
+        idToken = tempID;
         getProfile();
-        client = new HttpClient(accessToken);
+        client = new TakDao(accessToken, this);
     }
+
 
     @NotNull
     private void getProfile() {
@@ -73,7 +64,8 @@ public class TakRepository {
     }
 
     public void fetchAll() {
-
+        fetchProfile();
+        fetchLeaderboard();
     }
 
     public void insert(ChoreData data) {
@@ -84,26 +76,56 @@ public class TakRepository {
 
     }
 
-    public void insert(JSONObject repsonseJson) {
-        if (repsonseJson != null){
-            try {
-                UUID profID = UUID.fromString(repsonseJson.get("profileId").toString());
-                String fnTemp = repsonseJson.getString("firstName");
-                String lnTemp = repsonseJson.getString("lastName");
-                int xp = repsonseJson.getInt("xp");
-                UUID houseID = UUID.fromString(repsonseJson.get("houseId").toString());
-                String emailTemp = repsonseJson.getString("email");
-                Profile profile = new Profile(profID, fnTemp, lnTemp, xp, houseID, email);
-                profileLiveData. postValue(profile);
-                Log.d(TAG, "Set Profile Data");
-            } catch (JSONException e) {
+    public void insert(JSONObject responseJson) {
 
-            }
-        } else {
-            Log.d(TAG, "httpGET json Null");
-        }
+    }
+    //Add
+    protected void add(){
+
     }
 
+
+/*    static protected class profileFunc<T>{
+        JSONObject responseJson;
+        R profile;
+
+        profileFunc(JSONObject jsonArg){
+            responseJson = jsonArg;
+            if  (responseJson != null){
+                try {
+                    UUID profID = UUID.fromString(responseJson.getString("profileId"));
+                    String fnTemp = responseJson.getString("firstName");
+                    String lnTemp = responseJson.getString("lastName");
+                    int xp = responseJson.getInt("xp");
+                    UUID houseID = UUID.fromString(responseJson.getString("houseId"));
+                    houseIDRepo = UUID.fromString(responseJson.getString("houseId"));
+                    String emailTemp = responseJson.getString("email");
+                    Profile profile = new Profile(profID, fnTemp, lnTemp, xp, houseID, emailTemp);
+                    profileLiveData.setValue(profile);
+                    Log.d(TAG, "Set Profile Data");
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                    Log.d(TAG, "Insert Profile JSON Exception");
+                }
+            } else {
+                Log.d(TAG, "httpGET json Null");
+            }
+
+        }
+
+    }*/
+
+
+
+
+    //Sets Profile LiveData From JSON response
+    public void setProfile(Profile p){
+        if(p != null){
+            Log.d(TAG, "Profile added to LiveData");
+            profileLiveData.setValue(p);
+        } else
+            Log.d(TAG, "Profile = null, not added");
+    }
     public void delete(ChoreData data) {
 
     }
@@ -127,15 +149,31 @@ public class TakRepository {
     public void update(Profile data) {
 
     }
-    public void getProfileRequest(){
-
-        JSONObject repsonseJson = new JSONObject();
-        Profile profile;
+    //Sends GET request for Profile
+    public void fetchProfile(){
         String temp = email.replace(".com", "");
         Log.d(TAG, "httpGETProfile: Email : " + temp);
         String url = BASE_URL+ "Profile/Email/" + temp ;
         Log.d(TAG, "httpGETProfile: URL : " + url);
-        repsonseJson = client.httpGET(url);
+
+        try {
+            client.httpGET(url, JsonConverter.GETProfile);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    //Sends GET request for Leaderboard
+    public void fetchLeaderboard(){
+        if (houseIDRepo != null) {
+            String url = BASE_URL + "Profile/House/" + houseIDRepo.toString();
+            Log.d(TAG, "fetchLeaderboard: URL : " + url);
+            try {
+                client.httpGET(url, JsonConverter.GETLeaderboard);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     public List<ChoreData> getAllChores() {
@@ -146,7 +184,11 @@ public class TakRepository {
         return allTasks.getValue();
     }
 
-    public LiveData<Profile> getProfileLiveData() {
+    public MutableLiveData<Profile> getProfileLiveData() {
         return profileLiveData;
+    }
+
+    public MutableLiveData<LeaderboardData> getLeaderboardData(){
+        return leaderboardLiveData;
     }
 }
