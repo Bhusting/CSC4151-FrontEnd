@@ -175,12 +175,24 @@ public class TakRepository {
     public void fetchLeaderboard(){
         if (houseIDRepo != null) {
             String url = BASE_URL + "Profile/House/" + houseIDRepo.toString();
-            Log.d(TAG, "fetchLeaderboard: URL : " + url);
+            Log.d(TAG, "fetchLeaderboard: URL: " + url);
             try {
                 client.httpGET(url, JsonConverter.GETLeaderboard);
             } catch (IOException e) {
                 e.printStackTrace();
             }
+        }
+    }
+
+    public void createProfile() throws IOException {
+        getProfile();
+        String url = BASE_URL + "Profile/" + fName + '/' + lName;
+        Log.d(TAG, "createProfile: URL: " + url + ' ' + email);
+
+        try {
+            client.httpPOST(url, email);
+        } catch (IOException e){
+            e.printStackTrace();
         }
     }
 

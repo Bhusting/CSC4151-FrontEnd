@@ -121,6 +121,13 @@ public class TakDao extends AppCompatActivity {
                                            Log.d(TAG, type.toString() + ", GET JSONException: " + e.getCause());
                                        }
                                    } else {
+                                       if (response.code() == 204){
+                                           try {
+                                               repository.createProfile();
+                                           } catch (IOException e) {
+                                               e.printStackTrace();
+                                           }
+                                       }
                                        Log.d(TAG, type.toString() + ", GET Bad HTTP response: " + response.message());
                                        try {
                                            responseJSON = new JSONObject(myResponse);
@@ -166,6 +173,7 @@ public class TakDao extends AppCompatActivity {
                    Log.d(TAG, "POST Response code: " + response.code());
                    String myResponse = response.body().string();
                    if (response.code() == 200) { //code = 200
+                       repository.fetchProfile();
                        getParent().runOnUiThread(new Runnable() {
                            @Override
                            public void run() {
