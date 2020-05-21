@@ -1,4 +1,4 @@
-package com.example.tak_frontend;
+package com.example.tak_frontend.createjoin;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -6,6 +6,8 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.fragment.app.Fragment;
+
+import com.example.tak_frontend.R;
 
 
 public class CreateFragment extends Fragment {
