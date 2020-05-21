@@ -54,11 +54,11 @@ public class LeaderboardFragment extends Fragment {
 
         //Get Tokens
         b = this.getArguments();
-        listView = (ListView) getView().findViewById(R.id.leaderboard_listView);
-        arrayList = new ArrayList<>();
+       // listView = (ListView) getView().findViewById(R.id.leaderboard_listView);
+       // arrayList = new ArrayList<>();
 
-        LeaderboardAdapter adapter = new LeaderboardAdapter(this.getContext(), R.layout.leaderboard_list_item, arrayList);
-        listView.setAdapter(adapter);
+        //LeaderboardAdapter adapter = new LeaderboardAdapter(this.getContext(), R.layout.leaderboard_list_item, arrayList);
+     //   listView.setAdapter(adapter);
     }
 
     @Override
@@ -72,7 +72,7 @@ public class LeaderboardFragment extends Fragment {
     public void refresh(){
         //Refresh Layout Data
         for(int i = 0; i < leaderboard.getSize(); i++){
-            arrayList.add(new LeadboardListItem(leaderboard.getLeaderboard().get(i)));
+           // arrayList.add(new LeadboardListItem(leaderboard.getLeaderboard().get(i)));
         }
     }
 
@@ -89,7 +89,7 @@ public class LeaderboardFragment extends Fragment {
             public void onChanged(LeaderboardData leaderboardData) {
                 Log.d(TAG, "Leaderboard Data Changed");
                 leaderboard = leaderboardData;
-                refresh();
+               // refresh();
             }
         });
     }
