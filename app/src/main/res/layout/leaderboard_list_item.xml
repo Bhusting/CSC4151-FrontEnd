@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/leaderboard_list_item_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="horizontal"
+    android:weightSum="100">
+
+    <TextView
+        android:id="@+id/leaderboard_person"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:padding= "8dp"
+        android:layout_weight="10"/>
+
+    <TextView
+        android:id="@+id/leaderboard_xp"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:padding= "8dp"
+        android:layout_weight="90"/>
+
+</LinearLayout>

@@ -5,9 +5,12 @@ import android.util.Log;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.tak_frontend.leaderboard.LeaderboardData;
 import com.example.tak_frontend.profile.Profile;
+import com.google.gson.JsonArray;
 
 import org.jetbrains.annotations.NotNull;
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -31,6 +34,7 @@ public class TakDao extends AppCompatActivity {
     public static final MediaType JSON = MediaType.parse("text/plain; charset=utf-8");
     private String accessToken;
     private JSONObject responseJSON;
+    private JSONArray responseJSONArray;
     private TakRepository repository;
 
 
@@ -45,31 +49,57 @@ public class TakDao extends AppCompatActivity {
     }
 
 
-    public void httpGET(String URL, Enum type) throws IOException {
+    public void convert(Object obj, JsonConverter type) throws JSONException {
+
+        try {
+            switch (type){
+
+                case GETProfile:
+                    JSONObject response = (JSONObject) obj;
+                    repository.setProfile(Profile.fromJson(response));
+                    break;
+                case GETLeaderboard:
+                    JSONArray responseArray = (JSONArray) obj;
+                    Log.d(TAG, type.toString() + ':' + responseArray.toString());
+                    repository.setLeaderboard(LeaderboardData.fromJson(responseArray));
+                    break;
+                default:
+            }
+        } catch (JSONException | IOException e ) {
+            e.printStackTrace();
+            Log.d(TAG, type.toString() + ", convert JSONexception");
+        }
+
+
+    }
+
+    public void httpGET(String URL, JsonConverter type) throws IOException {
        //HTTP Response stored here
        responseJSON = new JSONObject();
+       responseJSONArray = new JSONArray();
        responseJSON = null;
+       responseJSONArray = null;
        //Build HTTP Request
        Request request = new Request.Builder()
                .addHeader("Authorization", "Bearer " + accessToken)
                .url(URL)
                .get()
                .build();
-       Log.d(TAG, "GET Request Built.");
+       Log.d(TAG, type.toString() + ", GET Request Built.");
        //Enqueue Request
        try {
-           Log.d(TAG, "GET Enqueueing!");
+           Log.d(TAG, type.toString() + ", GET Enqueueing!");
            client.newCall(request).enqueue(
                    new Callback() {
                        @Override
                        public void onFailure(@NotNull Call call, @NotNull IOException e) {
-                           Log.d(TAG, "GET Call Failed: " + e.getCause());
+                           Log.d(TAG, type.toString() + ", GET Call Failed: " + e.getCause());
                            e.printStackTrace();
                        }
 
                        @Override
                        public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
-                           Log.d(TAG, "GET Response code: " + response.code());
+                           Log.d(TAG, type.toString() + ", GET Response code: " + response.code());
                            final String myResponse = response.body().string();
                            runOnUiThread(new Runnable() {
                                @Override
@@ -77,20 +107,26 @@ public class TakDao extends AppCompatActivity {
 
                                    if (response.code() == 200) { //code = 200
                                        try {
-                                           responseJSON = new JSONObject(myResponse);
-                                           Profile p = Profile.fromJson(responseJSON);
-                                           repository.setProfile(p);
+                                           if(type == JsonConverter.GETProfile){
+                                               responseJSON = new JSONObject(myResponse);
+                                               convert(responseJSON, type);
+                                           }if(type == JsonConverter.GETLeaderboard){
+                                               responseJSONArray = new JSONArray(myResponse);
+                                               convert(responseJSONArray, type);
+                                           }
+
+
                                        } catch (JSONException e) {
                                            e.printStackTrace();
-                                           Log.d(TAG, "GET JSONException: " + e.getCause());
+                                           Log.d(TAG, type.toString() + ", GET JSONException: " + e.getCause());
                                        }
                                    } else {
-                                       Log.d(TAG, "GET Bad HTTP response: " + response.message());
+                                       Log.d(TAG, type.toString() + ", GET Bad HTTP response: " + response.message());
                                        try {
                                            responseJSON = new JSONObject(myResponse);
                                        } catch (JSONException e) {
                                            e.printStackTrace();
-                                           Log.d(TAG, "GET JSONException: " + e.getCause());
+                                           Log.d(TAG, type.toString() + ", GET JSONException: " + e.getCause());
                                        }
                                    }
                                }

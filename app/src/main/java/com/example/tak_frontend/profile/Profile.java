@@ -23,6 +23,7 @@ public class Profile {
     public String Email;
 
 
+
     public Profile(@NotNull Profile profile){
         ProfileId = profile.ProfileId;
         FirstName = profile.FirstName;

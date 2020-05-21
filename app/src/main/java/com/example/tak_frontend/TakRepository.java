@@ -123,8 +123,16 @@ public class TakRepository {
         if(p != null){
             Log.d(TAG, "Profile added to LiveData");
             profileLiveData.setValue(p);
+            houseIDRepo = p.HouseId;
         } else
             Log.d(TAG, "Profile = null, not added");
+    }
+    public void setLeaderboard(LeaderboardData l){
+        if(l != null){
+            Log.d(TAG, "Leaderboard added to LiveData");
+            leaderboardLiveData.setValue(l);
+        } else
+            Log.d(TAG, "Leaderboard = null, not added");
     }
     public void delete(ChoreData data) {
 
