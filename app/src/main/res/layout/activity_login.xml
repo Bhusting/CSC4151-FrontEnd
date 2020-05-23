@@ -18,11 +18,13 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:logo="@drawable/ic_person_black_24dp_profile"
+
         app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
         app:title="Login"
         app:titleTextColor="@color/takGrey"
-        app:titleMargin="10dp" />
+        app:titleMargin="10dp"/>
+    <!-- app:logo="@drawable/ic_person_black_24dp_profile"--> />
+
     <Button
         android:id="@+id/signUpButton"
         android:layout_width="match_parent"
@@ -54,52 +56,18 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent" />
 
-    <EditText
-        android:id="@+id/accountEmail"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="64dp"
-        android:layout_marginEnd="64dp"
-        android:layout_marginBottom="16dp"
-        android:ems="10"
-        android:inputType="textEmailAddress"
-        app:layout_constraintBottom_toTopOf="@+id/accountPassword"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <EditText
-        android:id="@+id/accountPassword"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="64dp"
-        android:layout_marginEnd="64dp"
-        android:layout_marginBottom="64dp"
-        android:ems="10"
-        android:inputType="textPassword"
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="168dp"
+        android:layout_height="138dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="32dp"
+        android:layout_marginEnd="32dp"
+        android:layout_marginBottom="32dp"
         app:layout_constraintBottom_toTopOf="@+id/loginButton"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <TextView
-        android:id="@+id/accountLabel"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
-        android:textSize="16dp"
-        android:text="Account:"
-        android:textAlignment="textEnd"
-        app:layout_constraintEnd_toStartOf="@+id/accountEmail"
-        app:layout_constraintTop_toTopOf="@+id/accountEmail" />
-
-    <TextView
-        android:id="@+id/passwordLabel"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
-        android:textSize="16dp"
-        android:text="Password:"
-        android:textAlignment="textEnd"
-        app:layout_constraintEnd_toStartOf="@+id/accountPassword"
-        app:layout_constraintTop_toTopOf="@+id/accountPassword" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/my_toolbar"
+        app:srcCompat="@mipmap/tak_logo" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
