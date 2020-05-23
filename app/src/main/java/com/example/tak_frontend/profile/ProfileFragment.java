@@ -37,9 +37,8 @@ public class ProfileFragment extends Fragment {
         // Required empty public constructor
     }
 
-    public static ProfileFragment newInstance(Bundle args) {
+    public static ProfileFragment newInstance() {
         ProfileFragment fragment = new ProfileFragment();
-        fragment.setArguments(args);
         return fragment;
     }
     @Override
@@ -50,9 +49,6 @@ public class ProfileFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         getActivity().setTitle("Profile");
-
-        //Get Tokens
-        b = this.getArguments();
     }
 
     @Override
@@ -79,14 +75,14 @@ public class ProfileFragment extends Fragment {
                 new TakViewModelFactory(getActivity().getApplication(), b))
                 .get(TakViewModel.class);
 
-/*        viewModel.getProfile().observe(getViewLifecycleOwner(), new Observer<Profile>(){
+        viewModel.getProfile().observe(getViewLifecycleOwner(), new Observer<Profile>(){
             @Override
             public void onChanged(Profile obsProfile) {
                 Log.d(TAG, "Profile Data Changed");
                 profile = obsProfile;
                 refresh();
             }
-        });*/
+        });
     }
 
     @Override

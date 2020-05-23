@@ -44,7 +44,6 @@ public class LeaderboardFragment extends Fragment {
     public static LeaderboardFragment newInstance() {
         LeaderboardFragment fragment = new LeaderboardFragment();
         Bundle args = new Bundle();
-
         fragment.setArguments(args);
         return fragment;
     }
@@ -53,12 +52,6 @@ public class LeaderboardFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         getActivity().setTitle("Leaderboard");
-
-        //Get Tokens
-        b = this.getArguments();
-
-
-
     }
 
     @Override
@@ -82,13 +75,10 @@ public class LeaderboardFragment extends Fragment {
 
     public void refresh(){
         //Refresh Layout Data
-
-        adapter.notifyDataSetChanged();
-
-
-/*        for(int i = 0; i < leaderboard.getSize(); i++){
+        for(int i = 0; i < leaderboard.getSize(); i++){
             arrayList.add(new LeadboardListItem(leaderboard.getLeaderboard().get(i)));
-        }*/
+        }
+        adapter.notifyDataSetChanged();
     }
 
     @Override
