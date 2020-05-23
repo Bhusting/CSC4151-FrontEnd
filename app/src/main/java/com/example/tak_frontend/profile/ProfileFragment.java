@@ -79,14 +79,14 @@ public class ProfileFragment extends Fragment {
                 new TakViewModelFactory(getActivity().getApplication(), b))
                 .get(TakViewModel.class);
 
-        viewModel.getProfile().observe(getViewLifecycleOwner(), new Observer<Profile>(){
+/*        viewModel.getProfile().observe(getViewLifecycleOwner(), new Observer<Profile>(){
             @Override
             public void onChanged(Profile obsProfile) {
                 Log.d(TAG, "Profile Data Changed");
                 profile = obsProfile;
                 refresh();
             }
-        });
+        });*/
     }
 
     @Override

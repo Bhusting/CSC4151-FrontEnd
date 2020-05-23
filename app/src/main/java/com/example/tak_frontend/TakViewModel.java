@@ -36,9 +36,11 @@ public class TakViewModel extends AndroidViewModel {
         repository.fetchAll();
     }
     //GET for profile
-    public void fetchProfile(){ repository.fetchProfile(); }
+    public void fetchProfile(){ repository.fetchProfile();
+        }
     //GET for leaderboard
-    public void fetchLeaderboard() { repository.fetchLeaderboard(); }
+    public void fetchLeaderboard() { repository.fetchLeaderboard();
+    }
 
     //POST changes Profile TODO
     public void update(Profile profile) {
@@ -52,8 +54,12 @@ public class TakViewModel extends AndroidViewModel {
 
 
     //Returns Profile LiveData
-    public LiveData<Profile> getProfile(){  return repository.getProfileLiveData(); }
+    public LiveData<Profile> getProfile(){
+        return repository.getProfileLiveData();
+        }
     //Returns Leaderboard List LiveData
-    public LiveData<LeaderboardData> getLeaderboard(){  return repository.getLeaderboardData(); }
+    public LiveData<LeaderboardData> getLeaderboard(){
+        return repository.getLeaderboardData();
+        }
 }
 

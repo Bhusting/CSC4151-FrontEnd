@@ -18,6 +18,7 @@ import com.auth0.utils.Asserts;
 import com.example.tak_frontend.R;
 import com.example.tak_frontend.TakViewModel;
 import com.example.tak_frontend.TakViewModelFactory;
+import com.example.tak_frontend.chore.ChoreData;
 import com.example.tak_frontend.profile.Profile;
 
 import java.util.ArrayList;
@@ -32,6 +33,7 @@ public class LeaderboardFragment extends Fragment {
     private Bundle b;
     private LeaderboardData leaderboard;
     private ListView listView;
+    private LeaderboardAdapter adapter;
 
     private ArrayList<LeadboardListItem> arrayList;
 
@@ -54,26 +56,39 @@ public class LeaderboardFragment extends Fragment {
 
         //Get Tokens
         b = this.getArguments();
-       // listView = (ListView) getView().findViewById(R.id.leaderboard_listView);
-       // arrayList = new ArrayList<>();
 
-        //LeaderboardAdapter adapter = new LeaderboardAdapter(this.getContext(), R.layout.leaderboard_list_item, arrayList);
-     //   listView.setAdapter(adapter);
+
+
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_leaderboard, container, false);
+        //Declare View to be Returned
+        View rootView = inflater.inflate(R.layout.fragment_leaderboard, container, false);
+        //Find ListView
+        listView = (ListView) rootView.findViewById(R.id.leaderboard_listView);
+
+        arrayList = new ArrayList<>();
+        adapter = new LeaderboardAdapter(this.getContext(),
+                R.layout.leaderboard_list_item,
+                arrayList);
+
+        listView.setAdapter(adapter);
+
+        return rootView;
     }
 
 
     public void refresh(){
         //Refresh Layout Data
-        for(int i = 0; i < leaderboard.getSize(); i++){
-           // arrayList.add(new LeadboardListItem(leaderboard.getLeaderboard().get(i)));
-        }
+
+        adapter.notifyDataSetChanged();
+
+
+/*        for(int i = 0; i < leaderboard.getSize(); i++){
+            arrayList.add(new LeadboardListItem(leaderboard.getLeaderboard().get(i)));
+        }*/
     }
 
     @Override
@@ -89,8 +104,13 @@ public class LeaderboardFragment extends Fragment {
             public void onChanged(LeaderboardData leaderboardData) {
                 Log.d(TAG, "Leaderboard Data Changed");
                 leaderboard = leaderboardData;
-               // refresh();
+                refresh();
             }
         });
+    }
+
+    public void applyData(LeadboardListItem item){
+        arrayList.add(item);
+        adapter.notifyDataSetChanged();
     }
 };

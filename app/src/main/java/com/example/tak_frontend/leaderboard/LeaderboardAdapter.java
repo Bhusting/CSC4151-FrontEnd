@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -33,6 +34,8 @@ public class LeaderboardAdapter extends ArrayAdapter<LeadboardListItem> {
         this.layoutResourceId = resource;
     }
 
+
+
     @NonNull
     @Override
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
@@ -48,8 +51,10 @@ public class LeaderboardAdapter extends ArrayAdapter<LeadboardListItem> {
         TextView viewXp = (TextView) convertView.findViewById(R.id.leaderboard_xp);
 
         viewName.setText(name);
-        viewXp.setText(xp);
+        viewXp.setText(String.valueOf(xp));
 
         return convertView;
     }
+
+
 }

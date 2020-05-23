@@ -97,7 +97,7 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-        //ProfileFragment.newInstance(b);
+        ProfileFragment.newInstance(b);
 
 
 
@@ -110,9 +110,9 @@ public class MainActivity extends AppCompatActivity {
         openFragment(TaskFragment.newInstance("", ""));
         bottomNavigation.setSelectedItemId(R.id.navigation_task);
 
-        Toast toast = Toast.makeText(this, accessToken, Toast.LENGTH_LONG);
-        toast.show();
-        Log.d(TAG, "Token: " + accessToken);
+        //Toast toast = Toast.makeText(this, accessToken, Toast.LENGTH_LONG);
+        //toast.show();
+       // Log.d(TAG, "Token: " + accessToken);
 
 
     }
@@ -124,8 +124,8 @@ public class MainActivity extends AppCompatActivity {
     public void openFragment(Fragment fragment) {
         //Bundle to hold Tokens
         Bundle b = new Bundle();
-        b.putString("AuthToken", getTokens()[0]);
-        b.putString("IdToken", getTokens()[1]);
+       // b.putString("AuthToken", getTokens()[0]);
+       // b.putString("IdToken", getTokens()[1]);
         //Add bundle to Fragment
         fragment.setArguments(b);
         //Begin transaction
