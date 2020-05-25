@@ -37,7 +37,7 @@ public class ProfileFragment extends Fragment {
         // Required empty public constructor
     }
 
-    public static ProfileFragment newInstance() {
+    public static ProfileFragment newInstance(Bundle b) {
         ProfileFragment fragment = new ProfileFragment();
         return fragment;
     }
@@ -71,6 +71,8 @@ public class ProfileFragment extends Fragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+
+/*        b = getArguments();
         viewModel = new ViewModelProvider(getActivity(),
                 new TakViewModelFactory(getActivity().getApplication(), b))
                 .get(TakViewModel.class);
@@ -82,7 +84,7 @@ public class ProfileFragment extends Fragment {
                 profile = obsProfile;
                 refresh();
             }
-        });
+        });*/
     }
 
     @Override

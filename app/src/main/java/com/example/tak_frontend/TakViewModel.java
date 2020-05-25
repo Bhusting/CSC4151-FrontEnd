@@ -52,7 +52,7 @@ public class TakViewModel extends AndroidViewModel {
         repository.delete(profile);
     }
 
-
+    public void fetchTasks(){repository.fetchAllTasks();}
     //Returns Profile LiveData
     public LiveData<Profile> getProfile(){
         return repository.getProfileLiveData();
@@ -61,5 +61,9 @@ public class TakViewModel extends AndroidViewModel {
     public LiveData<LeaderboardData> getLeaderboard(){
         return repository.getLeaderboardData();
         }
+
+    public LiveData<LinkedList<TaskData>> getTasks(){return repository.getTasks(); }
+
+
 }
 

@@ -20,6 +20,9 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.UUID;
 
+import cz.msebera.android.httpclient.client.ResponseHandler;
+import okhttp3.internal.concurrent.Task;
+
 public class TakRepository {
 
 
@@ -66,6 +69,7 @@ public class TakRepository {
     public void fetchAll() {
         fetchProfile();
         fetchLeaderboard();
+        fetchAllTasks();
     }
 
     public void insert(ChoreData data) {
@@ -183,6 +187,16 @@ public class TakRepository {
             }
         }
     }
+    public void fetchAllTasks(){
+      //  LinkedList<TaskData> list =
+               // client.fetchAllTasks(profileLiveData.getValue().HouseId.toString());
+
+       // if(list != null)
+          //  allTasks.postValue(list);
+       // else
+            //Log.d(TAG, "fetchAllTasks: response list null");
+
+}
 
     public void createProfile() throws IOException {
         getProfile();
@@ -211,4 +225,6 @@ public class TakRepository {
     public MutableLiveData<LeaderboardData> getLeaderboardData(){
         return leaderboardLiveData;
     }
+
+    public LiveData<LinkedList<TaskData>> getTasks() { return allTasks; }
 }

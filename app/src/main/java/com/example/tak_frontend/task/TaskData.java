@@ -1,6 +1,9 @@
 package com.example.tak_frontend.task;
 
+import com.example.tak_frontend.profile.Profile;
+
 import java.util.Date;
+import java.util.UUID;
 
 public class TaskData {
 
@@ -31,11 +34,13 @@ public class TaskData {
     private String taskTitle;
     private String taskStatus;
     private Date taskTime;
+    private UUID houseID;
 
-    public TaskData(String title, String status, Date time){
+    public TaskData(String title, String status, Date time, Profile p){
 
         taskTitle = title;
         taskStatus = status;
         taskTime = time;
+        houseID = p.HouseId;
     }
 }

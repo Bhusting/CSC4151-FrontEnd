@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.tak_frontend.leaderboard.LeaderboardData;
 import com.example.tak_frontend.profile.Profile;
+import com.example.tak_frontend.task.TaskData;
 import com.google.gson.JsonArray;
 
 import org.jetbrains.annotations.NotNull;
@@ -16,6 +17,7 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.lang.reflect.Type;
+import java.util.LinkedList;
 import java.util.concurrent.Callable;
 import java.util.function.Function;
 
@@ -32,6 +34,7 @@ public class TakDao extends AppCompatActivity {
     private static final String TAG = ".HttpClient";
 
     public static final MediaType JSON = MediaType.parse("text/plain; charset=utf-8");
+    private static final String BASE_URL = "https://takkapp.azurewebsites.net/";
     private String accessToken;
     private JSONObject responseJSON;
     private JSONArray responseJSONArray;
@@ -71,6 +74,32 @@ public class TakDao extends AppCompatActivity {
         }
 
 
+    }
+
+    public LinkedList<TaskData> fetchAllTasks(String houseID){
+        LinkedList<TaskData> list = new LinkedList<TaskData>();
+        String URL = BASE_URL + "Task/House/" + houseID;
+        Log.d(TAG, "fetchAllTasks: URL: " + URL);
+        Request request = new Request.Builder()
+                .addHeader("Authorization", "Bearer " + accessToken)
+                .url(URL)
+                .get()
+                .build();
+        Log.d(TAG, "fetchAllTasks: Request Built");
+
+        try {
+            Log.d(TAG, "fetchAllTasks: GET Executing!");
+           Response response = client.newCall(request).execute();
+           String responseJson = response.body().string();
+           //TODO do stuff
+
+
+            return list;
+        } catch (Exception e) {
+            e.printStackTrace();
+            Log.d(TAG, "fetchAllTasks: error: " + e.getCause());
+            return null;
+        }
     }
 
     public void httpGET(String URL, JsonConverter type) throws IOException {

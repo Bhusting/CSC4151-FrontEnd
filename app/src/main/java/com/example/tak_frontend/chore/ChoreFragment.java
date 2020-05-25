@@ -17,7 +17,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import java.util.LinkedList;
 
 
-public class ChoreFragment extends Fragment implements ChoreModal.ChoreModalListener {
+public class ChoreFragment extends Fragment  {
 
 
     private LinkedList<ChoreData> choreList = new LinkedList<>();
@@ -29,7 +29,7 @@ public class ChoreFragment extends Fragment implements ChoreModal.ChoreModalList
         // Required empty public constructor
     }
 
-    public static ChoreFragment newInstance() {
+    public static ChoreFragment newInstance(Bundle b) {
         ChoreFragment fragment = new ChoreFragment();
         Bundle args = new Bundle();
         fragment.setArguments(args);
@@ -81,7 +81,7 @@ public class ChoreFragment extends Fragment implements ChoreModal.ChoreModalList
 /*    ChoreModal.ChoreModalListener modalListener(){
         return false;
     };*/
-    @Override
+
     public void applyData(ChoreData data) {
             choreList.add(data);
             adapter.notifyDataSetChanged();

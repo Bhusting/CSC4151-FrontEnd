@@ -49,32 +49,30 @@ public class MainActivity extends AppCompatActivity {
 
         Auth0 auth0 = new Auth0(this);
         auth0.setOIDCConformant(true);
-
-        String[] temp = getIntent().getStringArrayExtra("Tokens");
-
-        accessToken = temp[0];
-        idToken = temp[1];
+       // String[] temp = getIntent().getStringArrayExtra("Tokens");
+      //  accessToken = temp[0];
+      //  idToken = temp[1];
 
         //Bundle to hold Tokens
         b = new Bundle();
-        b.putString("AuthToken", getTokens()[0]);
-        b.putString("IdToken", getTokens()[1]);
+       // b.putString("AuthToken", getTokens()[0]);
+        //b.putString("IdToken", getTokens()[1]);
 
 
 
-        usersClient = new UsersAPIClient(auth0, accessToken);
-        authenticationAPIClient = new AuthenticationAPIClient(auth0);
+       // usersClient = new UsersAPIClient(auth0, accessToken);
+        //authenticationAPIClient = new AuthenticationAPIClient(auth0);
 
-        viewModel = new ViewModelProvider(this,
+/*        viewModel = new ViewModelProvider(this,
                 new TakViewModelFactory(this.getApplication(), b))
-                .get(TakViewModel.class);
+                .get(TakViewModel.class);*/
 
         Toolbar myToolbar = findViewById(R.id.my_toolbar);
         setSupportActionBar(myToolbar);
 
         bottomNavigation = findViewById(R.id.bottom_navigation);
         bottomNavigation.setOnNavigationItemSelectedListener(navigationItemSelectedListener);
-        openFragment(TaskFragment.newInstance());
+        openFragment(TaskFragment.newInstance(b));
         bottomNavigation.setSelectedItemId(R.id.navigation_task);
 
         //Toast toast = Toast.makeText(this, accessToken, Toast.LENGTH_LONG);
@@ -103,25 +101,25 @@ public class MainActivity extends AppCompatActivity {
                     case R.id.navigation_chore:
                         if(curFragment != choreFrag){
                             curFragment = choreFrag;
-                            openFragment(ChoreFragment.newInstance());
+                            openFragment(ChoreFragment.newInstance(b));
                         }
                         return true;
                     case R.id.navigation_leaderboard:
                         if(curFragment != leadFrag) {
                             curFragment = leadFrag;
-                            openFragment(LeaderboardFragment.newInstance());
+                            openFragment(LeaderboardFragment.newInstance(b));
                         }
                         return true;
                     case R.id.navigation_profile:
                         if(curFragment != profileFrag){
                             curFragment = profileFrag;
-                            openFragment(ProfileFragment.newInstance());
+                            openFragment(ProfileFragment.newInstance(b));
                         }
                         return true;
                     case R.id.navigation_task:
                         if(curFragment != taskFrag){
                             curFragment = taskFrag;
-                            openFragment(TaskFragment.newInstance());
+                            openFragment(TaskFragment.newInstance(b));
                         }
                         return true;
                 }

@@ -41,7 +41,7 @@ public class LeaderboardFragment extends Fragment {
         // Required empty public constructor
     }
 
-    public static LeaderboardFragment newInstance() {
+    public static LeaderboardFragment newInstance(Bundle b) {
         LeaderboardFragment fragment = new LeaderboardFragment();
         Bundle args = new Bundle();
         fragment.setArguments(args);
@@ -84,6 +84,8 @@ public class LeaderboardFragment extends Fragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+
+/*        b = getArguments();
         viewModel = new ViewModelProvider(getActivity(),
                 new TakViewModelFactory(getActivity().getApplication(), b))
                 .get(TakViewModel.class);
@@ -96,7 +98,7 @@ public class LeaderboardFragment extends Fragment {
                 leaderboard = leaderboardData;
                 refresh();
             }
-        });
+        });*/
     }
 
     public void applyData(LeadboardListItem item){
