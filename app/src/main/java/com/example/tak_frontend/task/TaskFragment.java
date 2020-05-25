@@ -8,15 +8,18 @@ import android.view.ViewGroup;
 
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.tak_frontend.MainActivity;
 import com.example.tak_frontend.R;
 import com.example.tak_frontend.TakViewModel;
 import com.example.tak_frontend.TakViewModelFactory;
 import com.example.tak_frontend.profile.Profile;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.sql.Date;
 import java.time.Instant;
@@ -28,6 +31,7 @@ public class TaskFragment extends Fragment {
 
     private static final String TAG = ".TaskFragment";
     private LinkedList<TaskData> TaskList = new LinkedList<>();
+    private LinkedList<TaskDTO> TaskListDTO = new LinkedList<>();
     private RecyclerView recyclerView;
     private TaskRecyclerViewAdapter adapter;
     private TakViewModel viewModel;
@@ -55,7 +59,7 @@ public class TaskFragment extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-/*        b = getArguments();
+        b = getArguments();
         viewModel = new ViewModelProvider(getActivity(),
                 new TakViewModelFactory(getActivity().getApplication(), b))
                 .get(TakViewModel.class);
@@ -66,7 +70,14 @@ public class TaskFragment extends Fragment {
                 Log.d(TAG, "Task Data Changed");
                 TaskList = taskData;
             }
-        });*/
+        });
+        viewModel.getTaskDTO().observe(getViewLifecycleOwner(), new Observer<LinkedList<TaskDTO>>() {
+            @Override
+            public void onChanged(LinkedList<TaskDTO> taskDTO) {
+                Log.d(TAG, "Task DTO Changed");
+                TaskListDTO = taskDTO;
+            }
+        });
     }
 
     @Override
@@ -83,20 +94,23 @@ public class TaskFragment extends Fragment {
         adapter = new TaskRecyclerViewAdapter(this.getContext(), TaskList);
         recyclerView.setAdapter(adapter);
 
-        Profile p = new Profile(UUID.randomUUID(), "sam", "yeet", 10, UUID.randomUUID(), "swynnr@gmail.com" );
+        Profile p = new Profile(UUID.randomUUID(), "sam", "yeet", 10, UUID.randomUUID(), "swynnr@gmail.com");
 
         applyData(new TaskData("Dishwasher", "running", Date.from(Instant.now()), p));
+
+        FloatingActionButton fab = rootView.findViewById(R.id.myFABtask);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ((MainActivity) getActivity()).openFragment(TaskModal.newInstance(b));
+            }
+        });
 
 
         //Inflates View
         return rootView;
     }
 
-
-
-    /*    TaskModal.TaskModalListener modalListener(){
-            return false;
-        };*/
     public void applyData(TaskData data) {
         TaskList.add(data);
         adapter.notifyDataSetChanged();

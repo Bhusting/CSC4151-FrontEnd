@@ -102,7 +102,75 @@ public class TakDao extends AppCompatActivity {
         }
     }
 
-    public void httpGET(String URL, JsonConverter type) throws IOException {
+    public void httpGETProfile(String URL, @NotNull JsonConverter type, String email) throws IOException {
+        //Build HTTP Request
+        Request request = new Request.Builder()
+                .addHeader("Authorization", "Bearer " + accessToken)
+                .addHeader("Email", email)
+                .url(URL)
+                .get()
+                .build();
+        Log.d(TAG, type.toString() + ", GET Request Built.");
+        //Enqueue Request
+        try {
+            Log.d(TAG, type.toString() + ", GET Enqueueing!");
+            client.newCall(request).enqueue(
+                    new Callback() {
+                        @Override
+                        public void onFailure(@NotNull Call call, @NotNull IOException e) {
+                            Log.d(TAG, type.toString() + ", GET Call Failed: " + e.getCause());
+                            e.printStackTrace();
+                        }
+
+                        @Override
+                        public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
+                            Log.d(TAG, type.toString() + ", GET Response code: " + response.code());
+                            final String myResponse = response.body().string();
+                            runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+
+                                    if (response.code() == 200) { //code = 200
+                                        try {
+                                            if(type == JsonConverter.GETProfile){
+                                                responseJSON = new JSONObject(myResponse);
+                                                convert(responseJSON, type);
+                                            }if(type == JsonConverter.GETLeaderboard){
+                                                responseJSONArray = new JSONArray(myResponse);
+                                                convert(responseJSONArray, type);
+                                            }
+
+
+                                        } catch (JSONException e) {
+                                            e.printStackTrace();
+                                            Log.d(TAG, type.toString() + ", GET JSONException: " + e.getCause());
+                                        }
+                                    } else {
+                                        if (response.code() == 204){
+                                            try {
+                                                repository.createProfile();
+                                            } catch (IOException e) {
+                                                e.printStackTrace();
+                                            }
+                                        }
+                                        Log.d(TAG, type.toString() + ", GET Bad HTTP response: " + response.message());
+                                        try {
+                                            responseJSON = new JSONObject(myResponse);
+                                        } catch (JSONException e) {
+                                            e.printStackTrace();
+                                            Log.d(TAG, type.toString() + ", GET JSONException: " + e.getCause());
+                                        }
+                                    }
+                                }
+                            });
+                        }
+                    });
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void httpGET(String URL, @NotNull JsonConverter type) throws IOException {
        //HTTP Response stored here
        responseJSON = new JSONObject();
        responseJSONArray = new JSONArray();

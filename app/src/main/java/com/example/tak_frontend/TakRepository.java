@@ -10,6 +10,7 @@ import com.auth0.android.jwt.JWT;
 import com.example.tak_frontend.chore.ChoreData;
 import com.example.tak_frontend.leaderboard.LeaderboardData;
 import com.example.tak_frontend.profile.Profile;
+import com.example.tak_frontend.task.TaskDTO;
 import com.example.tak_frontend.task.TaskData;
 
 import org.jetbrains.annotations.NotNull;
@@ -39,6 +40,8 @@ public class TakRepository {
     private MutableLiveData<Profile> profileLiveData = new MutableLiveData<>();
     private MutableLiveData<LinkedList<TaskData>> allTasks = new MutableLiveData<>();
     private MutableLiveData<LeaderboardData> leaderboardLiveData = new MutableLiveData<>();
+    private MutableLiveData<House> house = new MutableLiveData<>();
+    private MutableLiveData<LinkedList<TaskDTO>> allTaskDTO = new MutableLiveData<>();
 
 
     private TakDao client;
@@ -53,6 +56,7 @@ public class TakRepository {
     public TakRepository(Application application, String tempAccess, String tempID) {
         accessToken = tempAccess;
         idToken = tempID;
+        allTaskDTO.setValue(new LinkedList<TaskDTO>());
         getProfile();
         client = new TakDao(accessToken, this);
     }
@@ -163,13 +167,12 @@ public class TakRepository {
     }
     //Sends GET request for Profile
     public void fetchProfile(){
-        String temp = email.replace(".com", "");
-        Log.d(TAG, "httpGETProfile: Email : " + temp);
-        String url = BASE_URL+ "Profile/Email/" + temp ;
+
+        String url = BASE_URL + "Profile/Email";
         Log.d(TAG, "httpGETProfile: URL : " + url);
 
         try {
-            client.httpGET(url, JsonConverter.GETProfile);
+            client.httpGETProfile(url, JsonConverter.GETProfile, email);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -188,13 +191,13 @@ public class TakRepository {
         }
     }
     public void fetchAllTasks(){
-      //  LinkedList<TaskData> list =
-               // client.fetchAllTasks(profileLiveData.getValue().HouseId.toString());
+/*      LinkedList<TaskData> list =
+               client.fetchAllTasks(profileLiveData.getValue().HouseId.toString());
 
-       // if(list != null)
-          //  allTasks.postValue(list);
-       // else
-            //Log.d(TAG, "fetchAllTasks: response list null");
+       if(list != null)
+          allTasks.postValue(list);
+       else
+           Log.d(TAG, "fetchAllTasks: response list null");*/
 
 }
 
@@ -208,6 +211,14 @@ public class TakRepository {
         } catch (IOException e){
             e.printStackTrace();
         }
+    }
+    //TODO sent POST request for new TaskDTO
+    public void newTaskDTO(TaskDTO dto){
+        LinkedList<TaskDTO> temp = new LinkedList<>();
+        temp = allTaskDTO.getValue();
+        temp.addLast(dto);
+        allTaskDTO.setValue(temp);
+        //Stuff
     }
 
     public List<ChoreData> getAllChores() {
@@ -227,4 +238,17 @@ public class TakRepository {
     }
 
     public LiveData<LinkedList<TaskData>> getTasks() { return allTasks; }
+
+    public LiveData<House> getHouse()  {
+
+       // House temp = new House();
+        //temp.HouseID = profileLiveData.getValue().HouseId;
+        //house.postValue(temp);
+        return house;
+    }
+
+    public LiveData<LinkedList<TaskDTO>> getTaskDTO(){
+        return allTaskDTO;
+    }
+
 }

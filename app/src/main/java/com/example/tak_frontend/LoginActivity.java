@@ -62,17 +62,6 @@ public class LoginActivity extends AppCompatActivity {
                 login();
             }
         });
-        loginButton = findViewById(R.id.signUpButton);
-        loginButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Log.i("MyApp", "It clicked");
-                Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-                startActivity(intent);
-                finish();
-
-            }
-        });
     }
     private void login() {
         WebAuthProvider.login(auth0)
