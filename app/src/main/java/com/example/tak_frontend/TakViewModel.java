@@ -17,6 +17,9 @@ import com.example.tak_frontend.profile.Profile;
 import com.example.tak_frontend.task.TaskDTO;
 import com.example.tak_frontend.task.TaskData;
 import java.util.LinkedList;
+import java.util.UUID;
+
+import kotlinx.coroutines.scheduling.Task;
 
 
 public class TakViewModel extends AndroidViewModel {
@@ -62,6 +65,9 @@ public class TakViewModel extends AndroidViewModel {
         repository.newTaskDTO(dto);
     }
 
+    public void DEBUGaddTask(TaskData t){
+        repository.add(t);
+    }
     //Returns Profile LiveData
     public LiveData<Profile> getProfile(){
         return repository.getProfileLiveData();

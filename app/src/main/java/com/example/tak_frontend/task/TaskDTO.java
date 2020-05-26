@@ -1,5 +1,7 @@
 package com.example.tak_frontend.task;
 
+import java.sql.Date;
+import java.time.Instant;
 import java.util.UUID;
 
 public class TaskDTO {
@@ -9,6 +11,16 @@ public class TaskDTO {
     private UUID HouseId;
     private String Duration;
     private UUID Channel;
+
+    public TaskData toTask(){
+        TaskData task = new TaskData(
+                TaskName,
+                "running",
+                Date.from(Instant.now()),
+                HouseId
+        );
+        return task;
+    }
 
     public UUID getTaskId() {
         return TaskId;

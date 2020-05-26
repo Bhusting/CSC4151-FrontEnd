@@ -69,6 +69,7 @@ public class TaskFragment extends Fragment {
             public void onChanged(LinkedList<TaskData> taskData) {
                 Log.d(TAG, "Task Data Changed");
                 TaskList = taskData;
+                adapter.setTasks(TaskList);
             }
         });
         viewModel.getTaskDTO().observe(getViewLifecycleOwner(), new Observer<LinkedList<TaskDTO>>() {
@@ -96,7 +97,7 @@ public class TaskFragment extends Fragment {
 
         Profile p = new Profile(UUID.randomUUID(), "sam", "yeet", 10, UUID.randomUUID(), "swynnr@gmail.com");
 
-        applyData(new TaskData("Dishwasher", "running", Date.from(Instant.now()), p));
+        applyData(new TaskData("Dishwasher", "running", Date.from(Instant.now()), p.HouseId));
 
         FloatingActionButton fab = rootView.findViewById(R.id.myFABtask);
         fab.setOnClickListener(new View.OnClickListener() {

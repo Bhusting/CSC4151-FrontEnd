@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
@@ -89,6 +90,8 @@ public class TaskModal extends Fragment {
                     newTask.setHouseId(new UUID(0L, 0L));
                     newTask.setChannel(new UUID(0L, 0L));
                     viewModel.newTaskDTO(newTask);
+                    viewModel.DEBUGaddTask(newTask.toTask());
+                    Toast.makeText(getActivity(), "TaskCreated", Toast.LENGTH_SHORT).show();
                     ((MainActivity) getActivity()).openFragment(TaskFragment.newInstance(b));
                 }
             }

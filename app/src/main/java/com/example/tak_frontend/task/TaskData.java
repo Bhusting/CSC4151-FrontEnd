@@ -36,11 +36,11 @@ public class TaskData {
     private Date taskTime;
     private UUID houseID;
 
-    public TaskData(String title, String status, Date time, Profile p){
+    public TaskData(String title, String status, Date time, UUID house){
 
         taskTitle = title;
         taskStatus = status;
         taskTime = time;
-        houseID = p.HouseId;
+        houseID = house;
     }
 }

@@ -57,6 +57,8 @@ public class TakRepository {
         accessToken = tempAccess;
         idToken = tempID;
         allTaskDTO.setValue(new LinkedList<TaskDTO>());
+        allTasks.setValue(new LinkedList<TaskData>());
+        allChores.setValue(new LinkedList<ChoreData>());
         getProfile();
         client = new TakDao(accessToken, this);
     }
@@ -88,7 +90,20 @@ public class TakRepository {
 
     }
     //Add
-    protected void add(){
+    protected void add(TaskData t){
+
+        LinkedList<TaskData> list;
+
+        if (allTasks.getValue().size() == 0){
+            list = new LinkedList<>();
+            list.add(t);
+            allTasks.setValue(list);
+        }
+        else{
+            list = allTasks.getValue();
+            list.addLast(t);
+            allTasks.setValue(list);
+        }
 
     }
 
@@ -214,12 +229,21 @@ public class TakRepository {
     }
     //TODO sent POST request for new TaskDTO
     public void newTaskDTO(TaskDTO dto){
-        LinkedList<TaskDTO> temp = new LinkedList<>();
-        temp = allTaskDTO.getValue();
-        temp.addLast(dto);
-        allTaskDTO.setValue(temp);
+        LinkedList<TaskDTO> tempDTO = new LinkedList<>();
+        tempDTO = allTaskDTO.getValue();
+        tempDTO.addLast(dto);
+        allTaskDTO.setValue(tempDTO);
         //Stuff
+
+        //Get return from TakDao, add new task to tasklist
+        //Need to be async, will update data
+/*        LinkedList<TaskData> tempTask = new LinkedList<>();
+        tempTask = allTasks.getValue();
+        tempTask.addLast();
+        allTasks.setValue(tempTask);*/
+
     }
+
 
     public List<ChoreData> getAllChores() {
         return allChores.getValue();
