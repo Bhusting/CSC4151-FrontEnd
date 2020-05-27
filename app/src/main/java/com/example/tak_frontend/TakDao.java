@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.tak_frontend.leaderboard.LeaderboardData;
 import com.example.tak_frontend.profile.Profile;
+import com.example.tak_frontend.task.TaskDTO;
 import com.example.tak_frontend.task.TaskData;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
@@ -56,8 +57,77 @@ public class TakDao extends AppCompatActivity {
     }
 
 
+    //--All Task API Paths--
+
+    //Gets all a Houses Tasks
+    //Returns a List of Tasks
+    public LinkedList<TaskData> fetchAllTasks(UUID houseID) throws IOException{
+        LinkedList<TaskData> list = new LinkedList<TaskData>();
+        String URL = BASE_URL + "Task/House/" + houseID;
+        Log.d(TAG, "fetchAllTasks: URL: " + URL);
+        Request request = new Request.Builder()
+                .addHeader("Authorization", "Bearer " + accessToken)
+                .url(URL)
+                .get()
+                .build();
+        Log.d(TAG, "fetchAllTasks: Request Built");
+
+        try {
+            Log.d(TAG, "fetchAllTasks: GET Executing!");
+            Response response = client.newCall(request).execute();
+            JSONObject object = new JSONObject(response.body().toString());
+            TaskData temp;
+            return (TaskData.toList(object));
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            Log.d(TAG, "fetchAllTasks: error: " + e.getCause());
+            return null;
+        }
+    }
+
+    //Creates a New Task
+    //Returns a new taskId
+    public int createTask(TaskDTO dto){
+        return  1;
+    }
+
+    //Delete a Task
+    //Returns void
+    public void deleteTask(UUID taskID){
+
+    }
+
+    //--All House API Paths--
+
+    //Get House by houseId
+    //Returns House
+    public House getHouseById(UUID houseId){
+        return new House();
+    }
+
+    //Get House by profileId
+    //Returns House
+    public House getHouseByProfile(UUID profileId){
+        return new House();
+    }
+
+    //Create a New House
+    //Returns new houseId
+    public int createHouse(String houseName){
+        return 1;
+    }
+
+    //Delete a House
+    //Returns void
+    public void deleteHouse(UUID houseId){
+
+    }
+
+    //--All Profile API Paths
 
 
+    //Old code below, Don't Touch Please
     public void convert(Object obj, JsonConverter type) throws JSONException {
 
         try {
@@ -81,31 +151,7 @@ public class TakDao extends AppCompatActivity {
 
 
     }
-//--All Task API Paths
-    public LinkedList<TaskData> fetchAllTasks(UUID houseID) throws IOException{
-        LinkedList<TaskData> list = new LinkedList<TaskData>();
-        String URL = BASE_URL + "Task/House/" + houseID;
-        Log.d(TAG, "fetchAllTasks: URL: " + URL);
-        Request request = new Request.Builder()
-                .addHeader("Authorization", "Bearer " + accessToken)
-                .url(URL)
-                .get()
-                .build();
-        Log.d(TAG, "fetchAllTasks: Request Built");
 
-        try {
-            Log.d(TAG, "fetchAllTasks: GET Executing!");
-           Response response = client.newCall(request).execute();
-           JSONObject object = new JSONObject(response.body().toString());
-           TaskData temp;
-           return (TaskData.toList(object));
-
-        } catch (Exception e) {
-            e.printStackTrace();
-            Log.d(TAG, "fetchAllTasks: error: " + e.getCause());
-            return null;
-        }
-    }
 
     public void httpGETProfile(String URL, @NotNull JsonConverter type, String email) throws IOException {
         //Build HTTP Request

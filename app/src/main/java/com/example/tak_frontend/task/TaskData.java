@@ -35,6 +35,7 @@ public class TaskData {
         this.taskTime = taskTime;
     }
 
+    private UUID taskId;
     private String taskTitle;
     private String taskStatus;
     private Date taskTime;
