@@ -4,4 +4,5 @@
     <string name="com_auth0_domain">csc4151tak.auth0.com</string>
     <string name="login">Log in</string>
     <string name="logout">Log out</string>
+    <string name="SigninString">Currently signed in as Mr. Whiskers</string>
 </resources>
