@@ -8,7 +8,10 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.tak_frontend.leaderboard.LeaderboardData;
 import com.example.tak_frontend.profile.Profile;
 import com.example.tak_frontend.task.TaskData;
+import com.google.gson.Gson;
 import com.google.gson.JsonArray;
+import com.google.gson.JsonParser;
+import com.google.gson.stream.JsonReader;
 
 import org.jetbrains.annotations.NotNull;
 import org.json.JSONArray;
@@ -18,6 +21,7 @@ import org.json.JSONObject;
 import java.io.IOException;
 import java.lang.reflect.Type;
 import java.util.LinkedList;
+import java.util.UUID;
 import java.util.concurrent.Callable;
 import java.util.function.Function;
 
@@ -52,6 +56,8 @@ public class TakDao extends AppCompatActivity {
     }
 
 
+
+
     public void convert(Object obj, JsonConverter type) throws JSONException {
 
         try {
@@ -75,8 +81,8 @@ public class TakDao extends AppCompatActivity {
 
 
     }
-
-    public LinkedList<TaskData> fetchAllTasks(String houseID){
+//--All Task API Paths
+    public LinkedList<TaskData> fetchAllTasks(UUID houseID) throws IOException{
         LinkedList<TaskData> list = new LinkedList<TaskData>();
         String URL = BASE_URL + "Task/House/" + houseID;
         Log.d(TAG, "fetchAllTasks: URL: " + URL);
@@ -90,11 +96,10 @@ public class TakDao extends AppCompatActivity {
         try {
             Log.d(TAG, "fetchAllTasks: GET Executing!");
            Response response = client.newCall(request).execute();
-           String responseJson = response.body().string();
-           //TODO do stuff
+           JSONObject object = new JSONObject(response.body().toString());
+           TaskData temp;
+           return (TaskData.toList(object));
 
-
-            return list;
         } catch (Exception e) {
             e.printStackTrace();
             Log.d(TAG, "fetchAllTasks: error: " + e.getCause());
@@ -299,5 +304,8 @@ public class TakDao extends AppCompatActivity {
        }
 
     }
+
+
+
 
 }

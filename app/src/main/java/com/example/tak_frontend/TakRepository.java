@@ -107,40 +107,6 @@ public class TakRepository {
 
     }
 
-
-/*    static protected class profileFunc<T>{
-        JSONObject responseJson;
-        R profile;
-
-        profileFunc(JSONObject jsonArg){
-            responseJson = jsonArg;
-            if  (responseJson != null){
-                try {
-                    UUID profID = UUID.fromString(responseJson.getString("profileId"));
-                    String fnTemp = responseJson.getString("firstName");
-                    String lnTemp = responseJson.getString("lastName");
-                    int xp = responseJson.getInt("xp");
-                    UUID houseID = UUID.fromString(responseJson.getString("houseId"));
-                    houseIDRepo = UUID.fromString(responseJson.getString("houseId"));
-                    String emailTemp = responseJson.getString("email");
-                    Profile profile = new Profile(profID, fnTemp, lnTemp, xp, houseID, emailTemp);
-                    profileLiveData.setValue(profile);
-                    Log.d(TAG, "Set Profile Data");
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                    Log.d(TAG, "Insert Profile JSON Exception");
-                }
-            } else {
-                Log.d(TAG, "httpGET json Null");
-            }
-
-        }
-
-    }*/
-
-
-
-
     //Sets Profile LiveData From JSON response
     public void setProfile(Profile p){
         if(p != null){
@@ -206,13 +172,19 @@ public class TakRepository {
         }
     }
     public void fetchAllTasks(){
-/*      LinkedList<TaskData> list =
-               client.fetchAllTasks(profileLiveData.getValue().HouseId.toString());
+        LinkedList<TaskData> list =
+                null;
+        try {
+            if (profileLiveData.equals(null))
+                list = client.fetchAllTasks(profileLiveData.getValue().HouseId);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
-       if(list != null)
+        if(list != null)
           allTasks.postValue(list);
        else
-           Log.d(TAG, "fetchAllTasks: response list null");*/
+           Log.d(TAG, "fetchAllTasks: response list null");
 
 }
 

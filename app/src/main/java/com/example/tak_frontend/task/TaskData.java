@@ -2,7 +2,11 @@ package com.example.tak_frontend.task;
 
 import com.example.tak_frontend.profile.Profile;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+
 import java.util.Date;
+import java.util.LinkedList;
 import java.util.UUID;
 
 public class TaskData {
@@ -42,5 +46,10 @@ public class TaskData {
         taskStatus = status;
         taskTime = time;
         houseID = house;
+    }
+
+    public static final LinkedList<TaskData> toList(JSONObject object){
+
+        return new LinkedList<TaskData>();
     }
 }

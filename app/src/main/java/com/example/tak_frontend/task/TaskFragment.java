@@ -64,6 +64,7 @@ public class TaskFragment extends Fragment {
                 new TakViewModelFactory(getActivity().getApplication(), b))
                 .get(TakViewModel.class);
 
+
         viewModel.getTasks().observe(getViewLifecycleOwner(), new Observer<LinkedList<TaskData>>() {
             @Override
             public void onChanged(LinkedList<TaskData> taskData) {
@@ -79,6 +80,8 @@ public class TaskFragment extends Fragment {
                 TaskListDTO = taskDTO;
             }
         });
+        viewModel.fetchTasks();
+
     }
 
     @Override
@@ -94,6 +97,8 @@ public class TaskFragment extends Fragment {
         //Create and Set View Adapter
         adapter = new TaskRecyclerViewAdapter(this.getContext(), TaskList);
         recyclerView.setAdapter(adapter);
+
+
 
         Profile p = new Profile(UUID.randomUUID(), "sam", "yeet", 10, UUID.randomUUID(), "swynnr@gmail.com");
 
