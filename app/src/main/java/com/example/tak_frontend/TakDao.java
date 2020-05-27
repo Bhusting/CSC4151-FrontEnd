@@ -151,7 +151,7 @@ public class TakDao extends AppCompatActivity {
                 .get()
                 .build();
 
-        Log.d(TAG, "getProfileByEmail: Request Built");
+        Log.d(TAG, "getProfileByEmail: Request Built: " + request.toString());
         try {
             Log.d(TAG, "getProfileByEmail: GET Executing");
             Response response = client.newCall(request).execute();
