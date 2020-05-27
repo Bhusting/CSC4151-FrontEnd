@@ -7,30 +7,31 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 
+import com.example.tak_frontend.MainActivity;
 import com.example.tak_frontend.R;
+import com.example.tak_frontend.TakViewModel;
+import com.example.tak_frontend.TakViewModelFactory;
 
 
 public class CreateFragment extends Fragment {
 
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-
-    private String mParam1;
-    private String mParam2;
+    private Bundle b;
     private Button confirmHouseButton;
     private Button backToChoiceButton;
+
+    private TakViewModel viewModel;
 
     public CreateFragment() {
         // Required empty public constructor
     }
 
-    public static CreateFragment newInstance(String param1, String param2) {
+    public static CreateFragment newInstance(Bundle args) {
         CreateFragment fragment = new CreateFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
+
         fragment.setArguments(args);
         return fragment;
     }
@@ -39,10 +40,16 @@ public class CreateFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         getActivity().setTitle("createhouse");
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
+    }
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        b = getArguments();
+        viewModel = new ViewModelProvider(getActivity(),
+                new TakViewModelFactory(getActivity().getApplication(), b))
+                .get(TakViewModel.class);
+
     }
 
     @Override
@@ -61,6 +68,7 @@ public class CreateFragment extends Fragment {
                 Log.i("confirmHouseButton", "Confirm House Name clicked");
                 /*TODO: Bundle up the "editTextCreateHouse" string and send it to the backend.
                 Along with all the other information it'll need to make a new house for this user.*/
+                //do viewmodel stuff
             }
 
         });
@@ -70,7 +78,7 @@ public class CreateFragment extends Fragment {
             @Override public void onClick(View w)
             {
                 Log.i("joinButton", "Back to Choice Button clicked");
-                //TODO: Call the Create/Join Choice fragment (that is, return to previous screen.)
+                ((MainActivity) getActivity()).openFragment(CreatejoinchoiceFragment.newInstance(b));
             }
 
         });

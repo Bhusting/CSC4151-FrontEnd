@@ -1,6 +1,7 @@
 package com.example.tak_frontend;
 
 import android.app.Application;
+import android.os.AsyncTask;
 import android.util.Log;
 
 import androidx.lifecycle.LiveData;
@@ -60,7 +61,7 @@ public class TakRepository {
         allTasks.setValue(new LinkedList<TaskData>());
         allChores.setValue(new LinkedList<ChoreData>());
         getProfile();
-        client = new TakDao(accessToken, this);
+        client = new TakDao(accessToken);
     }
 
 
@@ -123,52 +124,30 @@ public class TakRepository {
         } else
             Log.d(TAG, "Leaderboard = null, not added");
     }
-    public void delete(ChoreData data) {
 
-    }
-
-    public void delete(TaskData data) {
-
-    }
-
-    public void delete(Profile data) {
-
-    }
-
-    public void update(ChoreData data) {
-
-    }
-
-    public void update(TaskData data) {
-
-    }
-
-    public void update(Profile data) {
-
-    }
     //Sends GET request for Profile
     public void fetchProfile(){
 
-        String url = BASE_URL + "Profile/Email";
-        Log.d(TAG, "httpGETProfile: URL : " + url);
+        new FetchProfileAsync().execute(email);
 
-        try {
-            client.httpGETProfile(url, JsonConverter.GETProfile, email);
-        } catch (IOException e) {
-            e.printStackTrace();
+    }
+    private class FetchProfileAsync extends AsyncTask<String, Void, Profile>{
+
+        @Override
+        protected Profile doInBackground(String... strings) {
+           return client.getProfileByEmail(strings[0]);
+        }
+
+        @Override
+        protected void onPostExecute(Profile profile) {
+            profileLiveData.postValue(profile);
         }
     }
 
     //Sends GET request for Leaderboard
     public void fetchLeaderboard(){
         if (houseIDRepo != null) {
-            String url = BASE_URL + "Profile/House/" + houseIDRepo.toString();
-            Log.d(TAG, "fetchLeaderboard: URL: " + url);
-            try {
-                client.httpGET(url, JsonConverter.GETLeaderboard);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+            client.getAllProfileByHouse(houseIDRepo);
         }
     }
     public void fetchAllTasks(){
@@ -189,15 +168,7 @@ public class TakRepository {
 }
 
     public void createProfile() throws IOException {
-        getProfile();
-        String url = BASE_URL + "Profile/" + fName + '/' + lName;
-        Log.d(TAG, "createProfile: URL: " + url + ' ' + email);
 
-        try {
-            client.httpPOST(url, email);
-        } catch (IOException e){
-            e.printStackTrace();
-        }
     }
     //TODO sent POST request for new TaskDTO
     public void newTaskDTO(TaskDTO dto){

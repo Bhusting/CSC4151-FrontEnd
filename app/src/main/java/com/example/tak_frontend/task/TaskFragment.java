@@ -42,9 +42,9 @@ public class TaskFragment extends Fragment {
         // Required empty public constructor
     }
 
-    public static TaskFragment newInstance(Bundle args) {
+    public static TaskFragment newInstance(Bundle b) {
         TaskFragment fragment = new TaskFragment();
-        fragment.setArguments(args);
+        fragment.setArguments(b);
         return fragment;
     }
 

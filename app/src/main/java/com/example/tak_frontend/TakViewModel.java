@@ -17,9 +17,6 @@ import com.example.tak_frontend.profile.Profile;
 import com.example.tak_frontend.task.TaskDTO;
 import com.example.tak_frontend.task.TaskData;
 import java.util.LinkedList;
-import java.util.UUID;
-
-import kotlinx.coroutines.scheduling.Task;
 
 
 public class TakViewModel extends AndroidViewModel {
@@ -32,7 +29,7 @@ public class TakViewModel extends AndroidViewModel {
         super(application);
 
         repository = new TakRepository(application, tempAccess, tempID);
-        repository.fetchAll();
+        repository.fetchProfile();
     }
 
     //Fetches all data from server
@@ -40,20 +37,18 @@ public class TakViewModel extends AndroidViewModel {
         repository.fetchAll();
     }
     //GET for profile
-    public void fetchProfile(){ repository.fetchProfile();
-        }
+    public void fetchProfile(){ repository.fetchProfile(); }
     //GET for leaderboard
     public void fetchLeaderboard() { repository.fetchLeaderboard();
     }
 
     //POST changes Profile TODO
     public void update(Profile profile) {
-        repository.update(profile);
+
     }
 
     //Delete HTTP request, TODO
     public void delete(Profile profile) {
-        repository.delete(profile);
     }
 
     public void fetchTasks(){repository.fetchAllTasks();}

@@ -6,6 +6,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -14,9 +15,11 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.example.tak_frontend.MainActivity;
 import com.example.tak_frontend.R;
 import com.example.tak_frontend.TakViewModel;
 import com.example.tak_frontend.TakViewModelFactory;
+import com.example.tak_frontend.createjoin.CreatejoinchoiceFragment;
 
 
 public class ProfileFragment extends Fragment {
@@ -27,6 +30,8 @@ public class ProfileFragment extends Fragment {
     private TextView houseTextView;
     private TextView profileName;
     private TextView xpTextView;
+    private Button leaveHouse;
+    private Button createJoinHouse;
     private Bundle b;
 
     private TakViewModel  viewModel;
@@ -39,6 +44,7 @@ public class ProfileFragment extends Fragment {
 
     public static ProfileFragment newInstance(Bundle b) {
         ProfileFragment fragment = new ProfileFragment();
+        fragment.setArguments(b);
         return fragment;
     }
     @Override
@@ -59,20 +65,34 @@ public class ProfileFragment extends Fragment {
         houseTextView = view.findViewById(R.id.houseString_Profile);
         profileName = view.findViewById(R.id.residentName_Profile);
         xpTextView = view.findViewById(R.id.xpValueString_Profile);
+        leaveHouse = view.findViewById(R.id.leaveButton_Profile);
+        createJoinHouse = view.findViewById(R.id.houseCreateJoinButton);
+
+        //Button Clicked!
+        leaveHouse.setOnClickListener(v -> {
+
+        });
+
+        //Button Clicked!
+        createJoinHouse.setOnClickListener(v -> {
+            ((MainActivity) getActivity()).openFragment(CreatejoinchoiceFragment.newInstance(b));
+        });
 
         return view;
     }
 
     public void refresh(){
-        //houseTextView.setText(profile.HouseId.toString());
-        profileName.setText(profile.FirstName + " " + profile.LastName);
-        xpTextView.setText(String.valueOf(profile.XP));
+        if (profile != null) {
+            //houseTextView.setText(profile.HouseId.toString());
+            profileName.setText(profile.FirstName + " " + profile.LastName);
+            xpTextView.setText(String.valueOf(profile.XP));
+        }
     }
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-/*        b = getArguments();
+        b = getArguments();
         viewModel = new ViewModelProvider(getActivity(),
                 new TakViewModelFactory(getActivity().getApplication(), b))
                 .get(TakViewModel.class);
@@ -84,7 +104,7 @@ public class ProfileFragment extends Fragment {
                 profile = obsProfile;
                 refresh();
             }
-        });*/
+        });
     }
 
     @Override

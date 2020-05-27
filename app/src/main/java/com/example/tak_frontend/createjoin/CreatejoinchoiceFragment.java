@@ -9,17 +9,13 @@ import android.widget.Button;
 
 import androidx.fragment.app.Fragment;
 
+import com.example.tak_frontend.MainActivity;
 import com.example.tak_frontend.R;
 
 
 public class CreatejoinchoiceFragment extends Fragment {
 
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-
-    private String mParam1;
-    private String mParam2;
-
+    private Bundle b;
     private Button createButton;
     private Button joinButton;
     private Button altSigninButton; //If the user wants to be someone else
@@ -30,12 +26,9 @@ public class CreatejoinchoiceFragment extends Fragment {
 
 
 
-    public static CreatejoinchoiceFragment newInstance(String param1, String param2) {
+    public static CreatejoinchoiceFragment newInstance(Bundle b) {
         CreatejoinchoiceFragment fragment = new CreatejoinchoiceFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
+        fragment.setArguments(b);
         return fragment;
     }
 
@@ -43,11 +36,8 @@ public class CreatejoinchoiceFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        b = getArguments();
         getActivity().setTitle("Createjoinchoice");
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
     }
 
     @Override
@@ -66,7 +56,7 @@ public class CreatejoinchoiceFragment extends Fragment {
             @Override public void onClick(View v)
             {
                 Log.i("createButton", "Create Button clicked");
-                //TODO: Call the create house fragment.
+                ((MainActivity) getActivity()).openFragment(CreateFragment.newInstance(b));
             }
 
         });
@@ -76,7 +66,7 @@ public class CreatejoinchoiceFragment extends Fragment {
             @Override public void onClick(View w)
             {
                 Log.i("joinButton", "Join Button clicked");
-                //TODO: Call the join house fragment.
+                ((MainActivity) getActivity()).openFragment(JoinFragment.newInstance(b));
             }
 
         });

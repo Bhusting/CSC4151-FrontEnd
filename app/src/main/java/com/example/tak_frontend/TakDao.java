@@ -41,23 +41,19 @@ public class TakDao extends AppCompatActivity {
     public static final MediaType JSON = MediaType.parse("text/plain; charset=utf-8");
     private static final String BASE_URL = "https://takkapp.azurewebsites.net/";
     private String accessToken;
-    private JSONObject responseJSON;
-    private JSONArray responseJSONArray;
-    private TakRepository repository;
+
 
 
     private OkHttpClient client;
 
 
-    public TakDao(String token, TakRepository repositoryArg){
+    public TakDao(String token){
         client = new OkHttpClient();
-        repository = repositoryArg;
-       // Log.d(TAG, "Constructor Application ID: " + this.getApplication().toString());
         accessToken = token;
     }
 
 
-    //--All Task API Paths--
+    //----All Task API Paths----
 
     //Gets all a Houses Tasks
     //Returns a List of Tasks
@@ -98,7 +94,7 @@ public class TakDao extends AppCompatActivity {
 
     }
 
-    //--All House API Paths--
+    //----All House API Paths----
 
     //Get House by houseId
     //Returns House
@@ -124,10 +120,96 @@ public class TakDao extends AppCompatActivity {
 
     }
 
-    //--All Profile API Paths
+    //----All Profile API Paths----
 
+    //Gets Profile by Id
+    //Returns Profile
+    public Profile getProfileById(UUID profileId){
+        String url = BASE_URL + "Profile/" + profileId.toString();
+        Log.d(TAG, "getProfileById: url: " + url);
+        return null;
+    }
+
+    //Gets Profile XP by Id
+    //Returns int
+    public int getProfileXp(UUID profileId){
+        String url = BASE_URL + "Profile/" + profileId.toString() + "/XP";
+        Log.d(TAG, "getProfileXp: url: " + url);
+        return 1;
+    }
+
+    //Gets Profile by Email
+    //Returns Profile
+    public Profile getProfileByEmail(String email){
+        String url = BASE_URL + "Profile/Email";
+        Log.d(TAG, "getProfileByEmail: url: " + url + " body: " + email);
+
+        Request request = new Request.Builder()
+                .addHeader("Authorization", "Bearer " + accessToken)
+                .addHeader("email", email)        //Add header key "email" value email
+                .url(url)
+                .get()
+                .build();
+
+        Log.d(TAG, "getProfileByEmail: Request Built");
+        try {
+            Log.d(TAG, "getProfileByEmail: GET Executing");
+            Response response = client.newCall(request).execute();
+            if (response.code() == 200){
+                JSONObject object = new JSONObject(response.body().toString());
+                return Profile.fromJson(object);
+            } else{
+                Log.d(TAG, "getProfileByEmail: GET error code: " + response.code() + " message: " + response.message());
+                return  null;
+            }
+
+        } catch (Exception e){
+            e.printStackTrace();
+            Log.d(TAG, "getProfileByEmail: error: " + e.getCause());
+            return null;
+        }
+    }
+
+    //Gets all Profiles by House
+    //Returns a list of Profiles
+    public LinkedList<Profile> getAllProfileByHouse(UUID houseId){
+        String url = BASE_URL + "Profile/House/" + houseId.toString();
+        Log.d(TAG, "getAllProfileByHouse: url: " + url);
+
+        return null;
+    }
+
+    //Create new Profile
+    //Returns a profileId
+    public int createProfile(String fName, String lName, String email){
+        String url = BASE_URL + "Profile/" + fName + '/' + lName + '/';
+        Log.d(TAG, "createProfile: url: " + url + " body: " + email);
+        return  1;
+    }
+
+    //Update Profile houseId
+    //Returns void
+    public void updateHouseId(UUID profileId, UUID houseId){
+        String url = BASE_URL + "Profile/" + profileId.toString() + "/House/" + houseId.toString();
+        Log.d(TAG, "updateHouseId: url: " + url);
+    }
+
+    //Add Xp to Profile
+    //Returns void
+    public void addXp(UUID profileId){
+        String url = BASE_URL + "Profile/" + profileId.toString() + "/XP";
+        Log.d(TAG, "addXp: url: " + url);
+    }
+
+    //Delete Profile
+    //Returns void
+    public void deleteProfile(UUID profileId){
+        String url = BASE_URL + "Profile/" + profileId.toString();
+        Log.d(TAG, "deleteProfile: url: " + url);
+    }
 
     //Old code below, Don't Touch Please
+/*
     public void convert(Object obj, JsonConverter type) throws JSONException {
 
         try {
@@ -350,6 +432,7 @@ public class TakDao extends AppCompatActivity {
        }
 
     }
+*/
 
 
 
