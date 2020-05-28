@@ -17,6 +17,7 @@ import com.example.tak_frontend.profile.Profile;
 import com.example.tak_frontend.task.TaskDTO;
 import com.example.tak_frontend.task.TaskData;
 import java.util.LinkedList;
+import java.util.UUID;
 
 
 public class TakViewModel extends AndroidViewModel {
@@ -66,7 +67,7 @@ public class TakViewModel extends AndroidViewModel {
     }
 
     //-----------------------------------------Chore------------------------------------------------
-
+    public void fetchChoreByHouseId(UUID houseId){ repository.fetchChoreByHouseId(houseId); }
     //-----------------------------------------Leaderboard------------------------------------------
     //GET for leaderboard
     public void fetchLeaderboard() { repository.fetchLeaderboard();

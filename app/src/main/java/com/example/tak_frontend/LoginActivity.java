@@ -32,6 +32,7 @@ public class LoginActivity extends AppCompatActivity {
     private static final String EXTRA_ID_TOKEN = "com.auth0.ID_TOKEN";
     private Auth0 auth0;
     private Button  loginButton;
+    private Button choresButton;
     private SecureCredentialsManager credentialsManager;
 
     @Override

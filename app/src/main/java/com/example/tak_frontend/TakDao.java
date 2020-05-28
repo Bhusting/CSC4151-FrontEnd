@@ -479,7 +479,26 @@ public class TakDao extends AppCompatActivity {
         }
     }
 
-    //----Chore API Stuff----
+    //----Chore API Stuff----\
+    public void GetChoreByHouseId(UUID houseId) {
+        String url = BASE_URL + "House/" + houseId.toString();
+        Request request = new Request.Builder()
+                .addHeader("Authorization", "Bearer " + accessToken)
+                .url(url)
+                .get()
+                .build();
+        try {
+            Response response = client.newCall(request).execute();
+            // Check the api request responded successfully
+
+            boolean isSuccess = response.isSuccessful();
+            if(isSuccess) {
+                Log.i("RUQAYA -- Func_s", " getAllProfileByHouse() .(TakDao.java:345)");
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 
     //Old code below, Don't Touch Please
 /*

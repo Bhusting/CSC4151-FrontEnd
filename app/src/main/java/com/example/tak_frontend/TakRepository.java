@@ -267,6 +267,13 @@ public class TakRepository {
 
     }
 
+    public void fetchChoreByHouseId(UUID houseId){
+        client.GetChoreByHouseId(houseId);
+    }
+
+
+
+
 
     public List<ChoreData> getAllChores() {
         return allChores.getValue();
