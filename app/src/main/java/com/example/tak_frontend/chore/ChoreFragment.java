@@ -11,6 +11,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.tak_frontend.MainActivity;
 import com.example.tak_frontend.R;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
@@ -23,6 +24,7 @@ public class ChoreFragment extends Fragment  {
     private LinkedList<ChoreData> choreList = new LinkedList<>();
     private RecyclerView recyclerView;
     private RecyclerViewAdapter adapter;
+    private Bundle b;
 
 
     public ChoreFragment() {
@@ -40,6 +42,7 @@ public class ChoreFragment extends Fragment  {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         getActivity().setTitle("Chore");
+        b = getArguments();
     }
 
     @Override
@@ -62,7 +65,7 @@ public class ChoreFragment extends Fragment  {
             @Override
             public void onClick(View v) {
                 Log.d(".ChoreFragment", "fab Clicked");
-                showEditDialog();
+                ((MainActivity) getActivity()).openFragment(ChoreModal.newInstance(b));
             }
         });
 
@@ -71,16 +74,6 @@ public class ChoreFragment extends Fragment  {
         //Inflates View
         return rootView;
     }
-
-    private void showEditDialog(){
-        ChoreModal modal = new ChoreModal();
-        modal.show(getParentFragmentManager(), "chore modal");
-        modal.setTargetFragment(ChoreFragment.this, 1);
-    }
-
-/*    ChoreModal.ChoreModalListener modalListener(){
-        return false;
-    };*/
 
     public void applyData(ChoreData data) {
             choreList.add(data);

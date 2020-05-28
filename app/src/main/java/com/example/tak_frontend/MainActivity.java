@@ -11,6 +11,8 @@ import androidx.lifecycle.ViewModelProvider;
 import com.auth0.android.Auth0;
 import com.auth0.android.authentication.AuthenticationAPIClient;
 import com.auth0.android.management.UsersAPIClient;
+import com.example.tak_frontend.MVVM.TakViewModel;
+import com.example.tak_frontend.MVVM.TakViewModelFactory;
 import com.example.tak_frontend.chore.ChoreFragment;
 import com.example.tak_frontend.leaderboard.LeaderboardFragment;
 import com.example.tak_frontend.profile.ProfileFragment;
@@ -29,7 +31,7 @@ public class MainActivity extends AppCompatActivity {
 
     protected String accessToken;
     protected String idToken;
-    private TakViewModel  viewModel;
+    private TakViewModel viewModel;
     private String curFragment;
     private String choreFrag = "chore";
     private String taskFrag = "task";

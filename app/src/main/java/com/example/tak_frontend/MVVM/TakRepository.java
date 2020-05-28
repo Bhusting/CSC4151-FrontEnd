@@ -1,4 +1,4 @@
-package com.example.tak_frontend;
+package com.example.tak_frontend.MVVM;
 
 import android.app.Application;
 import android.os.AsyncTask;
@@ -9,6 +9,7 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
 import com.auth0.android.jwt.JWT;
+import com.example.tak_frontend.profile.House;
 import com.example.tak_frontend.chore.ChoreData;
 import com.example.tak_frontend.leaderboard.LeaderboardData;
 import com.example.tak_frontend.profile.Profile;
@@ -16,15 +17,11 @@ import com.example.tak_frontend.task.TaskDTO;
 import com.example.tak_frontend.task.TaskData;
 
 import org.jetbrains.annotations.NotNull;
-import org.json.JSONObject;
 
 import java.io.IOException;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.UUID;
-
-import cz.msebera.android.httpclient.client.ResponseHandler;
-import okhttp3.internal.concurrent.Task;
 
 public class TakRepository {
 
@@ -96,23 +93,30 @@ public class TakRepository {
 
 
     //Sends GET request for Profile By Email
+    //First request made
     public void fetchProfileByEmail(){
         FetchProfileByEmailAsync task = new FetchProfileByEmailAsync();
         task.execute(email);
     }
-    private class FetchProfileByEmailAsync extends AsyncTask<String, Void, Profile>{
+    private class FetchProfileByEmailAsync extends AsyncTask<String, Void, ValueHolder>{
 
         @Override
-        protected Profile doInBackground(String... strings) {
+        protected ValueHolder doInBackground(String... strings) {
            return client.getProfileByEmail(strings[0]);
         }
         @Override
-        protected void onPostExecute(Profile profile) {
-                profileLiveData.postValue(profile);
-                houseIDRepo = profile.houseId;
-                profileIDRepo = profile.profileId;
+        protected void onPostExecute(ValueHolder valueHolder) {
+            if(valueHolder.getCode() == 200){
+                profileLiveData.postValue((Profile) valueHolder.getObject());
+                houseIDRepo = ((Profile) valueHolder.getObject()).houseId;
+                profileIDRepo = ((Profile) valueHolder.getObject()).profileId;
                 fetchLeaderboard();
                 getHouseByProfileId();
+            } if (valueHolder.getCode() == 204){
+                createProfile();
+            } else
+                Log.d(TAG, "onPostExecute: Something went very wrong. . .");
+
         }
     }
 

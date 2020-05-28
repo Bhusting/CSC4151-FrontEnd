@@ -1,33 +1,21 @@
-package com.example.tak_frontend;
+package com.example.tak_frontend.MVVM;
 
 import android.util.Log;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.tak_frontend.leaderboard.LeaderboardData;
+import com.example.tak_frontend.profile.House;
 import com.example.tak_frontend.profile.Profile;
 import com.example.tak_frontend.task.TaskDTO;
 import com.example.tak_frontend.task.TaskData;
 import com.google.gson.Gson;
-import com.google.gson.JsonArray;
-import com.google.gson.JsonParser;
-import com.google.gson.stream.JsonReader;
 
-import org.jetbrains.annotations.NotNull;
-import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
-import java.lang.reflect.Type;
 import java.util.LinkedList;
 import java.util.UUID;
-import java.util.concurrent.Callable;
-import java.util.function.Function;
 
-import okhttp3.Call;
-import okhttp3.Callback;
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -94,7 +82,7 @@ public class TakDao extends AppCompatActivity {
 
     }
 
-    //----All House API Paths----
+    //-----------------------------------------House------------------------------------------------
 
     //Get House by houseId
     //Returns House
@@ -120,7 +108,8 @@ public class TakDao extends AppCompatActivity {
                 return house;
             }
             else{
-                Log.d(TAG, "getHouseById: GET error code: " + response.code() + " message: " + response.message());
+                Log.d(TAG, "getHouseById: GET error code: " + response.code() + " message: "
+                        + response.message());
                 return  null;
             }
         } catch (Exception e) {
@@ -154,7 +143,8 @@ public class TakDao extends AppCompatActivity {
                 return house;
             }
             else{
-                Log.d(TAG, "getHouseByProfile: GET error code: " + response.code() + " message: " + response.message());
+                Log.d(TAG, "getHouseByProfile: GET error code: " + response.code() + " message: "
+                        + response.message());
                 return  null;
             }
         } catch (Exception e) {
@@ -189,7 +179,8 @@ public class TakDao extends AppCompatActivity {
                 return uuid;
             }
             else{
-                Log.d(TAG, "createHouse: GET error code: " + response.code() + " message: " + response.message());
+                Log.d(TAG, "createHouse: GET error code: " + response.code() + " message: "
+                        + response.message());
                 return  null;
             }
         } catch (Exception e) {
@@ -206,7 +197,7 @@ public class TakDao extends AppCompatActivity {
         Log.d(TAG, "deleteHouse: url: " + url);
     }
 
-    //----All Profile API Paths----
+    //----------------------------------------Profile-----------------------------------------------
 
     //Gets Profile by Id
     //Returns Profile
@@ -233,7 +224,8 @@ public class TakDao extends AppCompatActivity {
                 return profile;
             }
             else{
-                Log.d(TAG, "getProfileById: GET error code: " + response.code() + " message: " + response.message());
+                Log.d(TAG, "getProfileById: GET error code: " + response.code() + " message: "
+                        + response.message());
                 return  null;
             }
         } catch (Exception e) {
@@ -280,7 +272,7 @@ public class TakDao extends AppCompatActivity {
 
     //Gets Profile by Email
     //Returns Profile
-    public Profile getProfileByEmail(String email){
+    public ValueHolder getProfileByEmail(String email){
         String url = BASE_URL + "Profile/Email";
         Log.d(TAG, "getProfileByEmail: url: " + url + " body: " + email);
 
@@ -297,27 +289,26 @@ public class TakDao extends AppCompatActivity {
             Response response = client.newCall(request).execute();
             Log.d(TAG, "getProfileByEmail: GET code: " + response.code());
             String json = response.body().string();
+            int code = response.code();
 
             if (response.code() == 200){
                 Log.d(TAG, "getProfileByEmail: body: " + json);
                 Profile profile = Profile.Deserialize(json);
-                return profile;
+                return new ValueHolder(code, profile);
             }
             if (response.code() == 204){
                 Log.d(TAG, "getProfileByEmail: Must Create Profile");
-                Profile profile = new Profile();
-                profile.firstName = "null";
-                return profile;
+                return new ValueHolder(code, null);
             }
             else{
                 Log.d(TAG, "getProfileByEmail: GET error code: " + response.code() + " message: " + response.message());
-                return  null;
+                return  new ValueHolder(code, null);
             }
 
         } catch (Exception e){
             e.printStackTrace();
             Log.d(TAG, "getProfileByEmail: error: " + e.getCause());
-            return null;
+            return new ValueHolder(0, null);
         }
     }
 

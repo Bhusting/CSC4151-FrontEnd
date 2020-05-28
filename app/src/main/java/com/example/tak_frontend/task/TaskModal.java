@@ -1,7 +1,6 @@
 package com.example.tak_frontend.task;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,21 +10,13 @@ import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.tak_frontend.MainActivity;
 import com.example.tak_frontend.R;
-import com.example.tak_frontend.TakViewModel;
-import com.example.tak_frontend.TakViewModelFactory;
-import com.example.tak_frontend.profile.Profile;
+import com.example.tak_frontend.MVVM.TakViewModel;
+import com.example.tak_frontend.MVVM.TakViewModelFactory;
 
-import java.sql.Date;
-import java.sql.Time;
-import java.time.Instant;
-import java.util.LinkedList;
 import java.util.UUID;
 
 public class TaskModal extends Fragment {
@@ -33,8 +24,6 @@ public class TaskModal extends Fragment {
     private static final String TAG = ".TaskModal";
     private TakViewModel viewModel;
     private Bundle b;
-    private String taskTitle;
-    private Time taskTime;
     private EditText taskTitleText;
     private EditText taskTimeText;
     private Button taskCreateButton;

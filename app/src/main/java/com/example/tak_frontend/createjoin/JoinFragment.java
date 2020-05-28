@@ -13,8 +13,8 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.example.tak_frontend.MainActivity;
 import com.example.tak_frontend.R;
-import com.example.tak_frontend.TakViewModel;
-import com.example.tak_frontend.TakViewModelFactory;
+import com.example.tak_frontend.MVVM.TakViewModel;
+import com.example.tak_frontend.MVVM.TakViewModelFactory;
 
 
 public class JoinFragment extends Fragment {
@@ -54,7 +54,7 @@ public class JoinFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_createjoinchoice, container, false);
+        View view = inflater.inflate(R.layout.fragment_joinhouse, container, false);
 
         backToChoiceButton = (Button) view.findViewById(R.id.backJoinButton);
         confirmJoinButton = (Button) view.findViewById(R.id.joinButton);
@@ -80,6 +80,6 @@ public class JoinFragment extends Fragment {
             }
 
         });
-        return inflater.inflate(R.layout.fragment_joinhouse, container, false);
+        return view;
     }
 };

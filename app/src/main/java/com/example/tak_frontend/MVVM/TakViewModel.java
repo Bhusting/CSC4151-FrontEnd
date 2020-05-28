@@ -1,17 +1,12 @@
-package com.example.tak_frontend;
+package com.example.tak_frontend.MVVM;
 
 import android.app.Application;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.lifecycle.AndroidViewModel;
-import androidx.lifecycle.Lifecycle;
-import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.LiveData;
-import androidx.lifecycle.MutableLiveData;
-import androidx.lifecycle.Observer;
 
-import com.example.tak_frontend.chore.ChoreData;
+import com.example.tak_frontend.profile.House;
 import com.example.tak_frontend.leaderboard.LeaderboardData;
 import com.example.tak_frontend.profile.Profile;
 import com.example.tak_frontend.task.TaskDTO;

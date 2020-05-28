@@ -1,4 +1,4 @@
-package com.example.tak_frontend;
+package com.example.tak_frontend.profile;
 
 import com.google.gson.Gson;
 

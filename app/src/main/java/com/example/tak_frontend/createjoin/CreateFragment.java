@@ -15,8 +15,8 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.example.tak_frontend.MainActivity;
 import com.example.tak_frontend.R;
-import com.example.tak_frontend.TakViewModel;
-import com.example.tak_frontend.TakViewModelFactory;
+import com.example.tak_frontend.MVVM.TakViewModel;
+import com.example.tak_frontend.MVVM.TakViewModelFactory;
 
 
 public class CreateFragment extends Fragment {
@@ -74,6 +74,7 @@ public class CreateFragment extends Fragment {
                     ((MainActivity) getActivity()).openFragment(CreatejoinchoiceFragment.newInstance(b));
                 else {
                     Toast toast = Toast.makeText(getContext(), "You already have a house", Toast.LENGTH_SHORT);
+                    toast.show();
                 }
             }
         });
@@ -86,6 +87,6 @@ public class CreateFragment extends Fragment {
             }
 
         });
-        return inflater.inflate(R.layout.fragment_createhouse, container, false);
+        return view;
     }
 };
