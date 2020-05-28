@@ -97,4 +97,5 @@
         app:layout_constraintEnd_toStartOf="@+id/createjoin_guideline_50per"
         app:layout_constraintStart_toStartOf="@+id/createjoin_guideline_10per"
         tools:layout_editor_absoluteY="604dp" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

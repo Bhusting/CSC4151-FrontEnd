@@ -9,12 +9,15 @@ import android.widget.Button;
 
 import androidx.fragment.app.Fragment;
 
+
 import com.example.tak_frontend.MainActivity;
 import com.example.tak_frontend.R;
 import com.example.tak_frontend.profile.ProfileFragment;
 
 
+
 public class CreatejoinchoiceFragment extends Fragment {
+
 
     private Bundle b;
     private Button createButton;
@@ -37,6 +40,7 @@ public class CreatejoinchoiceFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         b = getArguments();
         getActivity().setTitle("Createjoinchoice");
     }
@@ -49,6 +53,7 @@ public class CreatejoinchoiceFragment extends Fragment {
 
         createButton = (Button) view.findViewById(R.id.createHouseholdButton);
         joinButton = (Button) view.findViewById(R.id.joinHouseholdButton);
+
         backButton = (Button) view.findViewById(R.id.backButton);
 
 
@@ -59,10 +64,12 @@ public class CreatejoinchoiceFragment extends Fragment {
                 Log.d("createButton", "Create Button clicked");
                 ((MainActivity) getActivity()).openFragment(CreateFragment.newInstance(b));
             }
+
         });
 
         joinButton.setOnClickListener(new View.OnClickListener()
         {
+
             @Override public void onClick(View v)
             {
                 Log.d("joinButton", "Join Button clicked");

@@ -19,7 +19,9 @@ import com.example.tak_frontend.MVVM.TakViewModel;
 import com.example.tak_frontend.MVVM.TakViewModelFactory;
 
 
+
 public class CreateFragment extends Fragment {
+
 
     private static final String TAG = ".CreateFragment";
     private Bundle b;
@@ -29,12 +31,14 @@ public class CreateFragment extends Fragment {
 
     private TakViewModel viewModel;
 
+
     public CreateFragment() {
         // Required empty public constructor
     }
 
     public static CreateFragment newInstance(Bundle args) {
         CreateFragment fragment = new CreateFragment();
+
         fragment.setArguments(args);
         return fragment;
     }
@@ -52,7 +56,6 @@ public class CreateFragment extends Fragment {
         viewModel = new ViewModelProvider(getActivity(),
                 new TakViewModelFactory(getActivity().getApplication(), b))
                 .get(TakViewModel.class);
-
     }
 
     @Override
@@ -64,6 +67,7 @@ public class CreateFragment extends Fragment {
         confirmHouseButton = (Button) view.findViewById(R.id.acceptCreateButton);
         backToChoiceButton = (Button) view.findViewById(R.id.backCreateButton);
         houseName = view.findViewById(R.id.editTextCreateHouse);
+
 
         confirmHouseButton.setOnClickListener(new View.OnClickListener()
         {
@@ -88,5 +92,9 @@ public class CreateFragment extends Fragment {
 
         });
         return view;
+            }
+
+   
+
     }
 };

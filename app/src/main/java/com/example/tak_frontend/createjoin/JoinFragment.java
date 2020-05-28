@@ -17,6 +17,7 @@ import com.example.tak_frontend.MVVM.TakViewModel;
 import com.example.tak_frontend.MVVM.TakViewModelFactory;
 
 
+
 public class JoinFragment extends Fragment {
 
     private Button confirmJoinButton;
@@ -24,6 +25,7 @@ public class JoinFragment extends Fragment {
     private Bundle b;
 
     private TakViewModel viewModel;
+
 
     public JoinFragment() {
         // Required empty public constructor
@@ -39,6 +41,7 @@ public class JoinFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         getActivity().setTitle("joinhouse");
+
     }
 
     @Override
@@ -55,6 +58,7 @@ public class JoinFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_joinhouse, container, false);
+
 
         backToChoiceButton = (Button) view.findViewById(R.id.backJoinButton);
         confirmJoinButton = (Button) view.findViewById(R.id.joinButton);
@@ -76,10 +80,12 @@ public class JoinFragment extends Fragment {
             @Override public void onClick(View w)
             {
                 Log.i("BackToChoice", "BacktoChoice Button clicked");
+
                 ((MainActivity) getActivity()).openFragment(CreatejoinchoiceFragment.newInstance(b));
             }
 
         });
         return view;
+
     }
 };
