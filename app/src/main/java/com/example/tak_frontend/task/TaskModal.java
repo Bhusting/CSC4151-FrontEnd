@@ -90,7 +90,6 @@ public class TaskModal extends Fragment {
                     newTask.setHouseId(new UUID(0L, 0L));
                     newTask.setChannel(new UUID(0L, 0L));
                     viewModel.newTaskDTO(newTask);
-                    viewModel.DEBUGaddTask(newTask.toTask());
                     Toast.makeText(getActivity(), "TaskCreated", Toast.LENGTH_SHORT).show();
                     ((MainActivity) getActivity()).openFragment(TaskFragment.newInstance(b));
                 }

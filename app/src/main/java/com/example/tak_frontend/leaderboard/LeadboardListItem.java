@@ -10,8 +10,8 @@ public class LeadboardListItem extends LeaderboardData {
 
 
     public LeadboardListItem(Profile p){
-        name = p.FirstName;
-        xp = p.XP;
+        name = p.firstName;
+        xp = p.xp;
     }
 
     public LeadboardListItem(String name, int xp){

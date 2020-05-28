@@ -48,8 +48,7 @@ public class TakViewModel extends AndroidViewModel {
     }
 
     //Delete HTTP request, TODO
-    public void delete(Profile profile) {
-    }
+    public void delete(Profile profile) { }
 
     public void fetchTasks(){repository.fetchAllTasks();}
 
@@ -60,9 +59,6 @@ public class TakViewModel extends AndroidViewModel {
         repository.newTaskDTO(dto);
     }
 
-    public void DEBUGaddTask(TaskData t){
-        repository.add(t);
-    }
     //Returns Profile LiveData
     public LiveData<Profile> getProfile(){
         return repository.getProfileLiveData();

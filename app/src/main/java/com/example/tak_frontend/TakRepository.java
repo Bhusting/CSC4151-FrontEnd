@@ -62,6 +62,7 @@ public class TakRepository {
         allChores.setValue(new LinkedList<ChoreData>());
         getProfile();
         client = new TakDao(accessToken);
+        fetchAll();
     }
 
 
@@ -75,61 +76,13 @@ public class TakRepository {
 
     public void fetchAll() {
         fetchProfile();
-        fetchLeaderboard();
         fetchAllTasks();
-    }
-
-    public void insert(ChoreData data) {
-
-    }
-
-    public void insert(TaskData data) {
-
-    }
-
-    public void insert(JSONObject responseJson) {
-
-    }
-    //Add
-    protected void add(TaskData t){
-
-        LinkedList<TaskData> list;
-
-        if (allTasks.getValue().size() == 0){
-            list = new LinkedList<>();
-            list.add(t);
-            allTasks.setValue(list);
-        }
-        else{
-            list = allTasks.getValue();
-            list.addLast(t);
-            allTasks.setValue(list);
-        }
-
-    }
-
-    //Sets Profile LiveData From JSON response
-    public void setProfile(Profile p){
-        if(p != null){
-            Log.d(TAG, "Profile added to LiveData");
-            profileLiveData.setValue(p);
-            houseIDRepo = p.HouseId;
-        } else
-            Log.d(TAG, "Profile = null, not added");
-    }
-    public void setLeaderboard(LeaderboardData l){
-        if(l != null){
-            Log.d(TAG, "Leaderboard added to LiveData");
-            leaderboardLiveData.setValue(l);
-        } else
-            Log.d(TAG, "Leaderboard = null, not added");
     }
 
     //Sends GET request for Profile
     public void fetchProfile(){
-
-        new FetchProfileAsync().execute(email);
-
+        FetchProfileAsync task = new FetchProfileAsync();
+        task.execute(email);
     }
     private class FetchProfileAsync extends AsyncTask<String, Void, Profile>{
 
@@ -137,25 +90,46 @@ public class TakRepository {
         protected Profile doInBackground(String... strings) {
            return client.getProfileByEmail(strings[0]);
         }
-
         @Override
         protected void onPostExecute(Profile profile) {
             profileLiveData.postValue(profile);
+            fetchLeaderboard();
         }
     }
 
     //Sends GET request for Leaderboard
     public void fetchLeaderboard(){
         if (houseIDRepo != null) {
-            client.getAllProfileByHouse(houseIDRepo);
+            FetchLeaderboardAsync task = new FetchLeaderboardAsync();
+            task.execute(houseIDRepo);
         }
     }
+    private class FetchLeaderboardAsync extends AsyncTask<UUID, Void, LinkedList<Profile>>{
+
+        @Override
+        protected LinkedList<Profile> doInBackground(UUID... uuids) {
+            return client.getAllProfileByHouse(uuids[0]);
+        }
+
+        @Override
+        protected void onPostExecute(LinkedList<Profile> profiles) {
+            LeaderboardData data = new LeaderboardData(profiles);
+            leaderboardLiveData.postValue(data);
+        }
+    }
+
+
+
+
+
+
+
     public void fetchAllTasks(){
         LinkedList<TaskData> list =
                 null;
         try {
             if (profileLiveData.equals(null))
-                list = client.fetchAllTasks(profileLiveData.getValue().HouseId);
+                list = client.fetchAllTasks(profileLiveData.getValue().houseId);
         } catch (IOException e) {
             e.printStackTrace();
         }

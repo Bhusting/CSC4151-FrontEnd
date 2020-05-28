@@ -102,7 +102,7 @@ public class TaskFragment extends Fragment {
 
         Profile p = new Profile(UUID.randomUUID(), "sam", "yeet", 10, UUID.randomUUID(), "swynnr@gmail.com");
 
-        applyData(new TaskData("Dishwasher", "running", Date.from(Instant.now()), p.HouseId));
+        applyData(new TaskData("Dishwasher", "running", Date.from(Instant.now()), p.houseId));
 
         FloatingActionButton fab = rootView.findViewById(R.id.myFABtask);
         fab.setOnClickListener(new View.OnClickListener() {

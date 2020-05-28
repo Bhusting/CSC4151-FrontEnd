@@ -84,8 +84,8 @@ public class ProfileFragment extends Fragment {
     public void refresh(){
         if (profile != null) {
             //houseTextView.setText(profile.HouseId.toString());
-            profileName.setText(profile.FirstName + " " + profile.LastName);
-            xpTextView.setText(String.valueOf(profile.XP));
+            profileName.setText(profile.firstName + " " + profile.lastName);
+            xpTextView.setText(String.valueOf(profile.xp));
         }
     }
     @Override
