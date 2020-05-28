@@ -92,9 +92,5 @@ public class CreateFragment extends Fragment {
 
         });
         return view;
-            }
-
-   
-
     }
-};
+}
