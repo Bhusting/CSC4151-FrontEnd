@@ -303,6 +303,12 @@ public class TakDao extends AppCompatActivity {
                 Profile profile = Profile.Deserialize(json);
                 return profile;
             }
+            if (response.code() == 204){
+                Log.d(TAG, "getProfileByEmail: Must Create Profile");
+                Profile profile = new Profile();
+                profile.firstName = "null";
+                return profile;
+            }
             else{
                 Log.d(TAG, "getProfileByEmail: GET error code: " + response.code() + " message: " + response.message());
                 return  null;

@@ -15,6 +15,7 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.example.tak_frontend.House;
 import com.example.tak_frontend.MainActivity;
 import com.example.tak_frontend.R;
 import com.example.tak_frontend.TakViewModel;
@@ -27,6 +28,7 @@ public class ProfileFragment extends Fragment {
 
     private static final String TAG = ".ProfileFragment";
     private Profile profile;
+    private House house;
     private TextView houseTextView;
     private TextView profileName;
     private TextView xpTextView;
@@ -47,10 +49,7 @@ public class ProfileFragment extends Fragment {
         fragment.setArguments(b);
         return fragment;
     }
-    @Override
-    public void onAttach(@NonNull Context context) {
-        super.onAttach(context);
-    }
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -60,7 +59,6 @@ public class ProfileFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        Log.d(TAG, "onCreateView: profile");
         View view = inflater.inflate(R.layout.fragment_profile, container, false);
         houseTextView = view.findViewById(R.id.houseString_Profile);
         profileName = view.findViewById(R.id.residentName_Profile);
@@ -82,8 +80,8 @@ public class ProfileFragment extends Fragment {
     }
 
     public void refresh(){
-        if (profile != null) {
-            //houseTextView.setText(profile.HouseId.toString());
+        if (profile != null && house != null) {
+            houseTextView.setText(house.houseName);
             profileName.setText(profile.firstName + " " + profile.lastName);
             xpTextView.setText(String.valueOf(profile.xp));
         }
@@ -102,6 +100,14 @@ public class ProfileFragment extends Fragment {
             public void onChanged(Profile obsProfile) {
                 Log.d(TAG, "Profile Data Changed");
                 profile = obsProfile;
+                refresh();
+            }
+        });
+        viewModel.getHouse().observe(getViewLifecycleOwner(), new Observer<House>() {
+            @Override
+            public void onChanged(House obsHouse) {
+                Log.d(TAG, "House Data Changed");
+                house = obsHouse;
                 refresh();
             }
         });

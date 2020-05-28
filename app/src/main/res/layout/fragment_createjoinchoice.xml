@@ -89,20 +89,12 @@
         app:layout_constraintStart_toStartOf="@+id/createjoin_guideline_50per"
         app:layout_constraintTop_toBottomOf="@+id/createHouseholdButton" />
 
-    <TextView
-        android:id="@+id/signinIdentifier"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/SigninString"
-        app:layout_constraintStart_toStartOf="@+id/createjoin_guideline_10per"
-        app:layout_constraintTop_toTopOf="@+id/createjoin_guideline_80perh" />
-
     <Button
-        android:id="@+id/altSignInButton"
+        android:id="@+id/backButton"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="Sign in as someone else"
+        android:text="Back"
         app:layout_constraintEnd_toStartOf="@+id/createjoin_guideline_50per"
         app:layout_constraintStart_toStartOf="@+id/createjoin_guideline_10per"
-        app:layout_constraintTop_toBottomOf="@+id/signinIdentifier" />
+        tools:layout_editor_absoluteY="604dp" />
 </androidx.constraintlayout.widget.ConstraintLayout>

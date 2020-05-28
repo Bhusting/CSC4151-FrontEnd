@@ -75,9 +75,12 @@ public class LeaderboardFragment extends Fragment {
 
     public void refresh(){
         //Refresh Layout Data
+        arrayList = new ArrayList<>();
         for(int i = 0; i < leaderboard.getSize(); i++){
             arrayList.add(new LeadboardListItem(leaderboard.getLeaderboard().get(i)));
         }
+        adapter.clear();
+        adapter.addAll(arrayList);
         adapter.notifyDataSetChanged();
     }
 
@@ -85,12 +88,10 @@ public class LeaderboardFragment extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-/*        b = getArguments();
+        b = getArguments();
         viewModel = new ViewModelProvider(getActivity(),
                 new TakViewModelFactory(getActivity().getApplication(), b))
                 .get(TakViewModel.class);
-
-        viewModel.fetchLeaderboard();
         viewModel.getLeaderboard().observe(getViewLifecycleOwner(), new Observer<LeaderboardData>() {
             @Override
             public void onChanged(LeaderboardData leaderboardData) {
@@ -98,11 +99,6 @@ public class LeaderboardFragment extends Fragment {
                 leaderboard = leaderboardData;
                 refresh();
             }
-        });*/
-    }
-
-    public void applyData(LeadboardListItem item){
-        arrayList.add(item);
-        adapter.notifyDataSetChanged();
+        });
     }
 };

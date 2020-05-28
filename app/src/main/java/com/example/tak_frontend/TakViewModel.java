@@ -23,55 +23,71 @@ public class TakViewModel extends AndroidViewModel {
 
     private TakRepository repository;
 
-
-
     public TakViewModel(@NonNull Application application, String tempAccess, String tempID) {
         super(application);
 
         repository = new TakRepository(application, tempAccess, tempID);
-        repository.fetchProfile();
     }
 
     //Fetches all data from server
     public void refresh() {
         repository.fetchAll();
     }
-    //GET for profile
-    public void fetchProfile(){ repository.fetchProfile(); }
-    //GET for leaderboard
-    public void fetchLeaderboard() { repository.fetchLeaderboard();
-    }
 
+
+
+    //-----------------------------------------House------------------------------------------------
+    public boolean createHouse(String name){
+        if(repository.hasHouse())
+            return false;
+        else {
+            repository.createHouse(name);
+            return true;
+        }
+    }
+    public void joinHouse(){
+        //TODO
+    }
+    public void fetchHouse(){
+        repository.getHouseById();
+    }
+    //-----------------------------------------Profile----------------------------------------------
     //POST changes Profile TODO
     public void update(Profile profile) {
 
     }
-
-    //Delete HTTP request, TODO
-    public void delete(Profile profile) { }
-
+    //GET for profile
+    public void fetchProfile(){ repository.fetchProfileByEmail(); }
+    //-----------------------------------------Task-------------------------------------------------
     public void fetchTasks(){repository.fetchAllTasks();}
-
-
-
     //Create new TaskDTO on backend
     public void newTaskDTO(TaskDTO dto){
         repository.newTaskDTO(dto);
     }
 
-    //Returns Profile LiveData
+    //-----------------------------------------Chore------------------------------------------------
+
+    //-----------------------------------------Leaderboard------------------------------------------
+    //GET for leaderboard
+    public void fetchLeaderboard() { repository.fetchLeaderboard();
+    }
+
+    //Delete HTTP request, TODO
+    public void delete(Profile profile) { }
+
+
+
+
+
+    //LiveData Getters
     public LiveData<Profile> getProfile(){
         return repository.getProfileLiveData();
         }
-    //Returns Leaderboard List LiveData
     public LiveData<LeaderboardData> getLeaderboard(){
         return repository.getLeaderboardData();
         }
-
     public LiveData<LinkedList<TaskData>> getTasks(){return repository.getTasks(); }
-
     public LiveData<House> getHouse(){return repository.getHouse();}
-
     public LiveData<LinkedList<TaskDTO>> getTaskDTO() { return repository.getTaskDTO(); }
 
 

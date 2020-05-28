@@ -11,6 +11,7 @@ import androidx.fragment.app.Fragment;
 
 import com.example.tak_frontend.MainActivity;
 import com.example.tak_frontend.R;
+import com.example.tak_frontend.profile.ProfileFragment;
 
 
 public class CreatejoinchoiceFragment extends Fragment {
@@ -18,7 +19,7 @@ public class CreatejoinchoiceFragment extends Fragment {
     private Bundle b;
     private Button createButton;
     private Button joinButton;
-    private Button altSigninButton; //If the user wants to be someone else
+    private Button backButton;
 
     public CreatejoinchoiceFragment() {
         // Required empty public constructor
@@ -48,39 +49,35 @@ public class CreatejoinchoiceFragment extends Fragment {
 
         createButton = (Button) view.findViewById(R.id.createHouseholdButton);
         joinButton = (Button) view.findViewById(R.id.joinHouseholdButton);
-        altSigninButton = (Button) view.findViewById(R.id.altSignInButton);
-        //TODO: Replace the "Mr. Whiskers" string with the user's actual name or email.
+        backButton = (Button) view.findViewById(R.id.backButton);
+
 
         createButton.setOnClickListener(new View.OnClickListener()
         {
             @Override public void onClick(View v)
             {
-                Log.i("createButton", "Create Button clicked");
+                Log.d("createButton", "Create Button clicked");
                 ((MainActivity) getActivity()).openFragment(CreateFragment.newInstance(b));
             }
-
         });
 
         joinButton.setOnClickListener(new View.OnClickListener()
         {
-            @Override public void onClick(View w)
+            @Override public void onClick(View v)
             {
-                Log.i("joinButton", "Join Button clicked");
+                Log.d("joinButton", "Join Button clicked");
                 ((MainActivity) getActivity()).openFragment(JoinFragment.newInstance(b));
             }
-
         });
 
-        altSigninButton.setOnClickListener(new View.OnClickListener()
+        backButton.setOnClickListener(new View.OnClickListener()
         {
             @Override public void onClick(View v)
             {
-                Log.i("altSigninButton", "altSignin Button clicked");
-                //TODO: Back out to Auth0 and get a NEW signin token. If none taken, don't sign out.
+                ((MainActivity) getActivity()).openFragment(ProfileFragment.newInstance(b));
             }
 
         });
-
         return view;
     }
 };
