@@ -7,30 +7,32 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 
+import com.example.tak_frontend.MainActivity;
 import com.example.tak_frontend.R;
+import com.example.tak_frontend.MVVM.TakViewModel;
+import com.example.tak_frontend.MVVM.TakViewModelFactory;
+
 
 
 public class JoinFragment extends Fragment {
 
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-
-    private String mParam1;
-    private String mParam2;
     private Button confirmJoinButton;
     private Button backToChoiceButton;
+    private Bundle b;
+
+    private TakViewModel viewModel;
+
 
     public JoinFragment() {
         // Required empty public constructor
     }
 
-    public static JoinFragment newInstance(String param1, String param2) {
+    public static JoinFragment newInstance(Bundle args) {
         JoinFragment fragment = new JoinFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
         fragment.setArguments(args);
         return fragment;
     }
@@ -39,17 +41,24 @@ public class JoinFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         getActivity().setTitle("joinhouse");
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
+
+    }
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        b = getArguments();
+        viewModel = new ViewModelProvider(getActivity(),
+                new TakViewModelFactory(getActivity().getApplication(), b))
+                .get(TakViewModel.class);
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_createjoinchoice, container, false);
+        View view = inflater.inflate(R.layout.fragment_joinhouse, container, false);
+
 
         backToChoiceButton = (Button) view.findViewById(R.id.backJoinButton);
         confirmJoinButton = (Button) view.findViewById(R.id.joinButton);
@@ -71,10 +80,12 @@ public class JoinFragment extends Fragment {
             @Override public void onClick(View w)
             {
                 Log.i("BackToChoice", "BacktoChoice Button clicked");
-                //TODO: Return to the choice fragment.
+
+                ((MainActivity) getActivity()).openFragment(CreatejoinchoiceFragment.newInstance(b));
             }
 
         });
-        return inflater.inflate(R.layout.fragment_joinhouse, container, false);
+        return view;
+
     }
 };

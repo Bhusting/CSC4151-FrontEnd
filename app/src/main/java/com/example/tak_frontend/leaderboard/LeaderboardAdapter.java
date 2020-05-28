@@ -21,20 +21,10 @@ import java.util.List;
 public class LeaderboardAdapter extends ArrayAdapter<LeadboardListItem> {
 
     private static final String TAG = "LeaderboardAdapter";
-    private final Context context;
-    private final ArrayList<LeadboardListItem> data;
-    private final int layoutResourceId;
-
-
 
     public LeaderboardAdapter(@NonNull Context context, int resource, ArrayList<LeadboardListItem> data) {
         super(context, resource, data);
-        this.context = context;
-        this.data = data;
-        this.layoutResourceId = resource;
     }
-
-
 
     @NonNull
     @Override
@@ -44,8 +34,8 @@ public class LeaderboardAdapter extends ArrayAdapter<LeadboardListItem> {
 
         LeadboardListItem listItem = new LeadboardListItem(name, xp);
 
-        LayoutInflater inflater = LayoutInflater.from(context);
-        convertView = inflater.inflate(layoutResourceId, parent, false);
+        LayoutInflater inflater = LayoutInflater.from(getContext());
+        convertView = inflater.inflate(R.layout.leaderboard_list_item, parent, false);
 
         TextView viewName = (TextView) convertView.findViewById(R.id.leaderboard_person);
         TextView viewXp = (TextView) convertView.findViewById(R.id.leaderboard_xp);

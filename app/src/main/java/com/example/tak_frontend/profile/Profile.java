@@ -1,56 +1,62 @@
 package com.example.tak_frontend.profile;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.lang.reflect.Type;
+import java.util.LinkedList;
 import java.util.UUID;
 public class Profile {
 
     private  static  final  String TAG = ".Profile";
 
-    public UUID ProfileId;
+    public UUID profileId;
 
-    public String FirstName;
+    public String firstName;
 
-    public String LastName;
+    public String lastName;
 
-    public int XP;
+    public int xp;
 
-    public UUID HouseId;
+    public UUID houseId;
 
-    public String Email;
+    public String email;
 
 
-
-    public Profile(@NotNull Profile profile){
-        ProfileId = profile.ProfileId;
-        FirstName = profile.FirstName;
-        LastName = profile.LastName;
-        this.XP = profile.XP;
-        HouseId = profile.HouseId;
-        Email = profile.Email;
+    public Profile(){
+        profileId   = null;
+        firstName   = null;
+        lastName    = null;
+        xp          = 0;
+        houseId     = null;
+        email       = null;
     }
 
     public Profile(UUID profileId, String firstName, String lastName, int XP, UUID houseId, String email) {
-        ProfileId = profileId;
-        FirstName = firstName;
-        LastName = lastName;
-        this.XP = XP;
-        HouseId = houseId;
-        Email = email;
+        this.profileId = profileId;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.xp = XP;
+        this.houseId = houseId;
+        this.email = email;
     }
 
-    public static Profile fromJson(JSONObject object) throws JSONException {
-        UUID profID = UUID.fromString(object.getString("profileId"));
-        String fnTemp = object.getString("firstName");
-        String lnTemp = object.getString("lastName");
-        int xp = object.getInt("xp");
-        UUID houseID = UUID.fromString(object.getString("houseId"));
-        houseID = UUID.fromString(object.getString("houseId"));
-        String emailTemp = object.getString("email");
-        Profile profile = new Profile(profID, fnTemp, lnTemp, xp, houseID, emailTemp);
-        return profile;
+    public static final Profile Deserialize(String json){
+        Gson gson = new Gson();
+        return  gson.fromJson(json, Profile.class);
     }
+
+    public static final LinkedList<Profile> DeserializeList(String json){
+        Type listType = new TypeToken<LinkedList<Profile>>() {}.getType();
+        Gson gson = new Gson();
+        LinkedList<Profile> list = gson.fromJson(json, listType);
+
+        return list;
+    }
+
 }

@@ -9,20 +9,20 @@ import android.widget.Button;
 
 import androidx.fragment.app.Fragment;
 
+
+import com.example.tak_frontend.MainActivity;
 import com.example.tak_frontend.R;
+import com.example.tak_frontend.profile.ProfileFragment;
+
 
 
 public class CreatejoinchoiceFragment extends Fragment {
 
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
 
-    private String mParam1;
-    private String mParam2;
-
+    private Bundle b;
     private Button createButton;
     private Button joinButton;
-    private Button altSigninButton; //If the user wants to be someone else
+    private Button backButton;
 
     public CreatejoinchoiceFragment() {
         // Required empty public constructor
@@ -30,12 +30,9 @@ public class CreatejoinchoiceFragment extends Fragment {
 
 
 
-    public static CreatejoinchoiceFragment newInstance(String param1, String param2) {
+    public static CreatejoinchoiceFragment newInstance(Bundle b) {
         CreatejoinchoiceFragment fragment = new CreatejoinchoiceFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
+        fragment.setArguments(b);
         return fragment;
     }
 
@@ -43,11 +40,9 @@ public class CreatejoinchoiceFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        b = getArguments();
         getActivity().setTitle("Createjoinchoice");
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
     }
 
     @Override
@@ -58,39 +53,38 @@ public class CreatejoinchoiceFragment extends Fragment {
 
         createButton = (Button) view.findViewById(R.id.createHouseholdButton);
         joinButton = (Button) view.findViewById(R.id.joinHouseholdButton);
-        altSigninButton = (Button) view.findViewById(R.id.altSignInButton);
-        //TODO: Replace the "Mr. Whiskers" string with the user's actual name or email.
+
+        backButton = (Button) view.findViewById(R.id.backButton);
+
 
         createButton.setOnClickListener(new View.OnClickListener()
         {
             @Override public void onClick(View v)
             {
-                Log.i("createButton", "Create Button clicked");
-                //TODO: Call the create house fragment.
+                Log.d("createButton", "Create Button clicked");
+                ((MainActivity) getActivity()).openFragment(CreateFragment.newInstance(b));
             }
 
         });
 
         joinButton.setOnClickListener(new View.OnClickListener()
         {
-            @Override public void onClick(View w)
-            {
-                Log.i("joinButton", "Join Button clicked");
-                //TODO: Call the join house fragment.
-            }
 
+            @Override public void onClick(View v)
+            {
+                Log.d("joinButton", "Join Button clicked");
+                ((MainActivity) getActivity()).openFragment(JoinFragment.newInstance(b));
+            }
         });
 
-        altSigninButton.setOnClickListener(new View.OnClickListener()
+        backButton.setOnClickListener(new View.OnClickListener()
         {
             @Override public void onClick(View v)
             {
-                Log.i("altSigninButton", "altSignin Button clicked");
-                //TODO: Back out to Auth0 and get a NEW signin token. If none taken, don't sign out.
+                ((MainActivity) getActivity()).openFragment(ProfileFragment.newInstance(b));
             }
 
         });
-
         return view;
     }
 };

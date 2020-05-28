@@ -6,31 +6,39 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.TextView;
+import android.widget.Toast;
 
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 
+import com.example.tak_frontend.MainActivity;
 import com.example.tak_frontend.R;
+import com.example.tak_frontend.MVVM.TakViewModel;
+import com.example.tak_frontend.MVVM.TakViewModelFactory;
+
 
 
 public class CreateFragment extends Fragment {
 
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
 
-    private String mParam1;
-    private String mParam2;
+    private static final String TAG = ".CreateFragment";
+    private Bundle b;
     private Button confirmHouseButton;
     private Button backToChoiceButton;
+    private TextView houseName;
+
+    private TakViewModel viewModel;
+
 
     public CreateFragment() {
         // Required empty public constructor
     }
 
-    public static CreateFragment newInstance(String param1, String param2) {
+    public static CreateFragment newInstance(Bundle args) {
         CreateFragment fragment = new CreateFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
+
         fragment.setArguments(args);
         return fragment;
     }
@@ -39,10 +47,15 @@ public class CreateFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         getActivity().setTitle("createhouse");
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
+    }
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        b = getArguments();
+        viewModel = new ViewModelProvider(getActivity(),
+                new TakViewModelFactory(getActivity().getApplication(), b))
+                .get(TakViewModel.class);
     }
 
     @Override
@@ -53,27 +66,35 @@ public class CreateFragment extends Fragment {
 
         confirmHouseButton = (Button) view.findViewById(R.id.acceptCreateButton);
         backToChoiceButton = (Button) view.findViewById(R.id.backCreateButton);
+        houseName = view.findViewById(R.id.editTextCreateHouse);
+
 
         confirmHouseButton.setOnClickListener(new View.OnClickListener()
         {
             @Override public void onClick(View v)
             {
-                Log.i("confirmHouseButton", "Confirm House Name clicked");
-                /*TODO: Bundle up the "editTextCreateHouse" string and send it to the backend.
-                Along with all the other information it'll need to make a new house for this user.*/
+                Log.d("confirmHouseButton", "Confirm House Name clicked");
+                if (viewModel.createHouse(houseName.getText().toString()))
+                    ((MainActivity) getActivity()).openFragment(CreatejoinchoiceFragment.newInstance(b));
+                else {
+                    Toast toast = Toast.makeText(getContext(), "You already have a house", Toast.LENGTH_SHORT);
+                    toast.show();
+                }
             }
-
         });
-
         backToChoiceButton.setOnClickListener(new View.OnClickListener()
         {
-            @Override public void onClick(View w)
+            @Override public void onClick(View v)
             {
-                Log.i("joinButton", "Back to Choice Button clicked");
-                //TODO: Call the Create/Join Choice fragment (that is, return to previous screen.)
+                Log.d(TAG, "onClick: ");
+                ((MainActivity) getActivity()).openFragment(CreatejoinchoiceFragment.newInstance(b));
             }
 
         });
-        return inflater.inflate(R.layout.fragment_createhouse, container, false);
+        return view;
+            }
+
+   
+
     }
 };

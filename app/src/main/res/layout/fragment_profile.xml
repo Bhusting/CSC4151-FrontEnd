@@ -129,9 +129,20 @@
         android:id="@+id/leaveButton_Profile"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="100dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="32dp"
         android:text="Leave House"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="@+id/profile_guideline_10per" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/infobarGuideline_Profile" />
+
+    <Button
+        android:id="@+id/houseCreateJoinButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:layout_marginEnd="32dp"
+        android:text="House?"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/infobarGuideline_Profile" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

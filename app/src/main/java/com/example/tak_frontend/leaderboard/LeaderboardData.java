@@ -24,6 +24,10 @@ public class LeaderboardData
         leaderboard = new LinkedList<Profile>();
     }
 
+    public LeaderboardData(LinkedList<Profile> profiles){
+        leaderboard = profiles;
+    }
+
     public LinkedList<Profile> getLeaderboard() {
         return leaderboard;
     }
@@ -41,7 +45,7 @@ public class LeaderboardData
         Profile p;
 
         for(int i = 0; i < array.length(); i++){
-            leaderboardData.addProfile( Profile.fromJson(array.getJSONObject(i)));
+         //   leaderboardData.addProfile( Profile.fromJson(array.getJSONObject(i)));
         }
 
         return leaderboardData;

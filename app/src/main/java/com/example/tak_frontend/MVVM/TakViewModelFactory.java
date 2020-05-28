@@ -1,4 +1,4 @@
-package com.example.tak_frontend;
+package com.example.tak_frontend.MVVM;
 
 import android.app.Application;
 import android.os.Bundle;
@@ -6,8 +6,6 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.lifecycle.ViewModelStore;
-import androidx.lifecycle.ViewModelStoreOwner;
 
 public class TakViewModelFactory implements ViewModelProvider.Factory {
     private Application application;

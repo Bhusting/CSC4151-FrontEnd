@@ -11,25 +11,27 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.tak_frontend.MainActivity;
 import com.example.tak_frontend.R;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.LinkedList;
 
 
-public class ChoreFragment extends Fragment implements ChoreModal.ChoreModalListener {
+public class ChoreFragment extends Fragment  {
 
 
     private LinkedList<ChoreData> choreList = new LinkedList<>();
     private RecyclerView recyclerView;
     private RecyclerViewAdapter adapter;
+    private Bundle b;
 
 
     public ChoreFragment() {
         // Required empty public constructor
     }
 
-    public static ChoreFragment newInstance() {
+    public static ChoreFragment newInstance(Bundle b) {
         ChoreFragment fragment = new ChoreFragment();
         Bundle args = new Bundle();
         fragment.setArguments(args);
@@ -40,6 +42,7 @@ public class ChoreFragment extends Fragment implements ChoreModal.ChoreModalList
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         getActivity().setTitle("Chore");
+        b = getArguments();
     }
 
     @Override
@@ -62,7 +65,7 @@ public class ChoreFragment extends Fragment implements ChoreModal.ChoreModalList
             @Override
             public void onClick(View v) {
                 Log.d(".ChoreFragment", "fab Clicked");
-                showEditDialog();
+                ((MainActivity) getActivity()).openFragment(ChoreModal.newInstance(b));
             }
         });
 
@@ -72,16 +75,6 @@ public class ChoreFragment extends Fragment implements ChoreModal.ChoreModalList
         return rootView;
     }
 
-    private void showEditDialog(){
-        ChoreModal modal = new ChoreModal();
-        modal.show(getParentFragmentManager(), "chore modal");
-        modal.setTargetFragment(ChoreFragment.this, 1);
-    }
-
-/*    ChoreModal.ChoreModalListener modalListener(){
-        return false;
-    };*/
-    @Override
     public void applyData(ChoreData data) {
             choreList.add(data);
             adapter.notifyDataSetChanged();
