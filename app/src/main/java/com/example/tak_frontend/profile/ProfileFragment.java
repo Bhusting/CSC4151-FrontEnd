@@ -32,6 +32,7 @@ public class ProfileFragment extends Fragment {
     private TextView xpTextView;
     private Button leaveHouse;
     private Button createJoinHouse;
+    private Button deleteProfile;
     private Bundle b;
 
     private TakViewModel  viewModel;
@@ -63,10 +64,11 @@ public class ProfileFragment extends Fragment {
         xpTextView = view.findViewById(R.id.xpValueString_Profile);
         leaveHouse = view.findViewById(R.id.leaveButton_Profile);
         createJoinHouse = view.findViewById(R.id.houseCreateJoinButton);
+        deleteProfile = view.findViewById(R.id.deleteProfileButton);
 
         //Button Clicked!
         leaveHouse.setOnClickListener(v -> {
-
+            viewModel.updateHouse();
         });
 
         //Button Clicked!
@@ -74,6 +76,10 @@ public class ProfileFragment extends Fragment {
             ((MainActivity) getActivity()).openFragment(CreatejoinchoiceFragment.newInstance(b));
         });
 
+        //Button Clicked!
+        deleteProfile.setOnClickListener(v -> {
+            viewModel.deleteProfile();
+        });
         return view;
     }
 

@@ -12,6 +12,7 @@ import com.example.tak_frontend.profile.Profile;
 import com.example.tak_frontend.task.TaskDTO;
 import com.example.tak_frontend.task.TaskData;
 import java.util.LinkedList;
+import java.util.UUID;
 
 
 public class TakViewModel extends AndroidViewModel {
@@ -40,25 +41,28 @@ public class TakViewModel extends AndroidViewModel {
             return true;
         }
     }
-    public void joinHouse(){
-        //TODO
+    public void joinHouse(UUID uuid){
+        repository.updateHouse(uuid);
     }
     public void fetchHouse(){
         repository.getHouseById();
     }
+
     //-----------------------------------------Profile----------------------------------------------
     //POST changes Profile TODO
-    public void update(Profile profile) {
-
-    }
+    public void update(Profile profile) { }
     //GET for profile
     public void fetchProfile(){ repository.fetchProfileByEmail(); }
+    //POST delete Profile
+    public void deleteProfile(){ repository.deleteProfile();    repository.clear(); }
+    //POST reset houseId
+    public void updateHouse(){ repository.resetHouse(); }
+    //
+
     //-----------------------------------------Task-------------------------------------------------
     public void fetchTasks(){repository.fetchAllTasks();}
     //Create new TaskDTO on backend
-    public void newTaskDTO(TaskDTO dto){
-        repository.newTaskDTO(dto);
-    }
+
 
     //-----------------------------------------Chore------------------------------------------------
 
@@ -66,13 +70,6 @@ public class TakViewModel extends AndroidViewModel {
     //GET for leaderboard
     public void fetchLeaderboard() { repository.fetchLeaderboard();
     }
-
-    //Delete HTTP request, TODO
-    public void delete(Profile profile) { }
-
-
-
-
 
     //LiveData Getters
     public LiveData<Profile> getProfile(){
@@ -83,8 +80,5 @@ public class TakViewModel extends AndroidViewModel {
         }
     public LiveData<LinkedList<TaskData>> getTasks(){return repository.getTasks(); }
     public LiveData<House> getHouse(){return repository.getHouse();}
-    public LiveData<LinkedList<TaskDTO>> getTaskDTO() { return repository.getTaskDTO(); }
-
-
 }
 

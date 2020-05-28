@@ -72,13 +72,13 @@ public class TaskFragment extends Fragment {
                 adapter.setTasks(TaskList);
             }
         });
-        viewModel.getTaskDTO().observe(getViewLifecycleOwner(), new Observer<LinkedList<TaskDTO>>() {
+/*        viewModel.getTaskDTO().observe(getViewLifecycleOwner(), new Observer<LinkedList<TaskDTO>>() {
             @Override
             public void onChanged(LinkedList<TaskDTO> taskDTO) {
                 Log.d(TAG, "Task DTO Changed");
                 TaskListDTO = taskDTO;
             }
-        });
+        });*/
         viewModel.fetchTasks();
 
     }
@@ -97,12 +97,6 @@ public class TaskFragment extends Fragment {
         adapter = new TaskRecyclerViewAdapter(this.getContext(), TaskList);
         recyclerView.setAdapter(adapter);
 
-
-
-        Profile p = new Profile(UUID.randomUUID(), "sam", "yeet", 10, UUID.randomUUID(), "swynnr@gmail.com");
-
-        applyData(new TaskData("Dishwasher", "running", Date.from(Instant.now()), p.houseId));
-
         FloatingActionButton fab = rootView.findViewById(R.id.myFABtask);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -110,14 +104,7 @@ public class TaskFragment extends Fragment {
                 ((MainActivity) getActivity()).openFragment(TaskModal.newInstance(b));
             }
         });
-
-
         //Inflates View
         return rootView;
-    }
-
-    public void applyData(TaskData data) {
-        TaskList.add(data);
-        adapter.notifyDataSetChanged();
     }
 };

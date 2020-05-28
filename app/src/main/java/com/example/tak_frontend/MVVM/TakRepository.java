@@ -3,7 +3,6 @@ package com.example.tak_frontend.MVVM;
 import android.app.Application;
 import android.os.AsyncTask;
 import android.util.Log;
-import android.widget.Toast;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
@@ -40,7 +39,6 @@ public class TakRepository {
     private MutableLiveData<LinkedList<TaskData>> allTasks = new MutableLiveData<>();
     private MutableLiveData<LeaderboardData> leaderboardLiveData = new MutableLiveData<>();
     private MutableLiveData<House> houseLiveData = new MutableLiveData<>();
-    private MutableLiveData<LinkedList<TaskDTO>> allTaskDTO = new MutableLiveData<>();
 
 
 
@@ -58,7 +56,7 @@ public class TakRepository {
     public TakRepository(Application application, String tempAccess, String tempID) {
         accessToken = tempAccess;
         idToken = tempID;
-        allTaskDTO.setValue(new LinkedList<TaskDTO>());
+
         allTasks.setValue(new LinkedList<TaskData>());
         allChores.setValue(new LinkedList<ChoreData>());
         this.application = application;
@@ -81,11 +79,21 @@ public class TakRepository {
         fetchAllTasks();
     }
 
+    //Resets all Data
+    public void clear(){
+        allChores = new MutableLiveData<>();
+        profileLiveData = new MutableLiveData<>();
+        allTasks = new MutableLiveData<>();
+        leaderboardLiveData = new MutableLiveData<>();
+        houseLiveData = new MutableLiveData<>();
+
+    }
+
     //----------------------------------------Profile-----------------------------------------------
 
     //Checks if Profile has House
     public boolean hasHouse(){
-        if (profileLiveData.getValue().houseId == null)
+        if (profileLiveData.getValue().houseId.toString() != "00000000-0000-0000-0000-000000000000")
             return false;
         else
             return true;
@@ -114,9 +122,9 @@ public class TakRepository {
                 getHouseByProfileId();
             } if (valueHolder.getCode() == 204){
                 createProfile();
-            } else
+            } else{
                 Log.d(TAG, "onPostExecute: Something went very wrong. . .");
-
+            }
         }
     }
 
@@ -142,7 +150,6 @@ public class TakRepository {
         CreateProfileAsync task = new CreateProfileAsync();
         task.execute(fName, lName, email);
     }
-
     private class CreateProfileAsync extends AsyncTask<String, Void, UUID>{
         @Override
         protected UUID doInBackground(String... strings) {
@@ -151,7 +158,74 @@ public class TakRepository {
 
         @Override
         protected void onPostExecute(UUID uuid) {
-            houseIDRepo = uuid;
+            profileIDRepo = uuid;
+            fetchProfileByEmail();
+        }
+    }
+
+    //Sends POST request to delete profile
+    public void deleteProfile(){
+        DeleteProfileAsync task = new DeleteProfileAsync();
+        task.execute(profileIDRepo);
+
+    }
+    private class DeleteProfileAsync extends AsyncTask<UUID, Void, Void> {
+        @Override
+        protected Void doInBackground(UUID... uuids) {
+            client.deleteProfile(uuids[0]);
+            return null;
+        }
+    }
+
+    //Sends POST request to reset houseId
+    public void resetHouse(){
+        ResetHouseAsync task = new ResetHouseAsync();
+        task.execute();
+    }
+
+    private class ResetHouseAsync extends AsyncTask<Void, Void, Void>{
+        @Override
+        protected Void doInBackground(Void... voids) {
+            UUID uuid = UUID.fromString("00000000-0000-0000-0000-000000000000");
+            client.updateHouseId(profileIDRepo, uuid);
+            return null;
+        }
+    }
+
+    //Sends POST request to update houseId
+    public void updateHouse(UUID uuid){
+        UpdateHouseAsync task = new UpdateHouseAsync();
+        task.execute(uuid);
+    }
+
+    private class UpdateHouseAsync extends AsyncTask<UUID, Void, Void>{
+        @Override
+        protected Void doInBackground(UUID... uuids) {
+            client.updateHouseId(profileIDRepo, uuids[0]);
+            return null;
+        }
+    }
+
+/*    //Sends
+    public boolean joinHouse(UUID uuid){
+        JoinHouse task = new JoinHouse();
+        task.execute(uuid);
+    }*/
+
+    private class JoinHouse extends AsyncTask<UUID, Boolean, Boolean>{
+        @Override
+        protected Boolean doInBackground(UUID... uuids) {
+            House house = client.getHouseById(uuids[0]);
+            if (house == null){
+                return false;
+            } else {
+                return true;
+            }
+        }
+
+        @Override
+        protected void onPostExecute(Boolean aBoolean) {
+            super.onPostExecute(aBoolean);
         }
     }
 
@@ -171,7 +245,6 @@ public class TakRepository {
         @Override
         protected void onPostExecute(LinkedList<Profile> profiles) {
             LeaderboardData data = new LeaderboardData(profiles);
-            leaderboardLiveData.postValue(data);
         }
     }
     //-----------------------------------------House------------------------------------------------
@@ -183,7 +256,7 @@ public class TakRepository {
     private class FetchHouseByIdAsync extends AsyncTask<UUID, Void, House>{
         @Override
         protected House doInBackground(UUID... uuids) {
-            return client.getHouseById(houseIDRepo);
+            return client.getHouseById(uuids[0]);
         }
 
         @Override
@@ -213,21 +286,30 @@ public class TakRepository {
 
     //Sends POST request to make a New House
     public void createHouse(String name){
-
+        CreateHouseAsync task = new CreateHouseAsync();
+        task.execute(name);
     }
-    private class CreateHouseAsync extends AsyncTask<String, Void, UUID>{
+    private class CreateHouseAsync extends AsyncTask<String, Void, ValueHolder>{
         @Override
-        protected UUID doInBackground(String... strings) {
+        protected ValueHolder doInBackground(String... strings) {
             return client.createHouse(strings[0]);
         }
 
         @Override
-        protected void onPostExecute(UUID uuid) {
-            houseIDRepo = uuid;
-            fetchProfileById();
-            Toast toast = Toast.makeText(application.getApplicationContext(), "House Created", Toast.LENGTH_SHORT);
+        protected void onPostExecute(ValueHolder holder) {
+            if (holder.getCode() == 202) {
+                Log.d(TAG, "onPostExecute: House Created code: " + holder.getCode() + " uuid: " + ((UUID) holder.getObject()).toString());
+                houseIDRepo = (UUID) holder.getObject();
+                updateHouse(houseIDRepo);
+                getHouseById();
+            } else {
+                Log.d(TAG, "onPostExecute: error code: " + holder.getCode());
+            }
+
         }
     }
+
+
 
     //Deletes a House
     public void deleteHouse(){
@@ -255,20 +337,13 @@ public class TakRepository {
 
 }
     //TODO sent POST request for new TaskDTO
-    public void newTaskDTO(TaskDTO dto){
-        LinkedList<TaskDTO> tempDTO = new LinkedList<>();
-        tempDTO = allTaskDTO.getValue();
-        tempDTO.addLast(dto);
-        allTaskDTO.setValue(tempDTO);
-        //Stuff
-
+    public void newTask(TaskDTO dto){
         //Get return from TakDao, add new task to tasklist
         //Need to be async, will update data
 /*        LinkedList<TaskData> tempTask = new LinkedList<>();
         tempTask = allTasks.getValue();
         tempTask.addLast();
         allTasks.setValue(tempTask);*/
-
     }
 
 
@@ -290,16 +365,7 @@ public class TakRepository {
 
     public LiveData<LinkedList<TaskData>> getTasks() { return allTasks; }
 
-    public LiveData<House> getHouse()  {
+    public LiveData<House> getHouse()  { return houseLiveData; }
 
-       // House temp = new House();
-        //temp.HouseID = profileLiveData.getValue().HouseId;
-        //house.postValue(temp);
-        return houseLiveData;
-    }
-
-    public LiveData<LinkedList<TaskDTO>> getTaskDTO(){
-        return allTaskDTO;
-    }
 
 }

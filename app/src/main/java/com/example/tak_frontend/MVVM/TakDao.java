@@ -1,6 +1,7 @@
 package com.example.tak_frontend.MVVM;
 
 import android.util.Log;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -156,32 +157,33 @@ public class TakDao extends AppCompatActivity {
 
     //Create a New House
     //Returns new houseId
-    public UUID createHouse(String houseName){
+    public ValueHolder createHouse(String houseName){
         String url = BASE_URL + "House/" + houseName;
         Log.d(TAG, "createHouse: url: " + url);
 
+        RequestBody requestBody = RequestBody.create(new byte[0], null);
         Request request = new Request.Builder()
                 .addHeader("Authorization", "Bearer " + accessToken)
                 .url(url)
-                .get()
+                .post(requestBody)
                 .build();
         Log.d(TAG, "createHouse: Request Built" + request.toString());
 
         try{
-            Log.d(TAG, "createHouse: GET Executing");
+            Log.d(TAG, "createHouse: POST Executing");
             Response response = client.newCall(request).execute();
-            Log.d(TAG, "createHouse: GET code: " + response.code());
+            Log.d(TAG, "createHouse: POST code: " + response.code());
             String json = response.body().string();
-            if (response.code() == 200){
+            if (response.code() == 202){
                 Log.d(TAG, "createHouse: body: " + json);
                 Gson gson = new Gson();
                 UUID uuid = gson.fromJson(json, UUID.class);
-                return uuid;
+                return new ValueHolder(response.code(), uuid);
             }
             else{
-                Log.d(TAG, "createHouse: GET error code: " + response.code() + " message: "
+                Log.d(TAG, "createHouse: POST error code: " + response.code() + " message: "
                         + response.message());
-                return  null;
+                return  new ValueHolder(response.code(), null);
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -368,7 +370,7 @@ public class TakDao extends AppCompatActivity {
             Log.d(TAG, "createProfile: POST code:" + response.code());
             String json = response.body().string();
 
-            if (response.code() == 200){
+            if (response.code() == 202){
                 Log.d(TAG, "createProfile: body: " + json);
                 Gson gson = new Gson();
                 return gson.fromJson(json, UUID.class);
@@ -390,9 +392,11 @@ public class TakDao extends AppCompatActivity {
         String url = BASE_URL + "Profile/" + profileId.toString() + "/House/" + houseId.toString();
         Log.d(TAG, "updateHouseId: url: " + url);
 
+        RequestBody requestBody = RequestBody.create(new byte[0], null);
         Request request = new Request.Builder()
                 .addHeader("Authorization", "Bearer " + accessToken)
                 .url(url)
+                .post(requestBody)
                 .build();
 
         Log.d(TAG, "updateHouseId: Request Built: " + request.toString());
@@ -400,8 +404,8 @@ public class TakDao extends AppCompatActivity {
             Log.d(TAG, "updateHouseId: POST Executing");
             Response response = client.newCall(request).execute();
             Log.d(TAG, "updateHouseId: POST code:" + response.code());
-            if (response.code() == 200){
-                Log.d(TAG, "updateHouseId: 200: " + response.message());
+            if (response.code() == 202){
+                Log.d(TAG, "updateHouseId: 202: " + response.message());
             }
             else{
                 Log.d(TAG, "updateHouseId: POST error code: " + response.code() + " message: " + response.message());
@@ -458,8 +462,8 @@ public class TakDao extends AppCompatActivity {
             Log.d(TAG, "deleteProfile: POST Executing");
             Response response = client.newCall(request).execute();
             Log.d(TAG, "deleteProfile: POST code:" + response.code());
-            if (response.code() == 200){
-                Log.d(TAG, "deleteProfile: 200: " + response.message());
+            if (response.code() == 202){
+                Log.d(TAG, "deleteProfile: 202: " + response.message());
             }
             else{
                 Log.d(TAG, "deleteProfile: POST error code: " + response.code() + " message: " + response.message());
@@ -471,234 +475,5 @@ public class TakDao extends AppCompatActivity {
     }
 
     //----Chore API Stuff----
-
-    //Old code below, Don't Touch Please
-/*
-    public void convert(Object obj, JsonConverter type) throws JSONException {
-
-        try {
-            switch (type){
-
-                case GETProfile:
-                    JSONObject response = (JSONObject) obj;
-                    repository.setProfile(Profile.fromJson(response));
-                    break;
-                case GETLeaderboard:
-                    JSONArray responseArray = (JSONArray) obj;
-                    Log.d(TAG, type.toString() + ':' + responseArray.toString());
-                    repository.setLeaderboard(LeaderboardData.fromJson(responseArray));
-                    break;
-                default:
-            }
-        } catch (JSONException | IOException e ) {
-            e.printStackTrace();
-            Log.d(TAG, type.toString() + ", convert JSONexception");
-        }
-
-
-    }
-
-
-    public void httpGETProfile(String URL, @NotNull JsonConverter type, String email) throws IOException {
-        //Build HTTP Request
-        Request request = new Request.Builder()
-                .addHeader("Authorization", "Bearer " + accessToken)
-                .addHeader("Email", email)
-                .url(URL)
-                .get()
-                .build();
-        Log.d(TAG, type.toString() + ", GET Request Built.");
-        //Enqueue Request
-        try {
-            Log.d(TAG, type.toString() + ", GET Enqueueing!");
-            client.newCall(request).enqueue(
-                    new Callback() {
-                        @Override
-                        public void onFailure(@NotNull Call call, @NotNull IOException e) {
-                            Log.d(TAG, type.toString() + ", GET Call Failed: " + e.getCause());
-                            e.printStackTrace();
-                        }
-
-                        @Override
-                        public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
-                            Log.d(TAG, type.toString() + ", GET Response code: " + response.code());
-                            final String myResponse = response.body().string();
-                            runOnUiThread(new Runnable() {
-                                @Override
-                                public void run() {
-
-                                    if (response.code() == 200) { //code = 200
-                                        try {
-                                            if(type == JsonConverter.GETProfile){
-                                                responseJSON = new JSONObject(myResponse);
-                                                convert(responseJSON, type);
-                                            }if(type == JsonConverter.GETLeaderboard){
-                                                responseJSONArray = new JSONArray(myResponse);
-                                                convert(responseJSONArray, type);
-                                            }
-
-
-                                        } catch (JSONException e) {
-                                            e.printStackTrace();
-                                            Log.d(TAG, type.toString() + ", GET JSONException: " + e.getCause());
-                                        }
-                                    } else {
-                                        if (response.code() == 204){
-                                            try {
-                                                repository.createProfile();
-                                            } catch (IOException e) {
-                                                e.printStackTrace();
-                                            }
-                                        }
-                                        Log.d(TAG, type.toString() + ", GET Bad HTTP response: " + response.message());
-                                        try {
-                                            responseJSON = new JSONObject(myResponse);
-                                        } catch (JSONException e) {
-                                            e.printStackTrace();
-                                            Log.d(TAG, type.toString() + ", GET JSONException: " + e.getCause());
-                                        }
-                                    }
-                                }
-                            });
-                        }
-                    });
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-    public void httpGET(String URL, @NotNull JsonConverter type) throws IOException {
-       //HTTP Response stored here
-       responseJSON = new JSONObject();
-       responseJSONArray = new JSONArray();
-       responseJSON = null;
-       responseJSONArray = null;
-       //Build HTTP Request
-       Request request = new Request.Builder()
-               .addHeader("Authorization", "Bearer " + accessToken)
-               .url(URL)
-               .get()
-               .build();
-       Log.d(TAG, type.toString() + ", GET Request Built.");
-       //Enqueue Request
-       try {
-           Log.d(TAG, type.toString() + ", GET Enqueueing!");
-           client.newCall(request).enqueue(
-                   new Callback() {
-                       @Override
-                       public void onFailure(@NotNull Call call, @NotNull IOException e) {
-                           Log.d(TAG, type.toString() + ", GET Call Failed: " + e.getCause());
-                           e.printStackTrace();
-                       }
-
-                       @Override
-                       public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
-                           Log.d(TAG, type.toString() + ", GET Response code: " + response.code());
-                           final String myResponse = response.body().string();
-                           runOnUiThread(new Runnable() {
-                               @Override
-                               public void run() {
-
-                                   if (response.code() == 200) { //code = 200
-                                       try {
-                                           if(type == JsonConverter.GETProfile){
-                                               responseJSON = new JSONObject(myResponse);
-                                               convert(responseJSON, type);
-                                           }if(type == JsonConverter.GETLeaderboard){
-                                               responseJSONArray = new JSONArray(myResponse);
-                                               convert(responseJSONArray, type);
-                                           }
-
-
-                                       } catch (JSONException e) {
-                                           e.printStackTrace();
-                                           Log.d(TAG, type.toString() + ", GET JSONException: " + e.getCause());
-                                       }
-                                   } else {
-                                       if (response.code() == 204){
-                                           try {
-                                               repository.createProfile();
-                                           } catch (IOException e) {
-                                               e.printStackTrace();
-                                           }
-                                       }
-                                       Log.d(TAG, type.toString() + ", GET Bad HTTP response: " + response.message());
-                                       try {
-                                           responseJSON = new JSONObject(myResponse);
-                                       } catch (JSONException e) {
-                                           e.printStackTrace();
-                                           Log.d(TAG, type.toString() + ", GET JSONException: " + e.getCause());
-                                       }
-                                   }
-                               }
-                           });
-                       }
-                   });
-       } catch (Exception e) {
-           e.printStackTrace();
-       }
-    }
-
-
-    public void httpPOST(String url, String json) throws IOException {
-       Log.d(TAG, "POST url: " + url);
-       Log.d(TAG, "POST json: " + json);
-
-       RequestBody body = RequestBody.create(json, JSON);
-
-       Request request = new Request.Builder()
-               .addHeader("Authorization", "Bearer " + accessToken)
-               .url(url)
-               .post(body)
-               .build();
-       Log.d(TAG,"POST Request Built.");
-
-       try {
-           Log.d(TAG, "POST Enqueueing!");
-           client.newCall(request).enqueue(new Callback() {
-               @Override
-               public void onFailure(@NotNull Call call, @NotNull IOException e) {
-                   Log.d(TAG, "POST Call Failed: " + e.getCause());
-                   e.printStackTrace();
-               }
-
-               @Override
-               public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
-                   Log.d(TAG, "POST Response code: " + response.code());
-                   String myResponse = response.body().string();
-                   if (response.code() == 200) { //code = 200
-                       repository.fetchProfile();
-                       getParent().runOnUiThread(new Runnable() {
-                           @Override
-                           public void run() {
-                               try {
-                                   responseJSON = new JSONObject(myResponse);
-                               } catch (JSONException e){
-                                   e.printStackTrace();
-                                   Log.d(TAG, "POST JSONException: " + e.getCause());
-                               }
-                           }
-                       });
-                   }
-                   else {
-                       Log.d(TAG, "POST Bad HTTP response: " + response.message());
-                       try {
-                           responseJSON = new JSONObject(myResponse);
-                       } catch (JSONException e) {
-                           e.printStackTrace();
-                           Log.d(TAG, "POST JSONException: " + e.getCause());
-                       }
-                   }
-               }
-           });
-       }catch (Exception e){
-           e.printStackTrace();
-       }
-
-    }
-*/
-
-
-
 
 }
