@@ -3,31 +3,19 @@ package com.example.tak_frontend;
 import android.util.Log;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.tak_frontend.leaderboard.LeaderboardData;
+import com.example.tak_frontend.chore.ChoreData;
 import com.example.tak_frontend.profile.Profile;
 import com.example.tak_frontend.task.TaskDTO;
 import com.example.tak_frontend.task.TaskData;
 import com.google.gson.Gson;
-import com.google.gson.JsonArray;
-import com.google.gson.JsonParser;
-import com.google.gson.stream.JsonReader;
 
-import org.jetbrains.annotations.NotNull;
-import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
-import java.lang.reflect.Type;
 import java.util.LinkedList;
 import java.util.UUID;
-import java.util.concurrent.Callable;
-import java.util.function.Function;
 
-import okhttp3.Call;
-import okhttp3.Callback;
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -480,7 +468,7 @@ public class TakDao extends AppCompatActivity {
     }
 
     //----Chore API Stuff----\
-    public void GetChoreByHouseId(UUID houseId) {
+    public ChoreData GetChoreByHouseId(UUID houseId) {
         String url = BASE_URL + "House/" + houseId.toString();
         Request request = new Request.Builder()
                 .addHeader("Authorization", "Bearer " + accessToken)
@@ -498,6 +486,7 @@ public class TakDao extends AppCompatActivity {
         } catch (IOException e) {
             e.printStackTrace();
         }
+        return null;
     }
 
     //Old code below, Don't Touch Please

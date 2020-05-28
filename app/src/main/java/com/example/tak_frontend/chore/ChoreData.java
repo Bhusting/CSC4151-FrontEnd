@@ -17,6 +17,10 @@ public class ChoreData {
         choreTime = null;
     }
 
+    public String getChoreTitle() {
+        return choreTitle;
+    }
+
     ChoreData (String tempStatus, String tempTitle, Date tempTime){
         choreStatus = tempStatus;
         choreTitle = tempTitle;

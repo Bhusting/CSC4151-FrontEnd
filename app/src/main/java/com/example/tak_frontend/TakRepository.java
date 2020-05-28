@@ -268,7 +268,36 @@ public class TakRepository {
     }
 
     public void fetchChoreByHouseId(UUID houseId){
-        client.GetChoreByHouseId(houseId);
+        FetchChoreByHouseId fetchChoreByHouseId = new FetchChoreByHouseId();
+        fetchChoreByHouseId.execute(houseId);
+    }
+
+    private class FetchChoreByHouseId extends AsyncTask<UUID, Void, ChoreData>{
+        @Override
+        protected ChoreData doInBackground(UUID... houseIds) {
+            return client.GetChoreByHouseId(houseIds[0]);
+        }
+
+        @Override
+        protected void onPostExecute(ChoreData choreData) {
+            // Called when the api getChoreByHouseId returned successfully
+            Log.i("ruqaya -- Func_s", String.format("choreData fetch success %s", choreData.getChoreTitle()));
+        }
+
+        //        @Override
+//        protected Profile doInBackground(String... strings) {
+//            return client.getProfileByEmail(strings[0]);
+//        }
+//        @Override
+//        protected void onPostExecute(Profile profile) {
+//            profileLiveData.postValue(profile);
+//            houseIDRepo = profile.houseId;
+//            profileIDRepo = profile.profileId;
+//            fetchLeaderboard();
+//            getHouseByProfileId();
+//        }
+
+
     }
 
 

@@ -67,6 +67,7 @@ public class TakViewModel extends AndroidViewModel {
     }
 
     //-----------------------------------------Chore------------------------------------------------
+    // Call this from activity/fragment to fetch chore bby house id
     public void fetchChoreByHouseId(UUID houseId){ repository.fetchChoreByHouseId(houseId); }
     //-----------------------------------------Leaderboard------------------------------------------
     //GET for leaderboard
