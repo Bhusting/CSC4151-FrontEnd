@@ -76,7 +76,7 @@ public class TakRepository {
 
     public void fetchAll() {
         fetchProfileByEmail();
-        fetchAllTasks();
+        //fetchAllTasks();
     }
 
     //Resets all Data
@@ -106,6 +106,8 @@ public class TakRepository {
         FetchProfileByEmailAsync task = new FetchProfileByEmailAsync();
         task.execute(email);
     }
+
+
     private class FetchProfileByEmailAsync extends AsyncTask<String, Void, ValueHolder>{
 
         @Override
@@ -120,7 +122,8 @@ public class TakRepository {
                 profileIDRepo = ((Profile) valueHolder.getObject()).profileId;
                 fetchLeaderboard();
                 getHouseByProfileId();
-            } if (valueHolder.getCode() == 204){
+            }
+            if (valueHolder.getCode() == 204){
                 createProfile();
             } else{
                 Log.d(TAG, "onPostExecute: Something went very wrong. . .");
@@ -142,6 +145,7 @@ public class TakRepository {
         @Override
         protected void onPostExecute(Profile profile) {
             profileLiveData.postValue(profile);
+            profileIDRepo = profile.profileId;
         }
     }
 
@@ -159,7 +163,7 @@ public class TakRepository {
         @Override
         protected void onPostExecute(UUID uuid) {
             profileIDRepo = uuid;
-            fetchProfileByEmail();
+            fetchProfileById();
         }
     }
 
@@ -288,6 +292,7 @@ public class TakRepository {
     public void createHouse(String name){
         CreateHouseAsync task = new CreateHouseAsync();
         task.execute(name);
+
     }
     private class CreateHouseAsync extends AsyncTask<String, Void, ValueHolder>{
         @Override
@@ -309,6 +314,37 @@ public class TakRepository {
         }
     }
 
+    public void isHouseValid(UUID uuid){
+        IsHouseValidAsync task = new IsHouseValidAsync();
+        HelperClass helperClass = new HelperClass();
+        helperClass.uuid = uuid;
+        helperClass.bool = false;
+        task.execute(helperClass);
+    }
+    private class HelperClass{
+        public UUID uuid;
+        public boolean bool;
+    }
+    private class IsHouseValidAsync extends AsyncTask<HelperClass, Void, HelperClass>{
+        @Override
+        protected HelperClass doInBackground(HelperClass... helperClasses) {
+            HelperClass returnHelper = new HelperClass();
+            returnHelper.bool = client.isHouseValid(helperClasses[0].uuid);
+            returnHelper.uuid = helperClasses[0].uuid;
+            return returnHelper;
+        }
+
+        @Override
+        protected void onPostExecute(HelperClass helperClass) {
+           if(helperClass.bool){
+               UpdateHouseAsync task = new UpdateHouseAsync();
+               task.execute(helperClass.uuid);
+
+           } else {
+
+           }
+        }
+    }
 
 
     //Deletes a House

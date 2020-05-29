@@ -33,6 +33,7 @@ public class ProfileFragment extends Fragment {
     private Button leaveHouse;
     private Button createJoinHouse;
     private Button deleteProfile;
+    private Button refreshButton;
     private Bundle b;
 
     private TakViewModel  viewModel;
@@ -65,6 +66,7 @@ public class ProfileFragment extends Fragment {
         leaveHouse = view.findViewById(R.id.leaveButton_Profile);
         createJoinHouse = view.findViewById(R.id.houseCreateJoinButton);
         deleteProfile = view.findViewById(R.id.deleteProfileButton);
+        refreshButton = view.findViewById(R.id.refreshButton);
 
         //Button Clicked!
         leaveHouse.setOnClickListener(v -> {
@@ -79,6 +81,14 @@ public class ProfileFragment extends Fragment {
         //Button Clicked!
         deleteProfile.setOnClickListener(v -> {
             viewModel.deleteProfile();
+        });
+
+        //Button Clicked!
+        refreshButton.setOnClickListener(v -> {
+            viewModel.fetchProfile();
+            viewModel.fetchHouse();
+            viewModel.fetchLeaderboard();
+            viewModel.fetchTasks();
         });
         return view;
     }

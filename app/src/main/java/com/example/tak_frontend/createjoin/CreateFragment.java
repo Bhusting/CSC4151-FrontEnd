@@ -74,8 +74,11 @@ public class CreateFragment extends Fragment {
             @Override public void onClick(View v)
             {
                 Log.d("confirmHouseButton", "Confirm House Name clicked");
-                if (viewModel.createHouse(houseName.getText().toString()))
+                if (viewModel.createHouse(houseName.getText().toString())){
                     ((MainActivity) getActivity()).openFragment(CreatejoinchoiceFragment.newInstance(b));
+                Toast toast = Toast.makeText(getContext(), "House Created", Toast.LENGTH_SHORT);
+                toast.show();
+                }
                 else {
                     Toast toast = Toast.makeText(getContext(), "You already have a house", Toast.LENGTH_SHORT);
                     toast.show();

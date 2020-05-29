@@ -120,6 +120,44 @@ public class TakDao extends AppCompatActivity {
         }
     }
 
+    //Get House by houseId
+    //Returns House
+    public boolean isHouseValid(UUID houseId){
+        String url = BASE_URL + "House/" + houseId.toString();
+        Log.d(TAG, "isHouseValid: url: " + url);
+
+        Request request = new Request.Builder()
+                .addHeader("Authorization", "Bearer " + accessToken)
+                .url(url)
+                .get()
+                .build();
+        Log.d(TAG, "isHouseValid: Request Built" + request.toString());
+        try{
+            Log.d(TAG, "isHouseValid: GET Executing");
+            Response response = client.newCall(request).execute();
+            Log.d(TAG, "isHouseValid: GET code: " + response.code());
+            String json = response.body().string();
+
+            if (response.code() == 200){
+                Log.d(TAG, "isHouseValid: body: " + json);
+                House house = House.Deserialize(json);
+                return true;
+            }
+            if (response.code() == 204){
+                Log.d(TAG, "isHouseValid: Accpected: " + response.message());
+                return false;
+            }
+            else{
+                Log.d(TAG, "isHouseValid: GET error code: " + response.code() + " message: "
+                        + response.message());
+                return  false;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            Log.d(TAG, "isHouseValid: error: " + e.getCause());
+            return  false;
+        }
+    }
     //Get House by profileId
     //Returns House
     public House getHouseByProfileId(UUID profileId){

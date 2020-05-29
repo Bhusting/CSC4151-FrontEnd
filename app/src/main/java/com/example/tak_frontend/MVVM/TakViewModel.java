@@ -41,6 +41,12 @@ public class TakViewModel extends AndroidViewModel {
             return true;
         }
     }
+
+    public void isHouseValid(UUID uuid){
+      //  if(repository.isHouseValid(uuid);)
+        repository.isHouseValid(uuid);
+    }
+
     public void joinHouse(UUID uuid){
         repository.updateHouse(uuid);
     }
