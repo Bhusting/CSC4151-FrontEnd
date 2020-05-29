@@ -14,10 +14,10 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.example.tak_frontend.MVVM.ViewModel.NewTakViewModel;
 import com.example.tak_frontend.MainActivity;
 import com.example.tak_frontend.R;
-import com.example.tak_frontend.MVVM.TakViewModel;
-import com.example.tak_frontend.MVVM.TakViewModelFactory;
+import com.example.tak_frontend.MVVM.ViewModel.TakViewModelFactory;
 import com.example.tak_frontend.createjoin.CreatejoinchoiceFragment;
 
 
@@ -25,7 +25,6 @@ public class ProfileFragment extends Fragment {
 
 
     private static final String TAG = ".ProfileFragment";
-    private Profile profile;
     private House house;
     private TextView houseTextView;
     private TextView profileName;
@@ -34,7 +33,7 @@ public class ProfileFragment extends Fragment {
     private Button createJoinHouse;
     private Bundle b;
 
-    private TakViewModel  viewModel;
+    private NewTakViewModel  _viewModel;
 
 
 
@@ -77,9 +76,8 @@ public class ProfileFragment extends Fragment {
         return view;
     }
 
-    public void refresh(){
-        if (profile != null && house != null) {
-            houseTextView.setText(house.houseName);
+    public void refresh(Profile profile){
+        if (profile != null) {
             profileName.setText(profile.firstName + " " + profile.lastName);
             xpTextView.setText(String.valueOf(profile.xp));
         }
@@ -89,26 +87,25 @@ public class ProfileFragment extends Fragment {
         super.onActivityCreated(savedInstanceState);
 
         b = getArguments();
-        viewModel = new ViewModelProvider(getActivity(),
+        _viewModel = new ViewModelProvider(getActivity(),
                 new TakViewModelFactory(getActivity().getApplication(), b))
-                .get(TakViewModel.class);
+                .get(NewTakViewModel.class);
 
-        viewModel.getProfile().observe(getViewLifecycleOwner(), new Observer<Profile>(){
+        _viewModel.getProfile().observe(getViewLifecycleOwner(), new Observer<Profile>(){
             @Override
             public void onChanged(Profile obsProfile) {
                 Log.d(TAG, "Profile Data Changed");
-                profile = obsProfile;
-                refresh();
+                refresh(obsProfile);
             }
         });
-        viewModel.getHouse().observe(getViewLifecycleOwner(), new Observer<House>() {
+        /*_viewModel.getHouse().observe(getViewLifecycleOwner(), new Observer<House>() {
             @Override
             public void onChanged(House obsHouse) {
                 Log.d(TAG, "House Data Changed");
                 house = obsHouse;
                 refresh();
             }
-        });
+        });*/
     }
 
     @Override

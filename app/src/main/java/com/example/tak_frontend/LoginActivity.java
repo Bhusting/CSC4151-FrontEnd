@@ -94,11 +94,11 @@ public class LoginActivity extends AppCompatActivity {
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
-                                Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                                 String[] temp = {credentials.getAccessToken(), credentials.getIdToken()};
 
 
 
+                                Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                                 intent.putExtra("Tokens", temp);
                                 Log.d(TAG, "ID: " + credentials.getIdToken());
                                 Log.d(TAG, "Token: " + credentials.getAccessToken());

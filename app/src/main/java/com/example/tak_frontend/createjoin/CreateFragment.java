@@ -13,10 +13,10 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.example.tak_frontend.MVVM.ViewModel.NewTakViewModel;
 import com.example.tak_frontend.MainActivity;
 import com.example.tak_frontend.R;
-import com.example.tak_frontend.MVVM.TakViewModel;
-import com.example.tak_frontend.MVVM.TakViewModelFactory;
+import com.example.tak_frontend.MVVM.ViewModel.TakViewModelFactory;
 
 
 
@@ -29,7 +29,7 @@ public class CreateFragment extends Fragment {
     private Button backToChoiceButton;
     private TextView houseName;
 
-    private TakViewModel viewModel;
+    private NewTakViewModel viewModel;
 
 
     public CreateFragment() {
@@ -55,7 +55,7 @@ public class CreateFragment extends Fragment {
         b = getArguments();
         viewModel = new ViewModelProvider(getActivity(),
                 new TakViewModelFactory(getActivity().getApplication(), b))
-                .get(TakViewModel.class);
+                .get(NewTakViewModel.class);
     }
 
     @Override
@@ -73,13 +73,13 @@ public class CreateFragment extends Fragment {
         {
             @Override public void onClick(View v)
             {
-                Log.d("confirmHouseButton", "Confirm House Name clicked");
+                /*Log.d("confirmHouseButton", "Confirm House Name clicked");
                 if (viewModel.createHouse(houseName.getText().toString()))
                     ((MainActivity) getActivity()).openFragment(CreatejoinchoiceFragment.newInstance(b));
                 else {
                     Toast toast = Toast.makeText(getContext(), "You already have a house", Toast.LENGTH_SHORT);
                     toast.show();
-                }
+                }*/
             }
         });
         backToChoiceButton.setOnClickListener(new View.OnClickListener()

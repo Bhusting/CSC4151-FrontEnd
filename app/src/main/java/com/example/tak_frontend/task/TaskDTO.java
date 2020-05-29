@@ -12,16 +12,6 @@ public class TaskDTO {
     private String Duration;
     private UUID Channel;
 
-    public TaskData toTask(){
-        TaskData task = new TaskData(
-                TaskName,
-                "running",
-                Date.from(Instant.now()),
-                HouseId
-        );
-        return task;
-    }
-
     public UUID getTaskId() {
         return TaskId;
     }

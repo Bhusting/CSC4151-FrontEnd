@@ -12,17 +12,17 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.example.tak_frontend.MVVM.ViewModel.NewTakViewModel;
 import com.example.tak_frontend.MainActivity;
 import com.example.tak_frontend.R;
-import com.example.tak_frontend.MVVM.TakViewModel;
-import com.example.tak_frontend.MVVM.TakViewModelFactory;
+import com.example.tak_frontend.MVVM.ViewModel.TakViewModelFactory;
 
 import java.util.UUID;
 
 public class TaskModal extends Fragment {
 
     private static final String TAG = ".TaskModal";
-    private TakViewModel viewModel;
+    private NewTakViewModel viewModel;
     private Bundle b;
     private EditText taskTitleText;
     private EditText taskTimeText;
@@ -54,7 +54,7 @@ public class TaskModal extends Fragment {
         b = getArguments();
         viewModel = new ViewModelProvider(getActivity(),
                 new TakViewModelFactory(getActivity().getApplication(), b))
-                .get(TakViewModel.class);
+                .get(NewTakViewModel.class);
     }
 
     @Override
@@ -78,7 +78,7 @@ public class TaskModal extends Fragment {
                     newTask.setTaskName(taskTitleText.getText().toString());
                     newTask.setHouseId(new UUID(0L, 0L));
                     newTask.setChannel(new UUID(0L, 0L));
-                    viewModel.newTaskDTO(newTask);
+                    //viewModel.newTaskDTO(newTask);
                     Toast.makeText(getActivity(), "TaskCreated", Toast.LENGTH_SHORT).show();
                     ((MainActivity) getActivity()).openFragment(TaskFragment.newInstance(b));
                 }

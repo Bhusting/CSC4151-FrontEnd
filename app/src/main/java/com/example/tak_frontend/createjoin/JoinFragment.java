@@ -11,10 +11,10 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.example.tak_frontend.MVVM.ViewModel.NewTakViewModel;
 import com.example.tak_frontend.MainActivity;
 import com.example.tak_frontend.R;
-import com.example.tak_frontend.MVVM.TakViewModel;
-import com.example.tak_frontend.MVVM.TakViewModelFactory;
+import com.example.tak_frontend.MVVM.ViewModel.TakViewModelFactory;
 
 
 
@@ -24,7 +24,7 @@ public class JoinFragment extends Fragment {
     private Button backToChoiceButton;
     private Bundle b;
 
-    private TakViewModel viewModel;
+    private NewTakViewModel viewModel;
 
 
     public JoinFragment() {
@@ -50,7 +50,7 @@ public class JoinFragment extends Fragment {
         b = getArguments();
         viewModel = new ViewModelProvider(getActivity(),
                 new TakViewModelFactory(getActivity().getApplication(), b))
-                .get(TakViewModel.class);
+                .get(NewTakViewModel.class);
     }
 
     @Override

@@ -11,14 +11,16 @@ import androidx.lifecycle.ViewModelProvider;
 import com.auth0.android.Auth0;
 import com.auth0.android.authentication.AuthenticationAPIClient;
 import com.auth0.android.management.UsersAPIClient;
-import com.example.tak_frontend.MVVM.TakViewModel;
-import com.example.tak_frontend.MVVM.TakViewModelFactory;
+import com.example.tak_frontend.MVVM.ViewModel.NewTakViewModel;
+import com.example.tak_frontend.MVVM.ViewModel.TakViewModelFactory;
 import com.example.tak_frontend.chore.ChoreFragment;
+import com.example.tak_frontend.createjoin.CreatejoinchoiceFragment;
 import com.example.tak_frontend.leaderboard.LeaderboardFragment;
 import com.example.tak_frontend.profile.ProfileFragment;
 import com.example.tak_frontend.task.TaskFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
+import java.util.UUID;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -31,7 +33,7 @@ public class MainActivity extends AppCompatActivity {
 
     protected String accessToken;
     protected String idToken;
-    private TakViewModel viewModel;
+    private NewTakViewModel viewModel;
     private String curFragment;
     private String choreFrag = "chore";
     private String taskFrag = "task";
@@ -67,15 +69,30 @@ public class MainActivity extends AppCompatActivity {
 
         viewModel = new ViewModelProvider(this,
                 new TakViewModelFactory(this.getApplication(), b))
-                .get(TakViewModel.class);
+                .get(NewTakViewModel.class);
+
+
+        // GETS PROFILE
+        viewModel.setProfile();
 
         Toolbar myToolbar = findViewById(R.id.my_toolbar);
         setSupportActionBar(myToolbar);
 
         bottomNavigation = findViewById(R.id.bottom_navigation);
         bottomNavigation.setOnNavigationItemSelectedListener(navigationItemSelectedListener);
-        openFragment(TaskFragment.newInstance(b));
-        bottomNavigation.setSelectedItemId(R.id.navigation_task);
+
+        if (viewModel.getProfile().getValue().houseId.toString() != "00000000-0000-0000-0000-000000000000") {
+
+            openFragment(CreatejoinchoiceFragment.newInstance(b));
+
+        }
+        else {
+
+            openFragment(TaskFragment.newInstance(b));
+
+        }
+
+        //bottomNavigation.setSelectedItemId(R.id.navigation_task);
 
         Log.d(TAG, "Token: " + accessToken);
 

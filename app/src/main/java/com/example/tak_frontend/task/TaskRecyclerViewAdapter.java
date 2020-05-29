@@ -21,11 +21,11 @@ public class TaskRecyclerViewAdapter extends RecyclerView.Adapter<TaskRecyclerVi
 
     private static final String TAG = "RecyclerViewAdapter";
 
-    private LinkedList<TaskData> tasks = new LinkedList<>();
+    private LinkedList<Task> tasks = new LinkedList<Task>();
     private Context mContext;
 
     //Constructor
-    public TaskRecyclerViewAdapter(Context context, LinkedList<TaskData> taskList) {
+    public TaskRecyclerViewAdapter(Context context, LinkedList<Task> taskList) {
         mContext = context;
         tasks = taskList;
     }
@@ -42,12 +42,13 @@ public class TaskRecyclerViewAdapter extends RecyclerView.Adapter<TaskRecyclerVi
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         Log.d(TAG, "onBindViewHolder: 2");
 
+        /*
         holder.imageTitle.setText(tasks.get(position).getTaskTitle());
         holder.imageDate.setText(tasks.get(position).getTaskTime().toString());
-        holder.imageStatus.setText(tasks.get(position).getTaskStatus());
+        holder.imageStatus.setText(tasks.get(position).getTaskStatus());*/
     }
 
-    public void setTasks(LinkedList<TaskData> t){
+    public void setTasks(LinkedList<Task> t){
         this.tasks= t;
         notifyDataSetChanged();
     }

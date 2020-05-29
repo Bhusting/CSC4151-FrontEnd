@@ -12,9 +12,9 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.example.tak_frontend.MVVM.ViewModel.NewTakViewModel;
 import com.example.tak_frontend.R;
-import com.example.tak_frontend.MVVM.TakViewModel;
-import com.example.tak_frontend.MVVM.TakViewModelFactory;
+import com.example.tak_frontend.MVVM.ViewModel.TakViewModelFactory;
 
 import java.util.ArrayList;
 
@@ -23,7 +23,7 @@ public class LeaderboardFragment extends Fragment {
 
 
     private static final String TAG = ".LeaderboardFragment";
-    private TakViewModel viewModel;
+    private NewTakViewModel viewModel;
     private Bundle b;
     private LeaderboardData leaderboard;
     private ListView listView;
@@ -85,14 +85,14 @@ public class LeaderboardFragment extends Fragment {
         b = getArguments();
         viewModel = new ViewModelProvider(getActivity(),
                 new TakViewModelFactory(getActivity().getApplication(), b))
-                .get(TakViewModel.class);
-        viewModel.getLeaderboard().observe(getViewLifecycleOwner(), new Observer<LeaderboardData>() {
+                .get(NewTakViewModel.class);
+        /*viewModel.getLeaderboard().observe(getViewLifecycleOwner(), new Observer<LeaderboardData>() {
             @Override
             public void onChanged(LeaderboardData leaderboardData) {
                 Log.d(TAG, "Leaderboard Data Changed");
                 leaderboard = leaderboardData;
                 refresh();
             }
-        });
+        });*/
     }
 };

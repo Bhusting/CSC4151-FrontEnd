@@ -13,10 +13,10 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.example.tak_frontend.MVVM.ViewModel.NewTakViewModel;
 import com.example.tak_frontend.MainActivity;
 import com.example.tak_frontend.R;
-import com.example.tak_frontend.MVVM.TakViewModel;
-import com.example.tak_frontend.MVVM.TakViewModelFactory;
+import com.example.tak_frontend.MVVM.ViewModel.TakViewModelFactory;
 import com.example.tak_frontend.chore.chore_date_pickers.ChoreModalDay;
 import com.example.tak_frontend.chore.chore_date_pickers.ChoreModalMonth;
 import com.example.tak_frontend.chore.chore_date_pickers.ChoreModalWeek;
@@ -27,7 +27,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 public class ChoreModal extends Fragment {
 
     private static final String TAG = ".ChoreModal";
-    private TakViewModel viewModel;
+    private NewTakViewModel viewModel;
     private Bundle b;
     private Button backButton;
     BottomNavigationView datePicker;
@@ -56,7 +56,7 @@ public class ChoreModal extends Fragment {
         b = getArguments();
         viewModel = new ViewModelProvider(getActivity(),
                 new TakViewModelFactory(getActivity().getApplication(), b))
-                .get(TakViewModel.class);
+                .get(NewTakViewModel.class);
     }
 
     @Nullable

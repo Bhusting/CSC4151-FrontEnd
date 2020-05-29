@@ -9,11 +9,12 @@ import androidx.lifecycle.LiveData;
 import com.example.tak_frontend.profile.House;
 import com.example.tak_frontend.leaderboard.LeaderboardData;
 import com.example.tak_frontend.profile.Profile;
+import com.example.tak_frontend.task.Task;
 import com.example.tak_frontend.task.TaskDTO;
-import com.example.tak_frontend.task.TaskData;
+
 import java.util.LinkedList;
 
-
+/*
 public class TakViewModel extends AndroidViewModel {
 
     private TakRepository repository;
@@ -28,8 +29,6 @@ public class TakViewModel extends AndroidViewModel {
     public void refresh() {
         repository.fetchAll();
     }
-
-
 
     //-----------------------------------------House------------------------------------------------
     public boolean createHouse(String name){
@@ -81,10 +80,11 @@ public class TakViewModel extends AndroidViewModel {
     public LiveData<LeaderboardData> getLeaderboard(){
         return repository.getLeaderboardData();
         }
-    public LiveData<LinkedList<TaskData>> getTasks(){return repository.getTasks(); }
+    //public LiveData<LinkedList<Task>> getTasks(){return repository.getTasks(); }
     public LiveData<House> getHouse(){return repository.getHouse();}
     public LiveData<LinkedList<TaskDTO>> getTaskDTO() { return repository.getTaskDTO(); }
 
 
 }
+*/
 

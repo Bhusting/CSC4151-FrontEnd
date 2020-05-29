@@ -13,10 +13,10 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.tak_frontend.MVVM.ViewModel.NewTakViewModel;
 import com.example.tak_frontend.MainActivity;
 import com.example.tak_frontend.R;
-import com.example.tak_frontend.MVVM.TakViewModel;
-import com.example.tak_frontend.MVVM.TakViewModelFactory;
+import com.example.tak_frontend.MVVM.ViewModel.TakViewModelFactory;
 import com.example.tak_frontend.profile.Profile;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
@@ -29,11 +29,11 @@ import java.util.UUID;
 public class TaskFragment extends Fragment {
 
     private static final String TAG = ".TaskFragment";
-    private LinkedList<TaskData> TaskList = new LinkedList<>();
+    private LinkedList<Task> TaskList = new LinkedList<>();
     private LinkedList<TaskDTO> TaskListDTO = new LinkedList<>();
     private RecyclerView recyclerView;
     private TaskRecyclerViewAdapter adapter;
-    private TakViewModel viewModel;
+    private NewTakViewModel viewModel;
     private Bundle b;
 
 
@@ -61,9 +61,9 @@ public class TaskFragment extends Fragment {
         b = getArguments();
         viewModel = new ViewModelProvider(getActivity(),
                 new TakViewModelFactory(getActivity().getApplication(), b))
-                .get(TakViewModel.class);
+                .get(NewTakViewModel.class);
 
-
+        /*
         viewModel.getTasks().observe(getViewLifecycleOwner(), new Observer<LinkedList<TaskData>>() {
             @Override
             public void onChanged(LinkedList<TaskData> taskData) {
@@ -80,7 +80,7 @@ public class TaskFragment extends Fragment {
             }
         });
         viewModel.fetchTasks();
-
+        */
     }
 
     @Override
@@ -94,14 +94,14 @@ public class TaskFragment extends Fragment {
         //Set Layout
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         //Create and Set View Adapter
-        adapter = new TaskRecyclerViewAdapter(this.getContext(), TaskList);
+        //adapter = new TaskRecyclerViewAdapter(this.getContext(), TaskList);
         recyclerView.setAdapter(adapter);
 
 
 
         Profile p = new Profile(UUID.randomUUID(), "sam", "yeet", 10, UUID.randomUUID(), "swynnr@gmail.com");
 
-        applyData(new TaskData("Dishwasher", "running", Date.from(Instant.now()), p.houseId));
+        //applyData(new Task("Dishwasher", "running", "5/5/2020", p.houseId));
 
         FloatingActionButton fab = rootView.findViewById(R.id.myFABtask);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -116,7 +116,7 @@ public class TaskFragment extends Fragment {
         return rootView;
     }
 
-    public void applyData(TaskData data) {
+    public void applyData(Task data) {
         TaskList.add(data);
         adapter.notifyDataSetChanged();
     }
