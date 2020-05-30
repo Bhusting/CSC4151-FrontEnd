@@ -81,18 +81,11 @@ public class MainActivity extends AppCompatActivity {
         bottomNavigation = findViewById(R.id.bottom_navigation);
         bottomNavigation.setOnNavigationItemSelectedListener(navigationItemSelectedListener);
 
-        if (viewModel.getProfile().getValue().houseId.toString() != "00000000-0000-0000-0000-000000000000") {
-
-            openFragment(CreatejoinchoiceFragment.newInstance(b));
-
-        }
-        else {
 
             openFragment(TaskFragment.newInstance(b));
 
-        }
 
-        //bottomNavigation.setSelectedItemId(R.id.navigation_task);
+        bottomNavigation.setSelectedItemId(R.id.navigation_task);
 
         Log.d(TAG, "Token: " + accessToken);
 

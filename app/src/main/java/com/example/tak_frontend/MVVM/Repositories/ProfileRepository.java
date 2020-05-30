@@ -65,4 +65,52 @@ public class ProfileRepository {
         return null;
     }
 
+    public LinkedList<Profile> GetAllProfilesInHouse(UUID houseId) {
+
+        Request request = _requestBuilder.BuildGet("Profile/House/" + houseId.toString());
+
+        try {
+            TakDao takDao = new TakDao();
+            String json = takDao.execute(request).get();
+
+            LinkedList<Profile> profiles = Profile.DeserializeList(json);
+
+            return profiles;
+        }
+        catch(Exception e) {
+
+        }
+
+        return null;
+    }
+
+    public boolean AddXP(UUID profileId) {
+        Request request = _requestBuilder.BuildPost("Profile/" + profileId.toString() + "/XP", MediaType.parse("text/plain; charset=utf-8"), "");
+
+        try {
+            TakDao takDao = new TakDao();
+            String json = takDao.execute(request).get();
+            return true;
+        }
+        catch(Exception e) {
+
+        }
+
+        return false;
+    }
+
+    public boolean UpdateHouse(UUID profileId, UUID houseId) {
+        Request request = _requestBuilder.BuildPost("Profile/" + profileId.toString() + "/House" + houseId.toString(), MediaType.parse("text/plain; charset=utf-8"), "");
+
+        try {
+            TakDao takDao = new TakDao();
+            String json = takDao.execute(request).get();
+            return true;
+        }
+        catch (Exception e) {
+
+        }
+
+        return false;
+    }
 }

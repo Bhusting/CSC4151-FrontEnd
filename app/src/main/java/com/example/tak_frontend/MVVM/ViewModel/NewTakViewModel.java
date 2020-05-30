@@ -22,14 +22,14 @@ import com.example.tak_frontend.task.TaskDTO;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.LinkedList;
+import java.util.UUID;
 
 public class NewTakViewModel extends AndroidViewModel {
     private MutableLiveData<LinkedList<ChoreData>> allChores = new MutableLiveData<>();
     private MutableLiveData<Profile> profileLiveData = new MutableLiveData<>();
     private MutableLiveData<LinkedList<Task>> allTasks = new MutableLiveData<>();
-    private MutableLiveData<LeaderboardData> leaderboardLiveData = new MutableLiveData<>();
+    private MutableLiveData<LinkedList<Profile>> leaderboardLiveData = new MutableLiveData<>();
     private MutableLiveData<House> houseLiveData = new MutableLiveData<>();
-    private MutableLiveData<LinkedList<TaskDTO>> allTaskDTO = new MutableLiveData<>();
 
     private final ProfileRepository _profileRepository;
     private final HouseRepository _houseRepository;
@@ -43,8 +43,8 @@ public class NewTakViewModel extends AndroidViewModel {
         super(application);
 
         _profileRepository = new ProfileRepository(accessToken, idToken);
-        _houseRepository =  new HouseRepository();
-        _taskRepository = new TaskRepository();
+        _houseRepository =  new HouseRepository(accessToken);
+        _taskRepository = new TaskRepository(accessToken);
 
         GetUserInfo(idToken);
     }
@@ -57,19 +57,139 @@ public class NewTakViewModel extends AndroidViewModel {
         _lastName = jwt.getClaim("family_name").asString();
     }
 
-    public void setProfile() {
+    //
+    //---------------------------------Profile------------------------------------------------------
+    //
+
+    public Profile getProfile() {
 
         Profile profile = _profileRepository.GetProfileByEmail(_email, _firstName, _lastName);
 
         profileLiveData.setValue(profile);
+
+        return profile;
     }
 
-    public LiveData<Profile> getProfile() {
-        return profileLiveData;
+    public LinkedList<Profile> getLeaderboard() {
+
+        LinkedList<Profile> profiles = _profileRepository.GetAllProfilesInHouse(profileLiveData.getValue().houseId);
+
+        leaderboardLiveData.setValue(profiles);
+
+        return profiles;
     }
 
+    public void AddXP() {
+
+        _profileRepository.AddXP(profileLiveData.getValue().profileId);
+
+        Profile profile = profileLiveData.getValue();
+
+        profile.xp++;
+
+        profileLiveData.setValue(profile);
+    }
+
+    public void UpdateHouse() {
+        Profile profile = profileLiveData.getValue();
+        House house = houseLiveData.getValue();
+
+        _profileRepository.UpdateHouse(profile.profileId, house.houseID);
+
+        profile.houseId = house.houseID;
+
+        profileLiveData.setValue(profile);
+    }
+
+    //
+    //---------------------------------House--------------------------------------------------------
+    //
 
 
+    public House GetHouse() {
+
+        House house = _houseRepository.GetHouse(profileLiveData.getValue().houseId);
+
+        houseLiveData.setValue(house);
+
+        return house;
+    }
+
+    public House CreateHouse(String houseName) {
+
+        House house = _houseRepository.CreateHouse(houseName);
+
+        houseLiveData.setValue(house);
+
+        return house;
+    }
+
+    //
+    //-------------------------------------Task-----------------------------------------------------
+    //
+
+    public LinkedList<Task> GetAllTasks() {
+
+        LinkedList<Task> tasks = _taskRepository.GetTasks(houseLiveData.getValue().houseID);
+
+        allTasks.setValue(tasks);
+
+        return tasks;
+    }
+
+    public LinkedList<Task> CreateTask(TaskDTO task) {
+
+        _taskRepository.CreateTask(task);
+
+        try {
+            wait(2000);
+
+            LinkedList<Task> tasks = _taskRepository.GetTasks(houseLiveData.getValue().houseID);
+
+            allTasks.setValue(tasks);
+
+            return tasks;
+        }
+        catch(Exception e) {
+
+        }
+
+        return null;
+    }
+
+    public void DeleteTask(UUID taskId) {
+
+        _taskRepository.DeleteTask(taskId);
+
+        LinkedList<Task> tasks = allTasks.getValue();
+
+        int indexToDelete = 0;
+        for (int x = 0; x < allTasks.getValue().size(); x++) {
+
+            if (tasks.get(x).TaskId == taskId) {
+                indexToDelete = x;
+                break;
+            }
+        }
+
+        tasks.remove(indexToDelete);
+
+        allTasks.setValue(tasks);
+    }
+
+    //
+    //---------------------------------LiveData-----------------------------------------------------
+    //
+
+    public LiveData<Profile> getLiveProfile() { return profileLiveData; }
+
+    public LiveData<House> getLiveHouse() { return houseLiveData; }
+
+    public LiveData<LinkedList<Profile>> getLiveLeaderboard() { return leaderboardLiveData; }
+
+    public LiveData<LinkedList<ChoreData>> getLiveChores() { return allChores; }
+
+    public LiveData<LinkedList<Task>> getLiveTasks() { return allTasks; }
 
 
 
