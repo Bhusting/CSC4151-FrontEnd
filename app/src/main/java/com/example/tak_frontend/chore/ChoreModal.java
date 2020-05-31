@@ -1,11 +1,17 @@
 package com.example.tak_frontend.chore;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.DatePicker;
+import android.widget.EditText;
+import android.widget.RadioGroup;
 import android.widget.TextView;
+import android.widget.TimePicker;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -27,19 +33,20 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 public class ChoreModal extends Fragment {
 
     private static final String TAG = ".ChoreModal";
-    private NewTakViewModel viewModel;
-    private Bundle b;
+    private NewTakViewModel _viewModel;
+    private DatePicker datePicker;
+    private TimePicker timePicker;
+    private SharedPreferences pref;
     private Button backButton;
-    BottomNavigationView datePicker;
-    private TextView choreName;
-
+    private Button createButton;
+    private EditText choreName;
+    private RadioGroup radioGroup;
     public ChoreModal(){
 
     }
 
-    public static ChoreModal newInstance(Bundle args){
+    public static ChoreModal newInstance(){
         ChoreModal fragment = new ChoreModal();
-        fragment.setArguments(args);
         return fragment;
     }
 
@@ -52,10 +59,12 @@ public class ChoreModal extends Fragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-
-        b = getArguments();
-        viewModel = new ViewModelProvider(getActivity(),
-                new TakViewModelFactory(getActivity().getApplication(), b))
+        pref = getActivity().getApplicationContext().getSharedPreferences("MyPref", 0);
+        _viewModel = new ViewModelProvider(getActivity(),
+                new TakViewModelFactory(getActivity()
+                        .getApplication(),
+                        pref.getString("accessToken", ""),
+                        pref.getString("idToken", "")))
                 .get(NewTakViewModel.class);
     }
 
@@ -65,46 +74,58 @@ public class ChoreModal extends Fragment {
 
         View rootView = inflater.inflate(R.layout.fragment_chore_modal, container, false);
         backButton = rootView.findViewById(R.id.backButtonChore);
-        datePicker = rootView.findViewById(R.id.nav_date_picker);
+        datePicker = rootView.findViewById(R.id.choreDatePicker);
         choreName = rootView.findViewById(R.id.choreModalTitleTextView);
+        timePicker = rootView.findViewById(R.id.choreTimePicker);
+        createButton = rootView.findViewById(R.id.createChoreButton);
+        radioGroup = rootView.findViewById(R.id.choreRadioGroup);
 
 
-        backButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ((MainActivity) getActivity()).openFragment(ChoreFragment.newInstance(b));
+
+
+
+        createButton.setOnClickListener(v -> {
+            String minutes = String.valueOf(timePicker.getMinute());
+            if(timePicker.getMinute() < 10){
+                minutes = '0' + minutes;
             }
+            String date = String.valueOf(datePicker.getMonth()) + '/' + String.valueOf(datePicker.getDayOfMonth()) + '/' + String.valueOf(datePicker.getYear());
+            String time = String.valueOf(timePicker.getHour()) + '/' + minutes;
+            short choreType = getChoreType(radioGroup);
+
+            ChoreData chore = new ChoreData();
+            chore.ChoreName = choreName.getText().toString();
+            chore.ChoreTypeId = choreType;
+            chore.CompletionDate = date;
+            chore.CompletionTime = time;
+
+            
+
+            Toast toast = Toast.makeText(getContext(), date + ':' + time + ':' + String.valueOf(choreType), Toast.LENGTH_LONG);
+            toast.show();
+        });
+
+        backButton.setOnClickListener(v -> {
+                ((MainActivity) getActivity()).openFragment(ChoreFragment.newInstance());
+
         });
 
 
         return rootView;
     }
 
-    public void openFragment(Fragment fragment){
-        //Begin transaction
-        FragmentTransaction transaction = getParentFragmentManager().beginTransaction();
-        transaction.replace(R.id.modal_container, fragment);
-        transaction.addToBackStack(null);
-        transaction.commit();
-    }
-
-
-    BottomNavigationView.OnNavigationItemSelectedListener navigationItemSelectedListener =
-            item -> {
-        switch (item.getItemId()) {
-            case R.id.modal_day:
-                openFragment(ChoreModalDay.newInstance(b));
-                return true;
-            case R.id.modal_week:
-                openFragment(ChoreModalWeek.newInstance(b));
-                return true;
-            case R.id.modal_month:
-                openFragment(ChoreModalMonth.newInstance(b));
-                return true;
-            case R.id.modal_year:
-                openFragment(ChoreModalYear.newInstance(b));
-                return true;
+    short getChoreType(RadioGroup group){
+        switch(group.getCheckedRadioButtonId()){
+            case R.id.choreRadioDay:
+                return 0;
+            case R.id.choreRadioWeek:
+                return 1;
+            case R.id.choreRadioMonth:
+                return 2;
+            case R.id.choreRadioYear:
+                return 3;
+            default:
+                return -1;
         }
-        return false;
-    };
+    }
 }

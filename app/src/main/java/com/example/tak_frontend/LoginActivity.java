@@ -2,9 +2,12 @@ package com.example.tak_frontend;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.ViewModelProvider;
 
 import android.app.Dialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.net.wifi.hotspot2.pps.Credential;
 import android.util.Log;
 import android.widget.Button;
 import android.os.Bundle;
@@ -22,6 +25,8 @@ import com.auth0.android.provider.AuthCallback;
 import com.auth0.android.provider.VoidCallback;
 import com.auth0.android.provider.WebAuthProvider;
 import com.auth0.android.result.Credentials;
+import com.example.tak_frontend.MVVM.ViewModel.NewTakViewModel;
+import com.example.tak_frontend.MVVM.ViewModel.TakViewModelFactory;
 
 
 public class LoginActivity extends AppCompatActivity {
@@ -33,6 +38,7 @@ public class LoginActivity extends AppCompatActivity {
     private Auth0 auth0;
     private Button  loginButton;
     private SecureCredentialsManager credentialsManager;
+    private NewTakViewModel _viewModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -94,20 +100,31 @@ public class LoginActivity extends AppCompatActivity {
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
-                                String[] temp = {credentials.getAccessToken(), credentials.getIdToken()};
-
-
-
-                                Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-                                intent.putExtra("Tokens", temp);
                                 Log.d(TAG, "ID: " + credentials.getIdToken());
                                 Log.d(TAG, "Token: " + credentials.getAccessToken());
+
+                                SharedPreferences pref = getApplicationContext().getSharedPreferences("MyPref", 0);
+                                SharedPreferences.Editor editor = pref.edit();
+
+                                editor.putString("accessToken", credentials.getAccessToken());
+                                editor.putString("idToken", credentials.getIdToken());
+                                editor.commit();
+
+                                getViewModel(credentials);
+
+                                Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                                 startActivity(intent);
                                 finish();
                             }
                         });
                     }
                 });
+    }
+    private void getViewModel(Credentials credentials){
+         _viewModel = new ViewModelProvider(this,
+                new TakViewModelFactory(getApplication(), credentials.getAccessToken(), credentials.getIdToken()))
+                .get(NewTakViewModel.class);
+         _viewModel.getProfile();
     }
     private void logout() {
         WebAuthProvider.logout(auth0)

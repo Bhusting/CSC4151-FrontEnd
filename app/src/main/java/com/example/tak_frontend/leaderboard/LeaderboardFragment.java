@@ -1,5 +1,6 @@
 package com.example.tak_frontend.leaderboard;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -9,14 +10,17 @@ import android.widget.ListView;
 
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.example.tak_frontend.MVVM.ViewModel.NewTakViewModel;
 import com.example.tak_frontend.R;
 import com.example.tak_frontend.MVVM.ViewModel.TakViewModelFactory;
+import com.example.tak_frontend.profile.Profile;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 
 
 public class LeaderboardFragment extends Fragment {
@@ -24,7 +28,7 @@ public class LeaderboardFragment extends Fragment {
 
     private static final String TAG = ".LeaderboardFragment";
     private NewTakViewModel viewModel;
-    private Bundle b;
+    private SharedPreferences pref;
     private LeaderboardData leaderboard;
     private ListView listView;
     private LeaderboardAdapter adapter;
@@ -35,10 +39,8 @@ public class LeaderboardFragment extends Fragment {
         // Required empty public constructor
     }
 
-    public static LeaderboardFragment newInstance(Bundle b) {
+    public static LeaderboardFragment newInstance() {
         LeaderboardFragment fragment = new LeaderboardFragment();
-        Bundle args = new Bundle();
-        fragment.setArguments(args);
         return fragment;
     }
 
@@ -81,18 +83,21 @@ public class LeaderboardFragment extends Fragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-
-        b = getArguments();
+        pref = getActivity().getApplicationContext().getSharedPreferences("MyPref", 0);
         viewModel = new ViewModelProvider(getActivity(),
-                new TakViewModelFactory(getActivity().getApplication(), b))
+                new TakViewModelFactory(getActivity()
+                        .getApplication(),
+                        pref.getString("accessToken", ""),
+                        pref.getString("idToken", "")))
                 .get(NewTakViewModel.class);
-        /*viewModel.getLeaderboard().observe(getViewLifecycleOwner(), new Observer<LeaderboardData>() {
-            @Override
-            public void onChanged(LeaderboardData leaderboardData) {
-                Log.d(TAG, "Leaderboard Data Changed");
-                leaderboard = leaderboardData;
+        viewModel.getLiveLeaderboard().observe(getViewLifecycleOwner(), profiles -> {
+            if(profiles == null)
+                Log.d(TAG, "Leaderboard LiveData Null");
+            else {
+                leaderboard = new LeaderboardData();
+                leaderboard.setLeaderboard(profiles);
                 refresh();
             }
-        });*/
+        });
     }
 };

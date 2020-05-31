@@ -7,7 +7,7 @@ import okhttp3.MediaType;
 import okhttp3.Request;
 import okhttp3.RequestBody;
 
-public class TakRequestBuilder {
+public class  TakRequestBuilder {
 
     private final String BASE_URL = "https://takkapp.azurewebsites.net/";
 

@@ -1,16 +1,21 @@
 package com.example.tak_frontend.chore;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.tak_frontend.MVVM.ViewModel.NewTakViewModel;
+import com.example.tak_frontend.MVVM.ViewModel.TakViewModelFactory;
 import com.example.tak_frontend.MainActivity;
 import com.example.tak_frontend.R;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -24,17 +29,16 @@ public class ChoreFragment extends Fragment  {
     private LinkedList<ChoreData> choreList = new LinkedList<>();
     private RecyclerView recyclerView;
     private RecyclerViewAdapter adapter;
-    private Bundle b;
+    private NewTakViewModel _viewModel;
+    private SharedPreferences pref;
 
 
     public ChoreFragment() {
         // Required empty public constructor
     }
 
-    public static ChoreFragment newInstance(Bundle b) {
+    public static ChoreFragment newInstance() {
         ChoreFragment fragment = new ChoreFragment();
-        Bundle args = new Bundle();
-        fragment.setArguments(args);
         return fragment;
     }
 
@@ -42,7 +46,19 @@ public class ChoreFragment extends Fragment  {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         getActivity().setTitle("Chore");
-        b = getArguments();
+
+    }
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        pref = getActivity().getApplicationContext().getSharedPreferences("MyPref", 0);
+        _viewModel = new ViewModelProvider(getActivity(),
+                new TakViewModelFactory(getActivity()
+                        .getApplication(),
+                        pref.getString("accessToken", ""),
+                        pref.getString("idToken", "")))
+                .get(NewTakViewModel.class);
     }
 
     @Override
@@ -65,11 +81,9 @@ public class ChoreFragment extends Fragment  {
             @Override
             public void onClick(View v) {
                 Log.d(".ChoreFragment", "fab Clicked");
-                ((MainActivity) getActivity()).openFragment(ChoreModal.newInstance(b));
+                ((MainActivity) getActivity()).openFragment(ChoreModal.newInstance());
             }
         });
-
-
 
         //Inflates View
         return rootView;

@@ -47,7 +47,10 @@ public class NewTakViewModel extends AndroidViewModel {
         _taskRepository = new TaskRepository(accessToken);
 
         GetUserInfo(idToken);
+        getProfile();
     }
+
+
 
     @NotNull
     private void GetUserInfo(String idToken) {
@@ -94,11 +97,35 @@ public class NewTakViewModel extends AndroidViewModel {
         Profile profile = profileLiveData.getValue();
         House house = houseLiveData.getValue();
 
-        _profileRepository.UpdateHouse(profile.profileId, house.houseID);
+        _profileRepository.UpdateHouse(profile.profileId, house.houseId);
 
-        profile.houseId = house.houseID;
+        profile.houseId = house.houseId;
 
         profileLiveData.setValue(profile);
+    }
+
+    public void LeaveHouse() {
+        Profile profile = profileLiveData.getValue();
+        House house = houseLiveData.getValue();
+
+        if(_profileRepository.UpdateHouse(profile.profileId, UUID.fromString("00000000-0000-0000-0000-000000000000"))){
+            profile.houseId = UUID.fromString("00000000-0000-0000-0000-000000000000");
+            house = GetHouse();
+        }
+        houseLiveData.setValue(house);
+        profileLiveData.setValue(profile);
+    }
+
+    public void JoinHouse(House house){
+        Profile profile = profileLiveData.getValue();
+        House newHouse;
+        if(_profileRepository.UpdateHouse(profile.profileId, house.houseId)){
+            profile.houseId = house.houseId;
+            newHouse = GetHouse();
+        }
+        houseLiveData.setValue(house);
+        profileLiveData.setValue(profile);
+        getLeaderboard();
     }
 
     //
@@ -115,14 +142,30 @@ public class NewTakViewModel extends AndroidViewModel {
         return house;
     }
 
-    public House CreateHouse(String houseName) {
+    public House GetHouseById(UUID uuid){
 
-        House house = _houseRepository.CreateHouse(houseName);
-
-        houseLiveData.setValue(house);
+        House house = _houseRepository.GetHouse(uuid);
 
         return house;
     }
+
+    public House CreateHouse(String houseName) {
+
+        House house = _houseRepository.CreateHouse(houseName);
+        Profile profile = profileLiveData.getValue();
+
+        _profileRepository.UpdateHouse(profile.profileId, house.houseId);
+
+        profile.houseId = house.houseId;
+
+
+        profileLiveData.setValue(profile);
+        houseLiveData.setValue(house);
+        getLeaderboard();
+
+        return house;
+    }
+
 
     //
     //-------------------------------------Task-----------------------------------------------------
@@ -130,7 +173,7 @@ public class NewTakViewModel extends AndroidViewModel {
 
     public LinkedList<Task> GetAllTasks() {
 
-        LinkedList<Task> tasks = _taskRepository.GetTasks(houseLiveData.getValue().houseID);
+        LinkedList<Task> tasks = _taskRepository.GetTasks(houseLiveData.getValue().houseId);
 
         allTasks.setValue(tasks);
 
@@ -142,9 +185,7 @@ public class NewTakViewModel extends AndroidViewModel {
         _taskRepository.CreateTask(task);
 
         try {
-            wait(2000);
-
-            LinkedList<Task> tasks = _taskRepository.GetTasks(houseLiveData.getValue().houseID);
+            LinkedList<Task> tasks = _taskRepository.GetTasks(houseLiveData.getValue().houseId);
 
             allTasks.setValue(tasks);
 

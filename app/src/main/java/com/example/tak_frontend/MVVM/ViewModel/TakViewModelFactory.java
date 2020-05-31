@@ -13,10 +13,10 @@ public class TakViewModelFactory implements ViewModelProvider.Factory {
     protected String accessToken;
     protected String idToken;
 
-    public TakViewModelFactory(Application applicationArg, Bundle args) {
+    public TakViewModelFactory(Application applicationArg, String accessToken, String idToken) {
         application = applicationArg;
-        accessToken = args.getString("AuthToken");
-        idToken = args.getString("IdToken");
+        this.accessToken = accessToken;
+        this.idToken = idToken;
     }
 
     @NonNull

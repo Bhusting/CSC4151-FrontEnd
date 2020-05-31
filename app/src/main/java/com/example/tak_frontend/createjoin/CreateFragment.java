@@ -1,5 +1,6 @@
 package com.example.tak_frontend.createjoin;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -17,14 +18,14 @@ import com.example.tak_frontend.MVVM.ViewModel.NewTakViewModel;
 import com.example.tak_frontend.MainActivity;
 import com.example.tak_frontend.R;
 import com.example.tak_frontend.MVVM.ViewModel.TakViewModelFactory;
-
+import com.example.tak_frontend.profile.ProfileFragment;
 
 
 public class CreateFragment extends Fragment {
 
 
     private static final String TAG = ".CreateFragment";
-    private Bundle b;
+    private SharedPreferences pref;
     private Button confirmHouseButton;
     private Button backToChoiceButton;
     private TextView houseName;
@@ -36,10 +37,8 @@ public class CreateFragment extends Fragment {
         // Required empty public constructor
     }
 
-    public static CreateFragment newInstance(Bundle args) {
+    public static CreateFragment newInstance() {
         CreateFragment fragment = new CreateFragment();
-
-        fragment.setArguments(args);
         return fragment;
     }
 
@@ -52,9 +51,12 @@ public class CreateFragment extends Fragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        b = getArguments();
+        pref = getActivity().getApplicationContext().getSharedPreferences("MyPref", 0);
         viewModel = new ViewModelProvider(getActivity(),
-                new TakViewModelFactory(getActivity().getApplication(), b))
+                new TakViewModelFactory(getActivity()
+                        .getApplication(),
+                        pref.getString("accessToken", ""),
+                        pref.getString("idToken", "")))
                 .get(NewTakViewModel.class);
     }
 
@@ -69,27 +71,19 @@ public class CreateFragment extends Fragment {
         houseName = view.findViewById(R.id.editTextCreateHouse);
 
 
-        confirmHouseButton.setOnClickListener(new View.OnClickListener()
-        {
-            @Override public void onClick(View v)
-            {
-                /*Log.d("confirmHouseButton", "Confirm House Name clicked");
-                if (viewModel.createHouse(houseName.getText().toString()))
-                    ((MainActivity) getActivity()).openFragment(CreatejoinchoiceFragment.newInstance(b));
-                else {
-                    Toast toast = Toast.makeText(getContext(), "You already have a house", Toast.LENGTH_SHORT);
-                    toast.show();
-                }*/
+        confirmHouseButton.setOnClickListener(v -> {
+            Log.d("confirmHouseButton", "Confirm House Name clicked");
+            if (viewModel.CreateHouse(houseName.getText().toString()) == null) {
+                Toast toast = Toast.makeText(getContext(), "House not Created :(", Toast.LENGTH_SHORT);
+                toast.show();
+            } else {
+                Toast toast = Toast.makeText(getContext(), "House Created!", Toast.LENGTH_SHORT);
+                toast.show();
+                ((MainActivity) getActivity()).openFragment(ProfileFragment.newInstance());
             }
         });
-        backToChoiceButton.setOnClickListener(new View.OnClickListener()
-        {
-            @Override public void onClick(View v)
-            {
-                Log.d(TAG, "onClick: ");
-                ((MainActivity) getActivity()).openFragment(CreatejoinchoiceFragment.newInstance(b));
-            }
-
+        backToChoiceButton.setOnClickListener(v -> {
+            ((MainActivity) getActivity()).openFragment(CreatejoinchoiceFragment.newInstance());
         });
         return view;
     }

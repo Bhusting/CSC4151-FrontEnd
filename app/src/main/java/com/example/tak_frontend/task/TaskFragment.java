@@ -1,5 +1,6 @@
 package com.example.tak_frontend.task;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -33,17 +34,17 @@ public class TaskFragment extends Fragment {
     private LinkedList<TaskDTO> TaskListDTO = new LinkedList<>();
     private RecyclerView recyclerView;
     private TaskRecyclerViewAdapter adapter;
-    private NewTakViewModel viewModel;
-    private Bundle b;
+    private NewTakViewModel _viewModel;
+    private SharedPreferences pref;
+
 
 
     public TaskFragment() {
         // Required empty public constructor
     }
 
-    public static TaskFragment newInstance(Bundle b) {
+    public static TaskFragment newInstance() {
         TaskFragment fragment = new TaskFragment();
-        fragment.setArguments(b);
         return fragment;
     }
 
@@ -51,42 +52,28 @@ public class TaskFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         getActivity().setTitle("Task");
+
+        pref = getActivity().getApplicationContext().getSharedPreferences("MyPref", 0);
+        _viewModel = new ViewModelProvider(getActivity(),
+                new TakViewModelFactory(getActivity()
+                        .getApplication(),
+                        pref.getString("accessToken", ""),
+                        pref.getString("idToken", "")))
+                .get(NewTakViewModel.class);
     }
 
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-
-        b = getArguments();
-        viewModel = new ViewModelProvider(getActivity(),
-                new TakViewModelFactory(getActivity().getApplication(), b))
-                .get(NewTakViewModel.class);
-
-        /*
-        viewModel.getTasks().observe(getViewLifecycleOwner(), new Observer<LinkedList<TaskData>>() {
-            @Override
-            public void onChanged(LinkedList<TaskData> taskData) {
-                Log.d(TAG, "Task Data Changed");
-                TaskList = taskData;
-                adapter.setTasks(TaskList);
-            }
-        });
-        viewModel.getTaskDTO().observe(getViewLifecycleOwner(), new Observer<LinkedList<TaskDTO>>() {
-            @Override
-            public void onChanged(LinkedList<TaskDTO> taskDTO) {
-                Log.d(TAG, "Task DTO Changed");
-                TaskListDTO = taskDTO;
-            }
-        });
-        viewModel.fetchTasks();
-        */
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
+        //Get Tasks
+        _viewModel.getLiveTasks().observe(getViewLifecycleOwner(), tasks -> refreshTasks(tasks));
         //Declare View to be Returned
         View rootView = inflater.inflate(R.layout.fragment_task, container, false);
         //Find RecyclerView
@@ -94,26 +81,21 @@ public class TaskFragment extends Fragment {
         //Set Layout
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         //Create and Set View Adapter
-        //adapter = new TaskRecyclerViewAdapter(this.getContext(), TaskList);
+        adapter = new TaskRecyclerViewAdapter(this.getContext(), TaskList, _viewModel);
         recyclerView.setAdapter(adapter);
 
 
-
-        Profile p = new Profile(UUID.randomUUID(), "sam", "yeet", 10, UUID.randomUUID(), "swynnr@gmail.com");
-
-        //applyData(new Task("Dishwasher", "running", "5/5/2020", p.houseId));
-
         FloatingActionButton fab = rootView.findViewById(R.id.myFABtask);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ((MainActivity) getActivity()).openFragment(TaskModal.newInstance(b));
-            }
-        });
-
+        fab.setOnClickListener(v -> ((MainActivity) getActivity()).openFragment(TaskModal.newInstance()));
 
         //Inflates View
         return rootView;
+    }
+
+    public void refreshTasks(LinkedList<Task> tasks){
+        TaskList = tasks;
+        adapter.setTasks(tasks);
+        adapter.notifyDataSetChanged();
     }
 
     public void applyData(Task data) {

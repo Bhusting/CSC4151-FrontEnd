@@ -1,5 +1,6 @@
 package com.example.tak_frontend.createjoin;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -18,8 +19,6 @@ import com.example.tak_frontend.profile.ProfileFragment;
 
 public class CreatejoinchoiceFragment extends Fragment {
 
-
-    private Bundle b;
     private Button createButton;
     private Button joinButton;
     private Button backButton;
@@ -28,11 +27,8 @@ public class CreatejoinchoiceFragment extends Fragment {
         // Required empty public constructor
     }
 
-
-
-    public static CreatejoinchoiceFragment newInstance(Bundle b) {
+    public static CreatejoinchoiceFragment newInstance() {
         CreatejoinchoiceFragment fragment = new CreatejoinchoiceFragment();
-        fragment.setArguments(b);
         return fragment;
     }
 
@@ -40,8 +36,6 @@ public class CreatejoinchoiceFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        b = getArguments();
         getActivity().setTitle("Createjoinchoice");
     }
 
@@ -57,34 +51,20 @@ public class CreatejoinchoiceFragment extends Fragment {
         backButton = (Button) view.findViewById(R.id.backButton);
 
 
-        createButton.setOnClickListener(new View.OnClickListener()
-        {
-            @Override public void onClick(View v)
-            {
-                Log.d("createButton", "Create Button clicked");
-                ((MainActivity) getActivity()).openFragment(CreateFragment.newInstance(b));
-            }
-
+        createButton.setOnClickListener(v -> {
+            Log.d("createButton", "Create Button clicked");
+            ((MainActivity) getActivity())
+                    .openFragment(CreateFragment.newInstance());
         });
 
-        joinButton.setOnClickListener(new View.OnClickListener()
-        {
-
-            @Override public void onClick(View v)
-            {
-                Log.d("joinButton", "Join Button clicked");
-                ((MainActivity) getActivity()).openFragment(JoinFragment.newInstance(b));
-            }
+        joinButton.setOnClickListener(v -> {
+            Log.d("joinButton", "Join Button clicked");
+            ((MainActivity) getActivity())
+                    .openFragment(JoinFragment.newInstance());
         });
 
-        backButton.setOnClickListener(new View.OnClickListener()
-        {
-            @Override public void onClick(View v)
-            {
-                ((MainActivity) getActivity()).openFragment(ProfileFragment.newInstance(b));
-            }
-
-        });
+        backButton.setOnClickListener(v -> ((MainActivity) getActivity())
+                    .openFragment(ProfileFragment.newInstance()));
         return view;
     }
 };

@@ -1,5 +1,6 @@
 package com.example.tak_frontend.task;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -22,8 +23,8 @@ import java.util.UUID;
 public class TaskModal extends Fragment {
 
     private static final String TAG = ".TaskModal";
-    private NewTakViewModel viewModel;
-    private Bundle b;
+    private NewTakViewModel _viewModel;
+    private SharedPreferences pref;
     private EditText taskTitleText;
     private EditText taskTimeText;
     private Button taskCreateButton;
@@ -34,9 +35,8 @@ public class TaskModal extends Fragment {
         // Required empty public constructor
     }
 
-    public static TaskModal newInstance(Bundle args) {
+    public static TaskModal newInstance() {
         TaskModal fragment = new TaskModal();
-        fragment.setArguments(args);
         return fragment;
     }
 
@@ -50,10 +50,12 @@ public class TaskModal extends Fragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-
-        b = getArguments();
-        viewModel = new ViewModelProvider(getActivity(),
-                new TakViewModelFactory(getActivity().getApplication(), b))
+        pref = getActivity().getApplicationContext().getSharedPreferences("MyPref", 0);
+        _viewModel = new ViewModelProvider(getActivity(),
+                new TakViewModelFactory(getActivity()
+                        .getApplication(),
+                        pref.getString("accessToken", ""),
+                        pref.getString("idToken", "")))
                 .get(NewTakViewModel.class);
     }
 
@@ -72,15 +74,16 @@ public class TaskModal extends Fragment {
         taskCreateButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(GoodData()){
+                if(true){
                     TaskDTO newTask = new TaskDTO() ;
                     newTask.setDuration(taskTimeText.getText().toString());
                     newTask.setTaskName(taskTitleText.getText().toString());
-                    newTask.setHouseId(new UUID(0L, 0L));
-                    newTask.setChannel(new UUID(0L, 0L));
-                    //viewModel.newTaskDTO(newTask);
+                    newTask.setHouseId(_viewModel.getLiveHouse().getValue().houseId);
+                    newTask.setChannel(_viewModel.getLiveHouse().getValue().channel);
+                    newTask.setTaskId(UUID.fromString("00000000-0000-0000-0000-000000000000"));
+                    _viewModel.CreateTask(newTask);
                     Toast.makeText(getActivity(), "TaskCreated", Toast.LENGTH_SHORT).show();
-                    ((MainActivity) getActivity()).openFragment(TaskFragment.newInstance(b));
+                    ((MainActivity) getActivity()).openFragment(TaskFragment.newInstance());
                 }
             }
         });
@@ -88,7 +91,7 @@ public class TaskModal extends Fragment {
         back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ((MainActivity) getActivity()).openFragment(TaskFragment.newInstance(b));
+                ((MainActivity) getActivity()).openFragment(TaskFragment.newInstance());
             }
         });
 
@@ -96,12 +99,4 @@ public class TaskModal extends Fragment {
         //Inflates View
         return rootView;
     }
-
-    private boolean GoodData(){
-
-       // if ((taskTitleText.getText().toString() != null) && (taskTitleT))
-
-        return true;
-    }
-
 }

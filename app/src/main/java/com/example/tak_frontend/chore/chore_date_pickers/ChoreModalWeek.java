@@ -6,10 +6,8 @@ import androidx.fragment.app.Fragment;
 
 public class ChoreModalWeek extends Fragment {
 
-    public static ChoreModalWeek newInstance(Bundle b) {
+    public static ChoreModalWeek newInstance() {
         ChoreModalWeek fragment = new ChoreModalWeek();
-        Bundle args = new Bundle();
-        fragment.setArguments(args);
         return fragment;
     }
 

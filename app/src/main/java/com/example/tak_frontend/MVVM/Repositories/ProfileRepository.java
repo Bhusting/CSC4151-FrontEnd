@@ -100,7 +100,7 @@ public class ProfileRepository {
     }
 
     public boolean UpdateHouse(UUID profileId, UUID houseId) {
-        Request request = _requestBuilder.BuildPost("Profile/" + profileId.toString() + "/House" + houseId.toString(), MediaType.parse("text/plain; charset=utf-8"), "");
+        Request request = _requestBuilder.BuildPost("Profile/" + profileId.toString() + "/House/" + houseId.toString(), MediaType.parse("text/plain; charset=utf-8"), "");
 
         try {
             TakDao takDao = new TakDao();

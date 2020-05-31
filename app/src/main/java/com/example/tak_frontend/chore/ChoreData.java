@@ -5,21 +5,17 @@ import android.view.View;
 import androidx.annotation.NonNull;
 
 import java.util.Date;
+import java.util.UUID;
 
 public class ChoreData {
-    String choreStatus;
-    String choreTitle;
-    Date choreTime;
+    public UUID ChoreId;
+    public String ChoreName;
+    public String CompletionDate;
+    public String CompletionTime;
+    public UUID HouseId;
+    public short ChoreTypeId;
 
-    ChoreData(){
-        choreTitle = "temp";
-        choreStatus = "temp";
-        choreTime = null;
-    }
-
-    ChoreData (String tempStatus, String tempTitle, Date tempTime){
-        choreStatus = tempStatus;
-        choreTitle = tempTitle;
-        choreTime = tempTime;
+    public ChoreData() {
+        ChoreId = UUID.fromString("00000000-0000-0000-0000-000000000000");
     }
 }
