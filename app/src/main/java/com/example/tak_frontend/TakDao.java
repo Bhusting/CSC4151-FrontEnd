@@ -594,6 +594,35 @@ public class TakDao extends AppCompatActivity {
         }
     }
 
+    public void updateChores(ChoresModel model){
+        String URL = BASE_URL + model.choreId;
+        Gson gson = new Gson();
+        String jsonBody = gson.toJson(model);
+        MediaType JSON = MediaType.parse("application/json; charset=utf-8");
+        RequestBody body = RequestBody.create(JSON, jsonBody);
+        Request request = new Request.Builder()
+                .url(URL)
+                .put(body) //PUT
+                .addHeader("Authorization", "Bearer " + accessToken)
+                .build();
+        try{
+            Log.d(TAG, "updateHouseId: POST Executing");
+            Response response = client.newCall(request).execute();
+            Log.d(TAG, "updateHouseId: POST code:" + response.code());
+            if (response.code() == 200){
+                Log.d(TAG, "updateHouseId: 200: " + response.message());
+            }
+            else{
+                Log.d(TAG, "updateHouseId: POST error code: " + response.code() + " message: " + response.message());
+            }
+        } catch (Exception e){
+            e.printStackTrace();
+            Log.d(TAG, "updateHouseId: error: " + e.getCause());
+        }
+
+
+    }
+
     //Old code below, Don't Touch Please
 /*
     public void convert(Object obj, JsonConverter type) throws JSONException {
