@@ -5,15 +5,19 @@ import android.util.Log;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.tak_frontend.chore.ChoreData;
+import com.example.tak_frontend.model.ChoresModel;
 import com.example.tak_frontend.profile.Profile;
 import com.example.tak_frontend.task.TaskDTO;
 import com.example.tak_frontend.task.TaskData;
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.lang.reflect.Type;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.UUID;
 
 import okhttp3.MediaType;
@@ -479,6 +483,8 @@ public class TakDao extends AppCompatActivity {
             Response response = client.newCall(request).execute();
             // Check the api request responded successfully
 
+
+
             boolean isSuccess = response.isSuccessful();
             if(isSuccess) {
                 Log.i("RUQAYA -- Func_s", " getAllProfileByHouse() .(TakDao.java:345)");
@@ -487,6 +493,105 @@ public class TakDao extends AppCompatActivity {
             e.printStackTrace();
         }
         return null;
+    }
+
+    public List<ChoresModel> getAllChoresByHouseID(UUID houseID) throws IOException{
+        String URL = BASE_URL + "/House/" + houseID;
+        Log.d(TAG, "fetchAllTasks: URL: " + URL);
+        Request request = new Request.Builder()
+                .addHeader("Authorization", "Bearer " + accessToken)
+                .url(URL)
+                .get()
+                .build();
+        Log.d(TAG, "fetchAllTasks: Request Built");
+        try{
+            Log.d(TAG, "createHouse: GET Executing");
+            Response response = client.newCall(request).execute();
+            Log.d(TAG, "createHouse: GET code: " + response.code());
+            String json = response.body().string();
+            if (response.code() == 200){
+                Log.d(TAG, "createHouse: body: " + json);
+                Gson gson = new Gson();
+                Type listType = new TypeToken<List<ChoresModel>>(){}.getType();
+                List<ChoresModel> choresModelList = gson.fromJson(json,listType);
+                return choresModelList;
+            }
+            else{
+                Log.d(TAG, "createHouse: GET error code: " + response.code() + " message: "
+                        + response.message());
+                return  null;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            Log.d(TAG, "createHouse: error: " + e.getCause());
+            return  null;
+        }
+    }
+
+    public List<ChoresModel> getAllChoresByChoresType(int  choresType) throws IOException{
+        String URL = BASE_URL + "ChoreType/" + choresType;
+        Log.d(TAG, "fetchAllTasks: URL: " + URL);
+        Request request = new Request.Builder()
+                .addHeader("Authorization", "Bearer " + accessToken)
+                .url(URL)
+                .get()
+                .build();
+        Log.d(TAG, "fetchAllTasks: Request Built");
+        try{
+            Log.d(TAG, "createHouse: GET Executing");
+            Response response = client.newCall(request).execute();
+            Log.d(TAG, "createHouse: GET code: " + response.code());
+            String json = response.body().string();
+            if (response.code() == 200){
+                Log.d(TAG, "createHouse: body: " + json);
+                Gson gson = new Gson();
+                Type listType = new TypeToken<List<ChoresModel>>(){}.getType();
+                List<ChoresModel> choresModelList = gson.fromJson(json,listType);
+                return choresModelList;
+            }
+            else{
+                Log.d(TAG, "createHouse: GET error code: " + response.code() + " message: "
+                        + response.message());
+                return  null;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            Log.d(TAG, "createHouse: error: " + e.getCause());
+            return  null;
+        }
+    }
+
+    public ChoresModel getChoreModelForID(String id){
+        String URL = BASE_URL + "/" + id;
+        Log.d(TAG, "fetchAllTasks: URL: " + URL);
+        Request request = new Request.Builder()
+                .addHeader("Authorization", "Bearer " + accessToken)
+                .url(URL)
+                .get()
+                .build();
+        Log.d(TAG, "fetchAllTasks: Request Built");
+        try{
+            Log.d(TAG, "createHouse: GET Executing");
+            Response response = client.newCall(request).execute();
+            Log.d(TAG, "createHouse: GET code: " + response.code());
+            String json = response.body().string();
+            if (response.code() == 200){
+                Log.d(TAG, "createHouse: body: " + json);
+                Gson gson = new Gson();
+                Type listType = new TypeToken<ChoresModel>(){}.getType();
+                ChoresModel choresModel = gson.fromJson(json,listType);
+                return choresModel;
+            }
+            else{
+                Log.d(TAG, "createHouse: GET error code: " + response.code() + " message: "
+                        + response.message());
+                return  null;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            Log.d(TAG, "createHouse: error: " + e.getCause());
+            return  null;
+        }
     }
 
     //Old code below, Don't Touch Please
