@@ -4,8 +4,14 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
+import android.view.View;
+import android.widget.Toast;
+import android.widget.Toolbar;
+
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProvider;
@@ -35,6 +41,7 @@ public class MainActivity extends AppCompatActivity {
     private String accessToken;
     private String idToken;
     private NewTakViewModel viewModel;
+    private androidx.appcompat.widget.Toolbar toolbar;
     private String curFragment;
     private String choreFrag = "chore";
     private String taskFrag = "task";
@@ -69,8 +76,8 @@ public class MainActivity extends AppCompatActivity {
         viewModel.getLeaderboard();
         viewModel.GetAllTasks();
 
-        Toolbar myToolbar = findViewById(R.id.my_toolbar);
-        setSupportActionBar(myToolbar);
+        toolbar = findViewById(R.id.my_toolbar);
+        setSupportActionBar(toolbar);
 
         bottomNavigation = findViewById(R.id.bottom_navigation);
         bottomNavigation.setOnNavigationItemSelectedListener(navigationItemSelectedListener);
@@ -80,7 +87,25 @@ public class MainActivity extends AppCompatActivity {
 
 
     }
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()){
+            case R.id.toolbar_refresh:
+                refreshAll();
+                return true;
+        }
+        Toast.makeText(this, "Clicked!", Toast.LENGTH_LONG).show();
+        return  true;
+    }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        androidx.appcompat.widget.Toolbar tb = findViewById(R.id.my_toolbar);
+        tb.inflateMenu(R.menu.toolbar_menu);
+        tb.setOnMenuItemClickListener(item -> onOptionsItemSelected(item));
+
+        return true;
+    }
     public void openFragment(Fragment fragment) {
         //Begin transaction
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
@@ -89,6 +114,14 @@ public class MainActivity extends AppCompatActivity {
         transaction.commit();
     }
 
+
+
+    public void refreshAll(){
+        viewModel.GetAllTasks();
+        viewModel.getProfile();
+        viewModel.GetHouse();
+        viewModel.GetTodaysChores();
+    }
 
     BottomNavigationView.OnNavigationItemSelectedListener navigationItemSelectedListener =
             item -> {

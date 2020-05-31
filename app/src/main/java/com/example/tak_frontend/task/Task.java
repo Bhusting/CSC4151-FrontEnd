@@ -10,13 +10,13 @@ import java.util.UUID;
 
 public class Task {
 
-    public UUID TaskId;
+    public UUID taskId;
 
-    public String TaskName;
+    public String taskName;
 
-    public String EndTime;
+    public String endTime;
 
-    public UUID HouseId;
+    public UUID houseId;
 
     public static LinkedList<Task> toList(String json) {
         Gson gson = new Gson();
@@ -26,5 +26,20 @@ public class Task {
         LinkedList<Task> list = gson.fromJson(json, listType);
 
         return list;
+    }
+
+    public static Task dummyTask(){
+        Task task = new Task();
+        task.taskName = "Dummy";
+        task.endTime = "0:00";
+        return task;
+    }
+
+    public static Task deserialize(String json){
+         Gson gson = new Gson();
+
+         Task task = gson.fromJson(json, Task.class);
+
+         return task;
     }
 }

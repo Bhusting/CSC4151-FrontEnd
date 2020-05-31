@@ -23,7 +23,7 @@ public class ChoreRepository {
 
     public LinkedList<ChoreData> GetChoresForToday(UUID houseId) {
 
-        Request request = _requestBuilder.BuildGet("Chore/House" + houseId.toString() + "/Today");
+        Request request = _requestBuilder.BuildGet("Chore/House/" + houseId.toString() + "/Today");
 
         try {
             TakDao takDao = new TakDao();
@@ -43,7 +43,7 @@ public class ChoreRepository {
 
     public UUID CreateChore(ChoreData chore) {
 
-        Request request = _requestBuilder.BuildPost("Chore", MediaType.parse("application/json; charset=utf-8"), gson.toJson(chore));
+        Request request = _requestBuilder.BuildPost("Chore/", MediaType.parse("application/json; charset=utf-8"), gson.toJson(chore));
 
         try {
             TakDao takDao = new TakDao();

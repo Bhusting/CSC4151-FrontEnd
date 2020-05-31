@@ -46,12 +46,6 @@ public class ChoreFragment extends Fragment  {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         getActivity().setTitle("Chore");
-
-    }
-
-    @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
         pref = getActivity().getApplicationContext().getSharedPreferences("MyPref", 0);
         _viewModel = new ViewModelProvider(getActivity(),
                 new TakViewModelFactory(getActivity()
@@ -59,12 +53,16 @@ public class ChoreFragment extends Fragment  {
                         pref.getString("accessToken", ""),
                         pref.getString("idToken", "")))
                 .get(NewTakViewModel.class);
+
     }
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
+        //Get Chores
+        _viewModel.getLiveChores().observe(getViewLifecycleOwner(), chores -> refreshChores(chores));
         //Declare View to be Returned
         View rootView = inflater.inflate(R.layout.fragment_chore, container, false);
         //Find RecyclerView
@@ -72,25 +70,20 @@ public class ChoreFragment extends Fragment  {
         //Set Layout
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         //Create and Set View Adapter
-        adapter = new RecyclerViewAdapter(this.getContext(), choreList);
+        adapter = new RecyclerViewAdapter(this.getContext(), choreList, _viewModel);
         recyclerView.setAdapter(adapter);
 
-        //New Chore Dialog
+        //New Chore Modal
         FloatingActionButton fab = rootView.findViewById(R.id.myFAB);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Log.d(".ChoreFragment", "fab Clicked");
-                ((MainActivity) getActivity()).openFragment(ChoreModal.newInstance());
-            }
-        });
+        fab.setOnClickListener(v -> { ((MainActivity) getActivity()).openFragment(ChoreModal.newInstance()); });
 
         //Inflates View
         return rootView;
     }
 
-    public void applyData(ChoreData data) {
-            choreList.add(data);
-            adapter.notifyDataSetChanged();
+    public void refreshChores(LinkedList<ChoreData> chores){
+        adapter = new RecyclerViewAdapter(getContext(), chores, _viewModel);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        recyclerView.setAdapter(adapter);
     }
 };

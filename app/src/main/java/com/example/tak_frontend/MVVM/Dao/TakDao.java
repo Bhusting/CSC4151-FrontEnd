@@ -20,7 +20,10 @@ public class TakDao extends AsyncTask<Request, Void, String> {
 
             Log.d("TakDao", response.toString());
 
-            return response.body().string();
+            String json = response.body().string();
+            Log.d("Response ", json);
+
+            return json;
         } catch (IOException e) {
             e.printStackTrace();
             return null;

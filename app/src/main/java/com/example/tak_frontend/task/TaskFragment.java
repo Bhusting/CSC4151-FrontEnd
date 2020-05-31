@@ -1,5 +1,6 @@
 package com.example.tak_frontend.task;
 
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
@@ -35,6 +36,7 @@ public class TaskFragment extends Fragment {
     private TaskRecyclerViewAdapter adapter;
     private NewTakViewModel _viewModel;
     private SharedPreferences pref;
+    private Context context;
 
 
 
@@ -52,6 +54,8 @@ public class TaskFragment extends Fragment {
         super.onCreate(savedInstanceState);
         getActivity().setTitle("Task");
 
+        context = this.getContext();
+
         pref = getActivity().getApplicationContext().getSharedPreferences("MyPref", 0);
         _viewModel = new ViewModelProvider(getActivity(),
                 new TakViewModelFactory(getActivity()
@@ -59,12 +63,6 @@ public class TaskFragment extends Fragment {
                         pref.getString("accessToken", ""),
                         pref.getString("idToken", "")))
                 .get(NewTakViewModel.class);
-    }
-
-
-    @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
     }
 
     @Override
@@ -77,16 +75,14 @@ public class TaskFragment extends Fragment {
         View rootView = inflater.inflate(R.layout.fragment_task, container, false);
         //Find RecyclerView
         recyclerView = (RecyclerView) rootView.findViewById(R.id.recycler_task);
-        //Set Layout
-        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+
         //Create and Set View Adapter
         adapter = new TaskRecyclerViewAdapter(this.getContext(), TaskList, _viewModel);
         recyclerView.setAdapter(adapter);
+        //Set Layout
+        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
-
-        _viewModel.getLiveTasks().observe(getViewLifecycleOwner(), tasks -> {
-            refreshTasks(tasks);
-        });
+        //New Task Modal
         FloatingActionButton fab = rootView.findViewById(R.id.myFABtask);
         fab.setOnClickListener(v -> ((MainActivity) getActivity()).openFragment(TaskModal.newInstance()));
 
@@ -95,13 +91,8 @@ public class TaskFragment extends Fragment {
     }
 
     public void refreshTasks(LinkedList<Task> tasks){
-        TaskList = tasks;
-        adapter.setTasks(tasks);
-        adapter.notifyDataSetChanged();
-    }
-
-    public void applyData(Task data) {
-        TaskList.add(data);
-        adapter.notifyDataSetChanged();
+        adapter = new TaskRecyclerViewAdapter(context, tasks, _viewModel);
+        recyclerView.setLayoutManager( new LinearLayoutManager(context));
+        recyclerView.setAdapter(adapter);
     }
 };

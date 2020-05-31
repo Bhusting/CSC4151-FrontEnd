@@ -20,12 +20,14 @@ import com.example.tak_frontend.MainActivity;
 import com.example.tak_frontend.R;
 import com.example.tak_frontend.MVVM.ViewModel.TakViewModelFactory;
 
+import java.util.LinkedList;
 import java.util.UUID;
 
 public class TaskModal extends Fragment {
 
     private static final String TAG = ".TaskModal";
     private NewTakViewModel _viewModel;
+    private LinkedList<Task> taskList;
     private SharedPreferences pref;
     private EditText taskTitleText;
     private TimePicker timePicker;
@@ -46,12 +48,6 @@ public class TaskModal extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         getActivity().setTitle("New Task");
-    }
-
-
-    @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
         pref = getActivity().getApplicationContext().getSharedPreferences("MyPref", 0);
         _viewModel = new ViewModelProvider(getActivity(),
                 new TakViewModelFactory(getActivity()
@@ -61,9 +57,18 @@ public class TaskModal extends Fragment {
                 .get(NewTakViewModel.class);
     }
 
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+
+
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
 
         //Declare View to be Returned
         View rootView = inflater.inflate(R.layout.new_task, container, false);
@@ -73,6 +78,8 @@ public class TaskModal extends Fragment {
 
         taskCreateButton = rootView.findViewById(R.id.createTask);
         back = rootView.findViewById(R.id.backToTask);
+
+        taskList = _viewModel.getLiveTasks().getValue();
 
         taskCreateButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -91,9 +98,15 @@ public class TaskModal extends Fragment {
                     newTask.setHouseId(_viewModel.getLiveProfile().getValue().houseId);
                     newTask.setChannel(_viewModel.getLiveHouse().getValue().channel);
                     newTask.setTaskId(UUID.fromString("00000000-0000-0000-0000-000000000000"));
-                    _viewModel.CreateTask(newTask);
+
+                    taskList =_viewModel.CreateTask(newTask);
+
+                    if(taskList == null){
+                        Toast.makeText(getActivity(), "Task Failed to Create", Toast.LENGTH_LONG).show();
+                    } else {
                     Toast.makeText(getActivity(), "TaskCreated", Toast.LENGTH_SHORT).show();
                     ((MainActivity) getActivity()).openFragment(TaskFragment.newInstance());
+                    }
                 }
             }
         });

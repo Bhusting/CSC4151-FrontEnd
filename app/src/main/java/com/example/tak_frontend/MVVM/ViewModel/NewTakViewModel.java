@@ -187,6 +187,8 @@ public class NewTakViewModel extends AndroidViewModel {
         _taskRepository.CreateTask(task);
 
         try {
+            wait(1000);
+
             LinkedList<Task> tasks = _taskRepository.GetTasks(houseLiveData.getValue().houseId);
 
             allTasks.setValue(tasks);
@@ -209,7 +211,7 @@ public class NewTakViewModel extends AndroidViewModel {
         int indexToDelete = 0;
         for (int x = 0; x < allTasks.getValue().size(); x++) {
 
-            if (tasks.get(x).TaskId == taskId) {
+            if (tasks.get(x).taskId == taskId) {
                 indexToDelete = x;
                 break;
             }

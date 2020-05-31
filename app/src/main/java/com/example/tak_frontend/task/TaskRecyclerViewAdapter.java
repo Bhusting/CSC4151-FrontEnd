@@ -26,15 +26,14 @@ import java.util.LinkedList;
 
 public class TaskRecyclerViewAdapter extends RecyclerView.Adapter<TaskRecyclerViewAdapter.ViewHolder> {
 
-    private static final String TAG = "RecyclerViewAdapter";
-    int selected_position = 0;
+    private static final String TAG = "TaskRecyclerViewAdapter";
     private LinkedList<Task> tasks;
     private Context mContext;
     private NewTakViewModel _viewModel;
-    private SharedPreferences pref;
 
     //Constructor
-    public TaskRecyclerViewAdapter(Context context, LinkedList<Task> taskList, NewTakViewModel _viewModel) {
+    public TaskRecyclerViewAdapter(Context context, LinkedList<Task> taskList, NewTakViewModel _viewModel)
+    {
         mContext = context;
         this._viewModel = _viewModel;
         tasks = taskList;
@@ -43,51 +42,46 @@ public class TaskRecyclerViewAdapter extends RecyclerView.Adapter<TaskRecyclerVi
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from((parent.getContext())).inflate(R.layout.tak_card, parent, false);
+        View view = LayoutInflater.from(mContext).inflate(R.layout.tak_card, parent, false);
         ViewHolder holder = new ViewHolder(view);
         return holder;
     }
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        Log.d(TAG, "onBindViewHolder: 2");
+        Log.d(TAG, "onBindViewHolder: " + String.valueOf(position));
 
-/*        holder.options.setOnClickListener(v -> {
+        final Task task = tasks.get(position);
+        Log.d(TAG, "onBindViewHolder: task @ " + String.valueOf(position) + " " + task.taskId.toString());
+
+        holder.imageDate.setText(task.endTime);
+        holder.imageTitle.setText(task.taskName);
+        Log.d(TAG, "onBindViewHolder: TaskName" + task.taskName);
+        Toast toast = Toast.makeText(mContext, "Clicked Card :" + String.valueOf(position), Toast.LENGTH_LONG);
+        holder.options.setOnClickListener(v -> {
             PopupMenu pop = new PopupMenu(mContext, holder.options);
-
-            pop.inflate(R.menu.card_menu);
-
             pop.setOnMenuItemClickListener(item -> {
                 switch (item.getItemId()){
                     case R.id.edit_card:
-                        _viewModel.DeleteTask(tasks.get(position).TaskId);
-                        tasks.remove(position);
-                        setTasks(tasks);
-                        notifyDataSetChanged();
-                        break;
-                    case R.id.delete_card:
-                        int i;
+                        //_viewModel.
+                        toast.show();
 
-                        _viewModel.DeleteTask(tasks.get(position).TaskId);
-                        tasks.remove(position);
-                        setTasks(tasks);
-                        notifyDataSetChanged();
-                        break;
+                        return true;
+                    case R.id.delete_card:
+
+                        _viewModel.DeleteTask(task.taskId);
+                        Log.d(TAG, "ViewHolder: delete task UUID: " + task.taskId);
+                        toast.show();
+
+                        return true;
                 }
                 return false;
             });
-        });*/
+            pop.inflate(R.menu.card_menu);
+            pop.show();
+        });
 
-        holder.imageTitle.setText(tasks.get(position).TaskName);
-        holder.imageDate.setText(tasks.get(position).EndTime);
-       // holder.imageStatus.setText(tasks.get(position).);
     }
-
-    public void setTasks(LinkedList<Task> t){
-        this.tasks = t;
-        notifyDataSetChanged();
-    }
-
 
     @Override
     public int getItemCount() {
@@ -95,6 +89,10 @@ public class TaskRecyclerViewAdapter extends RecyclerView.Adapter<TaskRecyclerVi
             return 0;
         else
             return tasks.size();
+    }
+
+    public void editTask(){
+      //  ((MainActivity) getA)
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
@@ -105,10 +103,9 @@ public class TaskRecyclerViewAdapter extends RecyclerView.Adapter<TaskRecyclerVi
         TextView options;
         ConstraintLayout parentLayout;
 
+
         @Override
         public void onClick(View v) {
-            if (getAdapterPosition() == RecyclerView.NO_POSITION) return;
-
         }
 
         public ViewHolder(@NonNull View itemView) {
@@ -117,8 +114,8 @@ public class TaskRecyclerViewAdapter extends RecyclerView.Adapter<TaskRecyclerVi
             imageStatus = itemView.findViewById(R.id.card_completed);
             imageDate = itemView.findViewById(R.id.card_time);
             parentLayout = itemView.findViewById(R.id.parent_layout);
+            options = itemView.findViewById(R.id.cardOptions);
             itemView.setOnClickListener(this);
-
         }
     }
 }
