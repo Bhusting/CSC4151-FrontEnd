@@ -10,15 +10,11 @@ import com.google.gson.reflect.TypeToken;
 
 import java.lang.reflect.Type;
 import java.util.Date;
-<<<<<<< HEAD
-=======
 import java.util.LinkedList;
->>>>>>> 966224bc9e7ebdfcc87339b57ea272d51cfeaeb4
 import java.util.UUID;
 
 public class ChoreData {
     public UUID ChoreId;
-<<<<<<< HEAD
     public String ChoreName;
     public String CompletionDate;
     public String CompletionTime;
@@ -27,10 +23,16 @@ public class ChoreData {
 
     public ChoreData() {
         ChoreId = UUID.fromString("00000000-0000-0000-0000-000000000000");
-=======
-    public String ChoreString;
-    public String CompletionTime;
+    }
 
+    public ChoreData(ChoreData data){
+        ChoreId = data.ChoreId;
+        ChoreName = data.ChoreName;
+        CompletionDate = data.CompletionDate;
+        CompletionTime = data.CompletionTime;
+        HouseId = data.HouseId;
+        ChoreTypeId = data.ChoreTypeId;
+    }
     public static LinkedList<ChoreData> DeserializeList(String json) {
 
         Gson gson = new Gson();
@@ -39,6 +41,6 @@ public class ChoreData {
         LinkedList<ChoreData> list = gson.fromJson(json, listType);
 
         return list;
->>>>>>> 966224bc9e7ebdfcc87339b57ea272d51cfeaeb4
+
     }
 }

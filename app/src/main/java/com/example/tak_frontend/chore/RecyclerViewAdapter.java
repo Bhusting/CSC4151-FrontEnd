@@ -44,14 +44,14 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         Log.d(TAG, "onBindViewHolder: 2");
 
-        holder.imageTitle.setText(chores.get(position).choreTitle);
-        holder.imageDate.setText("null");//chores.get(position).choreTime.toString()
-        holder.imageStatus.setText(chores.get(position).choreStatus);
+        holder.imageTitle.setText(chores.get(position).ChoreName);
+        holder.imageDate.setText(chores.get(position).CompletionDate + ' ' + chores.get(position).CompletionTime);
+
 
         holder.parentLayout.setOnClickListener(v -> {
-            Log.d(TAG, "onClick: clicked on: " + chores.get(position).choreTitle);
+            Log.d(TAG, "onClick: clicked on: " + chores.get(position).ChoreName);
 
-            Toast.makeText(mContext, chores.get(position).choreTitle, Toast.LENGTH_SHORT).show();
+            Toast.makeText(mContext, chores.get(position).ChoreName, Toast.LENGTH_SHORT).show();
         });
 
     }

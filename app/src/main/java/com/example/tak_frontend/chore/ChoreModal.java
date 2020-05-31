@@ -99,7 +99,7 @@ public class ChoreModal extends Fragment {
             chore.CompletionDate = date;
             chore.CompletionTime = time;
 
-            
+            _viewModel.CreateChore(chore);
 
             Toast toast = Toast.makeText(getContext(), date + ':' + time + ':' + String.valueOf(choreType), Toast.LENGTH_LONG);
             toast.show();

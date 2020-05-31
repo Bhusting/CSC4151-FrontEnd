@@ -31,7 +31,6 @@ public class TaskFragment extends Fragment {
 
     private static final String TAG = ".TaskFragment";
     private LinkedList<Task> TaskList = new LinkedList<>();
-    private LinkedList<TaskDTO> TaskListDTO = new LinkedList<>();
     private RecyclerView recyclerView;
     private TaskRecyclerViewAdapter adapter;
     private NewTakViewModel _viewModel;
@@ -85,6 +84,9 @@ public class TaskFragment extends Fragment {
         recyclerView.setAdapter(adapter);
 
 
+        _viewModel.getLiveTasks().observe(getViewLifecycleOwner(), tasks -> {
+            refreshTasks(tasks);
+        });
         FloatingActionButton fab = rootView.findViewById(R.id.myFABtask);
         fab.setOnClickListener(v -> ((MainActivity) getActivity()).openFragment(TaskModal.newInstance()));
 

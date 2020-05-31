@@ -52,7 +52,7 @@ public class TaskRecyclerViewAdapter extends RecyclerView.Adapter<TaskRecyclerVi
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         Log.d(TAG, "onBindViewHolder: 2");
 
-        holder.options.setOnClickListener(v -> {
+/*        holder.options.setOnClickListener(v -> {
             PopupMenu pop = new PopupMenu(mContext, holder.options);
 
             pop.inflate(R.menu.card_menu);
@@ -76,10 +76,10 @@ public class TaskRecyclerViewAdapter extends RecyclerView.Adapter<TaskRecyclerVi
                 }
                 return false;
             });
-        });
+        });*/
 
         holder.imageTitle.setText(tasks.get(position).TaskName);
-        holder.imageDate.setText(tasks.get(position).EndTime.toString());
+        holder.imageDate.setText(tasks.get(position).EndTime);
        // holder.imageStatus.setText(tasks.get(position).);
     }
 

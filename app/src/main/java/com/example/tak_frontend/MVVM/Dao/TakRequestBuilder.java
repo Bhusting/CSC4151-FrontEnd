@@ -11,6 +11,8 @@ public class  TakRequestBuilder {
 
     private final String BASE_URL = "https://takkapp.azurewebsites.net/";
 
+    private final String TAG = ".TakRequestBuilder";
+
     private final String _accessToken;
 
     public TakRequestBuilder(String accessToken) {
@@ -45,6 +47,7 @@ public class  TakRequestBuilder {
     public Request BuildPost(String path, MediaType mediaType, String content) {
         String url = BASE_URL + path;
 
+        Log.d(TAG, "BuildPost: " + content);
         RequestBody body = RequestBody.create(content, mediaType);
 
         Request request = new Request.Builder()

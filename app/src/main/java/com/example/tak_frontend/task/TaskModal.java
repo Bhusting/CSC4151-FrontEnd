@@ -2,11 +2,13 @@ package com.example.tak_frontend.task;
 
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TimePicker;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
@@ -26,7 +28,7 @@ public class TaskModal extends Fragment {
     private NewTakViewModel _viewModel;
     private SharedPreferences pref;
     private EditText taskTitleText;
-    private EditText taskTimeText;
+    private TimePicker timePicker;
     private Button taskCreateButton;
     private Button back;
 
@@ -65,9 +67,10 @@ public class TaskModal extends Fragment {
 
         //Declare View to be Returned
         View rootView = inflater.inflate(R.layout.new_task, container, false);
-
+        timePicker = rootView.findViewById(R.id.taskTimePicker);
+        timePicker.setIs24HourView(true);
         taskTitleText = rootView.findViewById(R.id.editTaskTitle);
-        taskTimeText =  rootView.findViewById(R.id.editTaskTime);
+
         taskCreateButton = rootView.findViewById(R.id.createTask);
         back = rootView.findViewById(R.id.backToTask);
 
@@ -76,9 +79,16 @@ public class TaskModal extends Fragment {
             public void onClick(View v) {
                 if(true){
                     TaskDTO newTask = new TaskDTO() ;
-                    newTask.setDuration(taskTimeText.getText().toString());
+
+                    String minutes = String.valueOf(timePicker.getMinute());
+                    if(timePicker.getMinute() < 10){
+                        minutes = '0' + minutes;
+                    }
+                    String time = String.valueOf(timePicker.getHour()) + ':' + minutes;
+
+                    newTask.setDuration(time);
                     newTask.setTaskName(taskTitleText.getText().toString());
-                    newTask.setHouseId(_viewModel.getLiveHouse().getValue().houseId);
+                    newTask.setHouseId(_viewModel.getLiveProfile().getValue().houseId);
                     newTask.setChannel(_viewModel.getLiveHouse().getValue().channel);
                     newTask.setTaskId(UUID.fromString("00000000-0000-0000-0000-000000000000"));
                     _viewModel.CreateTask(newTask);
