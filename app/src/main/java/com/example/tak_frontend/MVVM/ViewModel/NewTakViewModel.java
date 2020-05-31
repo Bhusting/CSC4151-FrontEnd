@@ -34,6 +34,7 @@ public class NewTakViewModel extends AndroidViewModel {
     private final ProfileRepository _profileRepository;
     private final HouseRepository _houseRepository;
     private final TaskRepository _taskRepository;
+    private final ChoreRepository _choreRepository;
 
     private String _email;
     private String _firstName;
@@ -45,6 +46,7 @@ public class NewTakViewModel extends AndroidViewModel {
         _profileRepository = new ProfileRepository(accessToken, idToken);
         _houseRepository =  new HouseRepository(accessToken);
         _taskRepository = new TaskRepository(accessToken);
+        _choreRepository = new ChoreRepository(accessToken);
 
         GetUserInfo(idToken);
         getProfile();
@@ -216,6 +218,45 @@ public class NewTakViewModel extends AndroidViewModel {
         tasks.remove(indexToDelete);
 
         allTasks.setValue(tasks);
+    }
+
+    //
+    //------------------------------------Chore-----------------------------------------------------
+    //
+
+    public LinkedList<ChoreData> GetTodaysChores() {
+
+        LinkedList<ChoreData> chores = _choreRepository.GetChoresForToday(profileLiveData.getValue().houseId);
+
+        allChores.setValue(chores);
+
+        return chores;
+    }
+
+    public void CreateChore(ChoreData chore) {
+
+        UUID choreId = _choreRepository.CreateChore(chore);
+
+        LinkedList<ChoreData> chores = _choreRepository.GetChoresForToday(profileLiveData.getValue().houseId);
+
+        allChores.setValue(chores);
+
+    }
+
+    public void CompleteChore(UUID choreId) {
+
+        _choreRepository.CompleteChore(choreId);
+
+        try {
+
+            wait(2000);
+
+        } catch (Exception e) {
+
+        }
+
+        LinkedList<ChoreData> chores = _choreRepository.GetChoresForToday(profileLiveData.getValue().houseId);
+        allChores.setValue(chores);
     }
 
     //
