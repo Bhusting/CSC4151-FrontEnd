@@ -1,6 +1,9 @@
 package com.example.tak_frontend.createjoin;
 
+import android.app.Application;
+import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -10,15 +13,22 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.ColorInt;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.example.tak_frontend.HouseActivity;
+import com.example.tak_frontend.LoginActivity;
 import com.example.tak_frontend.MVVM.ViewModel.NewTakViewModel;
 import com.example.tak_frontend.MainActivity;
 import com.example.tak_frontend.R;
 import com.example.tak_frontend.MVVM.ViewModel.TakViewModelFactory;
 import com.example.tak_frontend.profile.ProfileFragment;
+
+import java.util.regex.Pattern;
+
+import kotlin.text.Regex;
 
 
 public class CreateFragment extends Fragment {
@@ -69,21 +79,47 @@ public class CreateFragment extends Fragment {
         confirmHouseButton = (Button) view.findViewById(R.id.acceptCreateButton);
         backToChoiceButton = (Button) view.findViewById(R.id.backCreateButton);
         houseName = view.findViewById(R.id.editTextCreateHouse);
+        TextView errorView = view.findViewById(R.id.textView2);
 
 
         confirmHouseButton.setOnClickListener(v -> {
+            confirmHouseButton.setEnabled(false);
+            backToChoiceButton.setEnabled(false);
             Log.d("confirmHouseButton", "Confirm House Name clicked");
-            if (viewModel.CreateHouse(houseName.getText().toString()) == null) {
-                Toast toast = Toast.makeText(getContext(), "House not Created :(", Toast.LENGTH_SHORT);
-                toast.show();
-            } else {
-                Toast toast = Toast.makeText(getContext(), "House Created!", Toast.LENGTH_SHORT);
-                toast.show();
-                ((MainActivity) getActivity()).openFragment(ProfileFragment.newInstance());
+            String houseText = houseName.getText().toString();
+
+            boolean valid = false;
+
+            Pattern reg = Pattern.compile("[@_!#$%^&*()<>?/\\|}{~:]");
+
+            if (reg.matcher(houseText).matches()) {
+                houseName.setBackgroundColor(Color.RED);
+                valid = false;
+                backToChoiceButton.setEnabled(true);
+                confirmHouseButton.setEnabled(true);
+                errorView.setVisibility(View.VISIBLE);
+            }
+            else {
+                houseName.setBackgroundColor(Color.parseColor("#f0fff4"));
+                valid = true;
+            }
+
+
+            if (valid) {
+                if (viewModel.CreateHouse(houseText) == null) {
+                    Toast toast = Toast.makeText(getContext(), "House not Created :(", Toast.LENGTH_SHORT);
+                    toast.show();
+                } else {
+                    Toast toast = Toast.makeText(getContext(), "House Created!", Toast.LENGTH_SHORT);
+                    toast.show();
+                    Intent intent = new Intent(getActivity(), MainActivity.class);
+                    startActivity(intent);
+                    getActivity().finish();
+                }
             }
         });
         backToChoiceButton.setOnClickListener(v -> {
-            ((MainActivity) getActivity()).openFragment(CreatejoinchoiceFragment.newInstance());
+            ((HouseActivity) getActivity()).openFragment(CreatejoinchoiceFragment.newInstance());
         });
         return view;
     }

@@ -1,6 +1,8 @@
 package com.example.tak_frontend.createjoin;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -72,21 +74,44 @@ public class JoinFragment extends Fragment {
         backToChoiceButton = (Button) view.findViewById(R.id.backJoinButton);
         confirmJoinButton = (Button) view.findViewById(R.id.joinButton);
         houseCodeTextView = view.findViewById(R.id.houseCodeInput);
+        TextView errorView = view.findViewById(R.id.textView);
 
         confirmJoinButton.setOnClickListener(new View.OnClickListener()
         {
             @Override public void onClick(View v)
             {
+                confirmJoinButton.setEnabled(false);
+                backToChoiceButton.setEnabled(false);
                 Log.i("joinButton", "Join Button clicked");
-                House house = viewModel.GetHouseById(UUID.fromString(houseCodeTextView.getText().toString()));
-                if (house == null){
-                    Toast toast = Toast.makeText(getContext(), "House Doesn't Exsist", Toast.LENGTH_LONG);
-                    toast.show();
-                } else {
-                    viewModel.JoinHouse(house);
-                    ((MainActivity) getActivity()).openFragment(ProfileFragment.newInstance());
+                boolean valid = false;
+                UUID guid = null;
+
+                try {
+                    guid = UUID.fromString(houseCodeTextView.getText().toString());
+                    valid = true;
+                    houseCodeTextView.setBackgroundColor(Color.parseColor("#f0fff4"));
+                }
+                catch( Exception e) {
+                    valid = false;
+                    houseCodeTextView.setBackgroundColor(Color.RED);
+                    errorView.setVisibility(View.VISIBLE);
+                    confirmJoinButton.setEnabled(true);
+                    backToChoiceButton.setEnabled(true);
                 }
 
+                if (valid) {
+                    House house = viewModel.GetHouseById(guid);
+
+                    if (house == null) {
+                        Toast toast = Toast.makeText(getContext(), "House Doesn't Exsist", Toast.LENGTH_LONG);
+                        toast.show();
+                    } else {
+                        viewModel.JoinHouse(house);
+                        Intent intent = new Intent(getActivity(), MainActivity.class);
+                        startActivity(intent);
+                        getActivity().finish();
+                    }
+                }
             }
 
         });

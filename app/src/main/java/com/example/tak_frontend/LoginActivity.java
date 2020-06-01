@@ -112,7 +112,7 @@ public class LoginActivity extends AppCompatActivity {
 
                                 getViewModel(credentials);
 
-                                Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                                Intent intent = new Intent(LoginActivity.this, HouseActivity.class);
                                 startActivity(intent);
                                 finish();
                             }

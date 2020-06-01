@@ -46,12 +46,15 @@ public class HouseRepository {
             String json = takDao.execute(request).get();
             UUID houseId = gson.fromJson(json, UUID.class);
 
-            House house = GetHouse(houseId);
-            while (house == null) {
-
-                house = GetHouse(houseId);
+            try{
+                wait(2000);
+            }
+            catch (Exception e) {
 
             }
+
+            House house = GetHouse(houseId);
+
 
             return house;
 

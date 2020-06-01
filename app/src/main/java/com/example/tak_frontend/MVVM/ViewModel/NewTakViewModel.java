@@ -40,13 +40,22 @@ public class NewTakViewModel extends AndroidViewModel {
     private String _firstName;
     private String _lastName;
 
+    private String _accessToken;
+    private String _idToken;
+
     public NewTakViewModel(@NonNull Application application, String accessToken, String idToken) {
         super(application);
 
-        _profileRepository = new ProfileRepository(accessToken, idToken);
-        _houseRepository =  new HouseRepository(accessToken);
-        _taskRepository = new TaskRepository(accessToken);
-        _choreRepository = new ChoreRepository(accessToken);
+        if (_accessToken != "")
+            _accessToken = accessToken;
+
+        if (_idToken != "")
+            _idToken = idToken;
+
+        _profileRepository = new ProfileRepository(_accessToken, _idToken);
+        _houseRepository =  new HouseRepository(_accessToken);
+        _taskRepository = new TaskRepository(_accessToken);
+        _choreRepository = new ChoreRepository(_accessToken);
 
         GetUserInfo(idToken);
         getProfile();
