@@ -5,7 +5,7 @@ import com.google.gson.Gson;
 import java.util.UUID;
 
 public class House {
-    public UUID houseID;
+    public UUID houseId;
     public String houseName;
     public UUID channel;
 

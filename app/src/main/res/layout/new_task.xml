@@ -7,7 +7,7 @@
     android:layout_height="match_parent">
 
 
-    <EditText
+    <TextView
         android:id="@+id/editTitle"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -35,15 +35,11 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <EditText
-        android:id="@+id/editTaskTime"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="128dp"
-        android:layout_marginTop="32dp"
-        android:layout_marginEnd="128dp"
-        android:ems="10"
-        android:inputType="number"
+    <TimePicker
+        android:id="@+id/taskTimePicker"
+        android:layout_width="255dp"
+        android:layout_height="211dp"
+        android:timePickerMode="spinner"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/editTitle" />
@@ -68,7 +64,7 @@
         android:id="@+id/backToTask"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Button"
+        android:text="Back"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 

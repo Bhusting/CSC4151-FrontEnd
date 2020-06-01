@@ -3,20 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/edit_name"
-
-    android:layout_width="wrap_content" android:layout_height="wrap_content"
-
+    android:layout_width="match_parent" android:layout_height="match_parent"
     android:layout_gravity="center" android:orientation="vertical"  >
-
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="409dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginEnd="8dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
 
         <Button
             android:id="@+id/backButtonChore"
@@ -28,61 +16,104 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <com.google.android.material.bottomnavigation.BottomNavigationView
-            android:id="@+id/nav_date_picker"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="100dp"
-            android:layout_marginEnd="16dp"
-            android:background="@color/takGreen"
-            app:itemIconTint="@color/takGrey"
-            app:itemTextColor="@color/takGrey"
-            app:labelVisibilityMode="labeled"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:menu="@menu/chore_modal_menu" />
 
+    <TimePicker
+        android:id="@+id/choreTimePicker"
+        android:layout_width="230dp"
+        android:layout_height="164dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginBottom="32dp"
+        android:timePickerMode="spinner"
+        app:layout_constraintBottom_toTopOf="@+id/choreDatePicker"
+        app:layout_constraintStart_toStartOf="parent" />
 
-        <TextView
-            android:id="@+id/choreModalTitleTextView"
+    <DatePicker
+        android:id="@+id/choreDatePicker"
+        android:layout_width="230dp"
+        android:layout_height="156dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginBottom="32dp"
+        android:calendarViewShown="false"
+        android:datePickerMode="spinner"
+
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <EditText
+        android:id="@+id/choreModalTitleTextView"
+        android:layout_width="280dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:text="Enter Your Chore Name Here!"
+
+        android:textAlignment="viewStart"
+        android:textSize="20sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/choreModalLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="How often should this chore be done?"
+        app:layout_constraintStart_toStartOf="@+id/choreModalTitleTextView"
+        app:layout_constraintTop_toBottomOf="@+id/choreModalTitleTextView" />
+
+    <Button
+        android:id="@+id/createChoreButton"
+        android:layout_width="85dp"
+        android:layout_height="172dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="32dp"
+        android:text="Create"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/choreTimePicker" />
+
+    <RadioGroup
+        android:id="@+id/choreRadioGroup"
+        android:layout_width="87dp"
+        android:layout_height="146dp"
+        android:layout_marginBottom="8dp"
+        android:checkedButton="@id/choreRadioDay"
+        app:layout_constraintBottom_toTopOf="@+id/createChoreButton"
+        app:layout_constraintEnd_toEndOf="@+id/createChoreButton">
+
+        <RadioButton
+            android:id="@+id/choreRadioDay"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="32dp"
-            android:layout_marginTop="16dp"
-            android:text="Enter Your Chore Name Here!"
-            android:textAlignment="viewStart"
-            android:textSize="20sp"
-            app:layout_constraintStart_toEndOf="@+id/backButtonChore"
-            app:layout_constraintTop_toTopOf="parent" />
+            android:text="Day"
+            tools:layout_editor_absoluteX="147dp"
+            tools:layout_editor_absoluteY="203dp" />
 
-        <TextView
-            android:id="@+id/choreModalLabel"
+        <RadioButton
+            android:id="@+id/choreRadioWeek"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="172dp"
-            android:layout_marginTop="64dp"
-            android:layout_marginEnd="172dp"
-            android:text="How often should this chore be done?"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            android:text="Week"
+            tools:layout_editor_absoluteX="255dp"
+            tools:layout_editor_absoluteY="198dp" />
 
-        <FrameLayout
-            android:id="@+id/modal_container"
-            android:layout_width="407dp"
-            android:layout_height="571dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="1dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginBottom="8dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/nav_date_picker">
+        <RadioButton
+            android:id="@+id/choreRadioMonth"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Month"
+            tools:layout_editor_absoluteX="127dp"
+            tools:layout_editor_absoluteY="241dp" />
 
-        </FrameLayout>
+        <RadioButton
+            android:id="@+id/choreRadioYear"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Year"
+            tools:layout_editor_absoluteX="276dp"
+            tools:layout_editor_absoluteY="244dp" />
+    </RadioGroup>
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+
 </androidx.constraintlayout.widget.ConstraintLayout>
