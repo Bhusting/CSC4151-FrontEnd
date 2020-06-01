@@ -107,6 +107,11 @@ public class ProfileFragment extends Fragment {
 
         _viewModel.getLiveHouse().observe(getViewLifecycleOwner(), house -> refreshHouse(house));
 
+        if(!_viewModel.HasHouse()){
+            ((MainActivity) getActivity()).openFragment(CreatejoinchoiceFragment.newInstance());
+            Toast.makeText(getContext(), "Create or Join a House please", Toast.LENGTH_LONG).show();
+        }
+
         return view;
     }
     public void refreshProfile(Profile profile){

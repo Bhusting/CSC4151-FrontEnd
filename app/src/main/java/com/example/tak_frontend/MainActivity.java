@@ -79,11 +79,9 @@ public class MainActivity extends AppCompatActivity {
 
         bottomNavigation = findViewById(R.id.bottom_navigation);
         bottomNavigation.setOnNavigationItemSelectedListener(navigationItemSelectedListener);
-        bottomNavigation.setSelectedItemId(R.id.navigation_task);
+        bottomNavigation.setSelectedItemId(R.id.navigation_profile);
 
-        Log.d(TAG, "Token: " + accessToken);
-
-
+        openFragment(ProfileFragment.newInstance());
     }
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {

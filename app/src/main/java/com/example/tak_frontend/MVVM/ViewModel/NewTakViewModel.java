@@ -130,6 +130,12 @@ public class NewTakViewModel extends AndroidViewModel {
         getLeaderboard();
     }
 
+    public boolean HasHouse(){
+        if(profileLiveData.getValue().houseId.toString() == "00000000-0000-0000-0000-000000000000")
+            return false;
+        return true;
+    }
+
     //
     //---------------------------------House--------------------------------------------------------
     //
