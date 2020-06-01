@@ -76,7 +76,6 @@ public class ProfileFragment extends Fragment {
         profileName = view.findViewById(R.id.residentName_Profile);
         xpTextView = view.findViewById(R.id.xpValueString_Profile);
         leaveHouse = view.findViewById(R.id.leaveButton_Profile);
-        createJoinHouse = view.findViewById(R.id.houseCreateJoinButton);
         getHouseCode = view.findViewById(R.id.getHouseId);
 
 
@@ -90,11 +89,6 @@ public class ProfileFragment extends Fragment {
         leaveHouse.setOnClickListener(v -> {
             _viewModel.LeaveHouse();
             houseTextView.setText(":(");
-        });
-
-        //Button Clicked!
-        createJoinHouse.setOnClickListener(v -> {
-            ((MainActivity) getActivity()).openFragment(CreatejoinchoiceFragment.newInstance());
         });
 
         getHouseCode.setOnClickListener(v -> {

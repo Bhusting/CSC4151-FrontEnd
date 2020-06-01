@@ -7,6 +7,16 @@
     android:layout_height="match_parent"
     android:background="@color/takWhite">
 
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Invalid Code"
+        android:textColor="#FF0000"
+        android:visibility="invisible"
+        tools:layout_editor_absoluteX="86dp"
+        tools:layout_editor_absoluteY="298dp" />
+
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/join_guideline_50per"
         android:layout_width="wrap_content"
@@ -66,7 +76,6 @@
         android:layout_height="49dp"
         android:ems="10"
         android:inputType="textPersonName"
-        android:text="Type your house code here."
         app:layout_constraintBottom_toTopOf="@+id/join_guideline_50perh"
         app:layout_constraintEnd_toStartOf="@+id/join_guideline_50per"
         app:layout_constraintStart_toStartOf="@+id/join_guideline_50per" />

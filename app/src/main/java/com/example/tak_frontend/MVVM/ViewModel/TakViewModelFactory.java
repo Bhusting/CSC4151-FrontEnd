@@ -15,6 +15,7 @@ public class TakViewModelFactory implements ViewModelProvider.Factory {
 
     public TakViewModelFactory(Application applicationArg, String accessToken, String idToken) {
         application = applicationArg;
+
         this.accessToken = accessToken;
         this.idToken = idToken;
     }

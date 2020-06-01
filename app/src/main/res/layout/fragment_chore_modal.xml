@@ -3,18 +3,21 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/edit_name"
-    android:layout_width="match_parent" android:layout_height="match_parent"
-    android:layout_gravity="center" android:orientation="vertical"  >
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_gravity="center"
+    android:clickable="true"
+    android:orientation="vertical">
 
-        <Button
-            android:id="@+id/backButtonChore"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
-            android:text="Back"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+    <Button
+        android:id="@+id/backButtonChore"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:text="Back"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 
     <TimePicker
@@ -25,7 +28,9 @@
         android:layout_marginBottom="32dp"
         android:timePickerMode="spinner"
         app:layout_constraintBottom_toTopOf="@+id/choreDatePicker"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1.0" />
 
     <DatePicker
         android:id="@+id/choreDatePicker"
@@ -45,9 +50,10 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
-        android:text="Enter Your Chore Name Here!"
 
+        android:text="Enter Your Chore Name Here!"
         android:textAlignment="viewStart"
+        android:textIsSelectable="false"
         android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -77,10 +83,13 @@
         android:id="@+id/choreRadioGroup"
         android:layout_width="87dp"
         android:layout_height="146dp"
+        android:layout_marginEnd="8dp"
         android:layout_marginBottom="8dp"
         android:checkedButton="@id/choreRadioDay"
         app:layout_constraintBottom_toTopOf="@+id/createChoreButton"
-        app:layout_constraintEnd_toEndOf="@+id/createChoreButton">
+        app:layout_constraintEnd_toEndOf="@+id/createChoreButton"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.978">
 
         <RadioButton
             android:id="@+id/choreRadioDay"

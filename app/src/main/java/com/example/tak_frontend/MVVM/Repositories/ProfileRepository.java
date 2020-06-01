@@ -39,12 +39,14 @@ public class ProfileRepository {
                 if (json != "") {
                     UUID profileId = gson.fromJson(json, UUID.class);
 
-                    Request getProfileRequest = _requestBuilder.BuildGet("Profile/" + profileId.toString());
-                    json = "";
-                    while (json == "") {
-                        takDao = new TakDao();
-                        json = takDao.execute(getProfileRequest).get();
+                    try {
+                        wait(2000);
+                    } catch(Exception e) {
+
                     }
+
+                    Request getProfileRequest = _requestBuilder.BuildGet("Profile/" + profileId.toString());
+                    json = takDao.execute(getProfileRequest).get();
 
                     if (json != "") {
                         Profile profile = Profile.Deserialize(json);
