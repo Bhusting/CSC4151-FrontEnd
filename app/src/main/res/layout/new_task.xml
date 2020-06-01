@@ -30,7 +30,7 @@
         android:layout_marginEnd="32dp"
         android:ems="10"
         android:inputType="textPersonName"
-        android:text="Enter Name Of Task"
+        android:hint="Enter Name Of Task Here!"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
