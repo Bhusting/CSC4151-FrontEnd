@@ -2,6 +2,7 @@ package com.example.tak_frontend.chore;
 
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -79,31 +80,33 @@ public class ChoreModal extends Fragment {
         timePicker = rootView.findViewById(R.id.choreTimePicker);
         createButton = rootView.findViewById(R.id.createChoreButton);
         radioGroup = rootView.findViewById(R.id.choreRadioGroup);
-
-
-
-
-
         createButton.setOnClickListener(v -> {
             String minutes = String.valueOf(timePicker.getMinute());
+            String hour = String.valueOf(timePicker.getHour());
             if(timePicker.getMinute() < 10){
                 minutes = '0' + minutes;
+            }
+            if(timePicker.getHour() < 10){
+                hour = '0' + hour;
             }
             String date = String.valueOf(datePicker.getMonth() + 1) + '/' + String.valueOf(datePicker.getDayOfMonth()) + '/' + String.valueOf(datePicker.getYear());
             String time = String.valueOf(timePicker.getHour()) + ':' + minutes;
             short choreType = getChoreType(radioGroup);
 
             ChoreData chore = new ChoreData();
-            chore.ChoreName = choreName.getText().toString();
-            chore.ChoreTypeId = choreType;
-            chore.CompletionDate = date;
-            chore.CompletionTime = time;
-            chore.HouseId = _viewModel.getLiveHouse().getValue().houseId;
+            chore.choreName = choreName.getText().toString();
+            chore.choreTypeId = choreType;
+            chore.completionDate = date;
+            chore.completionTime = time;
+            chore.houseId = _viewModel.getLiveHouse().getValue().houseId;
 
+            Log.d(TAG, "DEBUG" + date +  " : " + time);
+            Toast.makeText(getContext(),date +  " : " + time, Toast.LENGTH_SHORT).show();
             _viewModel.CreateChore(chore);
 
-            Toast toast = Toast.makeText(getContext(), date + ':' + time + ':' + String.valueOf(choreType), Toast.LENGTH_LONG);
-            toast.show();
+
+            ((MainActivity) getActivity()).openFragment(ChoreFragment.newInstance());
+
         });
 
         backButton.setOnClickListener(v -> {

@@ -69,8 +69,6 @@ public class ChoreFragment extends Fragment  {
         recyclerView = (RecyclerView) rootView.findViewById(R.id.recycler_chore);
         //Set Layout
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-
-        choreList.add(new ChoreData());
         //Create and Set View Adapter
         adapter = new RecyclerViewAdapter(this.getContext(), choreList, _viewModel);
         recyclerView.setAdapter(adapter);

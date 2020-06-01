@@ -33,6 +33,7 @@ public class ProfileFragment extends Fragment {
     private TextView xpTextView;
     private Button leaveHouse;
     private Button createJoinHouse;
+    private Button getHouseCode;
     private SharedPreferences pref;
     private NewTakViewModel  _viewModel;
 
@@ -71,6 +72,8 @@ public class ProfileFragment extends Fragment {
         xpTextView = view.findViewById(R.id.xpValueString_Profile);
         leaveHouse = view.findViewById(R.id.leaveButton_Profile);
         createJoinHouse = view.findViewById(R.id.houseCreateJoinButton);
+        getHouseCode = view.findViewById(R.id.getHouseId);
+
 
         try {
             refreshProfile(_viewModel.getLiveProfile().getValue());
@@ -89,6 +92,9 @@ public class ProfileFragment extends Fragment {
             ((MainActivity) getActivity()).openFragment(CreatejoinchoiceFragment.newInstance());
         });
 
+        getHouseCode.setOnClickListener(v -> {
+
+        });
         _viewModel.getLiveProfile().observe(getViewLifecycleOwner(), profile -> refreshProfile(profile));
 
         _viewModel.getLiveHouse().observe(getViewLifecycleOwner(), house -> refreshHouse(house));

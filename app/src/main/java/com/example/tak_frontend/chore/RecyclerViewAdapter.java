@@ -42,26 +42,24 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        Log.d(TAG, "onBindViewHolder: " + String.valueOf(position));
 
         final ChoreData chore = chores.get(position);
-        Log.d(TAG, "onBindViewHolder: chore @ " + String.valueOf(position) + " " + chore.ChoreId.toString());
-        Toast toast = Toast.makeText(mContext, "Clicked Card :" + String.valueOf(position), Toast.LENGTH_LONG);
-        holder.imageTitle.setText(chore.ChoreName);
-        holder.imageDate.setText(chore.CompletionDate);
+
+        holder.imageTitle.setText(chore.choreName);
+        holder.imageDate.setText(chore.completionDate);
         holder.options.setOnClickListener(v -> {
             PopupMenu pop = new PopupMenu(mContext, holder.options);
             pop.setOnMenuItemClickListener(item -> {
                 switch (item.getItemId()){
                     case R.id.complete_card:
-                        _viewModel.CompleteChore(chore.ChoreId);
+                        _viewModel.CompleteChore(chore.choreId);
                         _viewModel.AddXP();
-                        toast.show();
+
                         Toast.makeText(mContext, "Adding xp", Toast.LENGTH_SHORT);
                         return true;
                     case R.id.ignore_card:
-                        _viewModel.CompleteChore(chore.ChoreId);
-                        toast.show();
+                        _viewModel.CompleteChore(chore.choreId);
+
                 }
                 return false;
             });
@@ -70,7 +68,6 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         });
 
     }
-
 
     @Override
     public int getItemCount() {

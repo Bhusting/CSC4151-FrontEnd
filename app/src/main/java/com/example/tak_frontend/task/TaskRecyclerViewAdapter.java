@@ -32,11 +32,10 @@ public class TaskRecyclerViewAdapter extends RecyclerView.Adapter<TaskRecyclerVi
     private NewTakViewModel _viewModel;
 
     //Constructor
-    public TaskRecyclerViewAdapter(Context context, LinkedList<Task> taskList, NewTakViewModel _viewModel)
-    {
+    public TaskRecyclerViewAdapter(Context context, LinkedList<Task> taskList, NewTakViewModel _viewModel) {
         mContext = context;
-        this._viewModel = _viewModel;
         tasks = taskList;
+        this._viewModel = _viewModel;
     }
 
     @NonNull
@@ -49,14 +48,11 @@ public class TaskRecyclerViewAdapter extends RecyclerView.Adapter<TaskRecyclerVi
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        Log.d(TAG, "onBindViewHolder: " + String.valueOf(position));
 
         final Task task = tasks.get(position);
-        Log.d(TAG, "onBindViewHolder: task @ " + String.valueOf(position) + " " + task.taskId.toString());
 
         holder.imageDate.setText(task.endTime);
         holder.imageTitle.setText(task.taskName);
-        Log.d(TAG, "onBindViewHolder: TaskName" + task.taskName);
         Toast toast = Toast.makeText(mContext, "Clicked Card :" + String.valueOf(position), Toast.LENGTH_LONG);
         holder.options.setOnClickListener(v -> {
             PopupMenu pop = new PopupMenu(mContext, holder.options);
@@ -64,15 +60,14 @@ public class TaskRecyclerViewAdapter extends RecyclerView.Adapter<TaskRecyclerVi
                 switch (item.getItemId()){
                     case R.id.edit_card:
                         //_viewModel.
+                        toast.setText("WIP");
                         toast.show();
-
                         return true;
                     case R.id.delete_card:
 
                         _viewModel.DeleteTask(task.taskId);
                         Log.d(TAG, "ViewHolder: delete task UUID: " + task.taskId);
                         toast.show();
-
                         return true;
                 }
                 return false;
@@ -89,10 +84,6 @@ public class TaskRecyclerViewAdapter extends RecyclerView.Adapter<TaskRecyclerVi
             return 0;
         else
             return tasks.size();
-    }
-
-    public void editTask(){
-      //  ((MainActivity) getA)
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {

@@ -1,5 +1,6 @@
 package com.example.tak_frontend.chore;
 
+import android.util.Log;
 import android.view.View;
 
 import androidx.annotation.NonNull;
@@ -8,36 +9,45 @@ import com.example.tak_frontend.task.Task;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
+import java.io.IOException;
 import java.lang.reflect.Type;
 import java.util.Date;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.UUID;
 
+import okhttp3.MediaType;
+import okhttp3.Request;
+import okhttp3.RequestBody;
+import okhttp3.Response;
+
 public class ChoreData {
-    public UUID ChoreId;
-    public String ChoreName;
-    public String CompletionDate;
-    public String CompletionTime;
-    public UUID HouseId;
-    public short ChoreTypeId;
+    public UUID choreId;
+    public String choreName;
+    public String completionDate;
+    public String completionTime;
+    public UUID houseId;
+    public short choreTypeId;
+
+
 
     public ChoreData() {
-        ChoreId = UUID.fromString("00000000-0000-0000-0000-000000000000");
+        choreId = UUID.fromString("00000000-0000-0000-0000-000000000000");
     }
 
     public ChoreData(ChoreData data){
-        ChoreId = data.ChoreId;
-        ChoreName = data.ChoreName;
-        CompletionDate = data.CompletionDate;
-        CompletionTime = data.CompletionTime;
-        HouseId = data.HouseId;
-        ChoreTypeId = data.ChoreTypeId;
+        choreId = data.choreId;
+        choreName = data.choreName;
+        completionDate = data.completionDate;
+        completionTime = data.completionTime;
+        houseId = data.houseId;
+        choreTypeId = data.choreTypeId;
     }
     public static LinkedList<ChoreData> DeserializeList(String json) {
 
         Gson gson = new Gson();
 
-        Type listType = new TypeToken<LinkedList<Task>>() {}.getType();
+        Type listType = new TypeToken<LinkedList<ChoreData>>() {}.getType();
         LinkedList<ChoreData> list = gson.fromJson(json, listType);
 
         return list;

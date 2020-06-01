@@ -101,12 +101,8 @@ public class TaskModal extends Fragment {
 
                     taskList =_viewModel.CreateTask(newTask);
 
-                    if(taskList == null){
-                        Toast.makeText(getActivity(), "Task Failed to Create", Toast.LENGTH_LONG).show();
-                    } else {
-                    Toast.makeText(getActivity(), "TaskCreated", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity(), "Task Created", Toast.LENGTH_SHORT).show();
                     ((MainActivity) getActivity()).openFragment(TaskFragment.newInstance());
-                    }
                 }
             }
         });

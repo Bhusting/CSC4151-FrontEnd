@@ -72,9 +72,7 @@ public class MainActivity extends AppCompatActivity {
                 new TakViewModelFactory(this.getApplication(), accessToken, idToken))
                 .get(NewTakViewModel.class);
 
-        viewModel.GetHouse();
-        viewModel.getLeaderboard();
-        viewModel.GetAllTasks();
+        refreshAll();
 
         toolbar = findViewById(R.id.my_toolbar);
         setSupportActionBar(toolbar);
@@ -121,6 +119,8 @@ public class MainActivity extends AppCompatActivity {
         viewModel.getProfile();
         viewModel.GetHouse();
         viewModel.GetAllChores();
+        viewModel.getLeaderboard();
+
     }
 
     BottomNavigationView.OnNavigationItemSelectedListener navigationItemSelectedListener =

@@ -7,6 +7,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.PopupMenu;
 
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
@@ -84,7 +85,28 @@ public class TaskFragment extends Fragment {
 
         //New Task Modal
         FloatingActionButton fab = rootView.findViewById(R.id.myFABtask);
-        fab.setOnClickListener(v -> ((MainActivity) getActivity()).openFragment(TaskModal.newInstance()));
+        fab.setOnClickListener(v -> {
+            PopupMenu pop = new PopupMenu(getContext(), getView().findViewById(R.id.myFABtask));
+            pop.setOnMenuItemClickListener(item -> {
+                switch (item.getItemId()){
+                    case R.id.default_dishwasher:
+                        _viewModel.CreateTask(TaskDTO.dishwasher(_viewModel.getLiveHouse().getValue()));
+                        return true;
+                    case R.id.default_washer:
+                        _viewModel.CreateTask(TaskDTO.washer(_viewModel.getLiveHouse().getValue()));
+                        return true;
+                    case R.id.default_dryer:
+                        _viewModel.CreateTask(TaskDTO.dryer(_viewModel.getLiveHouse().getValue()));
+                        return true;
+                    case R.id.new_task:
+                        ((MainActivity) getActivity()).openFragment(TaskModal.newInstance());
+                        return true;
+                }
+                return false;
+            });
+            pop.inflate(R.menu.tasks_menu);
+            pop.show();
+        });
 
         //Inflates View
         return rootView;

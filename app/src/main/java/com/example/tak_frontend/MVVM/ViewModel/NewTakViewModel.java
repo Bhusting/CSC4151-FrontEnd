@@ -175,7 +175,7 @@ public class NewTakViewModel extends AndroidViewModel {
 
     public LinkedList<Task> GetAllTasks() {
 
-        LinkedList<Task> tasks = _taskRepository.GetTasks(houseLiveData.getValue().houseId);
+        LinkedList<Task> tasks = _taskRepository.GetTasks(profileLiveData.getValue().houseId);
 
         allTasks.setValue(tasks);
 
@@ -189,7 +189,7 @@ public class NewTakViewModel extends AndroidViewModel {
         try {
             wait(1000);
 
-            LinkedList<Task> tasks = _taskRepository.GetTasks(houseLiveData.getValue().houseId);
+            LinkedList<Task> tasks = _taskRepository.GetTasks(profileLiveData.getValue().houseId);
 
             allTasks.setValue(tasks);
 

@@ -4,6 +4,8 @@ import com.example.tak_frontend.profile.Profile;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.lang.reflect.Type;
 import java.util.LinkedList;
 import java.util.UUID;
@@ -18,6 +20,10 @@ public class Task {
 
     public UUID houseId;
 
+    public Task(){
+
+    }
+
     public static LinkedList<Task> toList(String json) {
         Gson gson = new Gson();
 
@@ -28,12 +34,6 @@ public class Task {
         return list;
     }
 
-    public static Task dummyTask(){
-        Task task = new Task();
-        task.taskName = "Dummy";
-        task.endTime = "0:00";
-        return task;
-    }
 
     public static Task deserialize(String json){
          Gson gson = new Gson();

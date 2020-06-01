@@ -39,9 +39,12 @@ public class LeaderboardAdapter extends ArrayAdapter<LeadboardListItem> {
 
         TextView viewName = (TextView) convertView.findViewById(R.id.leaderboard_person);
         TextView viewXp = (TextView) convertView.findViewById(R.id.leaderboard_xp);
+        TextView viewRank = convertView.findViewById(R.id.leaderboard_rank);
+
 
         viewName.setText(name);
         viewXp.setText(String.valueOf(xp));
+        viewRank.setText(String.valueOf(position + 1));
 
         return convertView;
     }
