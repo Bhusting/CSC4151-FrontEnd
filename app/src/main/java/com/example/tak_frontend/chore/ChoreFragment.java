@@ -61,8 +61,12 @@ public class ChoreFragment extends Fragment  {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        //Get Chores
-        _viewModel.getLiveChores().observe(getViewLifecycleOwner(), chores -> refreshChores(chores));
+
+
+
+
+
+
         //Declare View to be Returned
         View rootView = inflater.inflate(R.layout.fragment_chore, container, false);
         //Find RecyclerView
@@ -72,6 +76,11 @@ public class ChoreFragment extends Fragment  {
         //Create and Set View Adapter
         adapter = new RecyclerViewAdapter(this.getContext(), choreList, _viewModel);
         recyclerView.setAdapter(adapter);
+
+
+
+        //Get Chores
+        _viewModel.getLiveChores().observe(getViewLifecycleOwner(), chores -> refreshChores(chores));
 
         //New Chore Modal
         FloatingActionButton fab = rootView.findViewById(R.id.myFAB);

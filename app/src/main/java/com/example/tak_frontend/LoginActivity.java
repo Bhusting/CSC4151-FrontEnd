@@ -61,12 +61,11 @@ public class LoginActivity extends AppCompatActivity {
 
 
         loginButton = findViewById(R.id.loginButton);
-        loginButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Log.i("MyApp", "It clicked");
-                login();
-            }
+        loginButton.setOnClickListener(v -> {
+            Log.i(TAG, "Logging in. . .");
+
+            login();
+            setContentView(R.layout.activity_splash);
         });
     }
     private void login() {
@@ -100,6 +99,7 @@ public class LoginActivity extends AppCompatActivity {
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
+                                //setContentView(R.layout.activity_splash);
                                 Log.d(TAG, "ID: " + credentials.getIdToken());
                                 Log.d(TAG, "Token: " + credentials.getAccessToken());
 

@@ -2,13 +2,13 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
         android:id="@+id/default_dishwasher"
-        android:title="Dishwasher" />
+        android:title="Dishwasher (WIP)" />
     <item
         android:id="@+id/default_washer"
-        android:title="Washer" />
+        android:title="Washer (WIP)" />
     <item
         android:id="@+id/default_dryer"
-        android:title="Dryer" />
+        android:title="Dryer (WIP)" />
     <item
         android:id="@+id/new_task"
         android:title="New Task"/>

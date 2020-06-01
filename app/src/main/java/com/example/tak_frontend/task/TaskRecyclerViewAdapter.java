@@ -36,6 +36,7 @@ public class TaskRecyclerViewAdapter extends RecyclerView.Adapter<TaskRecyclerVi
         mContext = context;
         tasks = taskList;
         this._viewModel = _viewModel;
+
     }
 
     @NonNull
@@ -53,8 +54,9 @@ public class TaskRecyclerViewAdapter extends RecyclerView.Adapter<TaskRecyclerVi
 
         holder.imageDate.setText(task.endTime);
         holder.imageTitle.setText(task.taskName);
-        Toast toast = Toast.makeText(mContext, "Clicked Card :" + String.valueOf(position), Toast.LENGTH_LONG);
-        holder.options.setOnClickListener(v -> {
+        holder.imageStatus.setText("Running. . .");
+        //Toast toast = Toast.makeText(mContext, "Clicked Card :" + String.valueOf(position), Toast.LENGTH_LONG);
+/*        holder.options.setOnClickListener(v -> {
             PopupMenu pop = new PopupMenu(mContext, holder.options);
             pop.setOnMenuItemClickListener(item -> {
                 switch (item.getItemId()){
@@ -74,7 +76,7 @@ public class TaskRecyclerViewAdapter extends RecyclerView.Adapter<TaskRecyclerVi
             });
             pop.inflate(R.menu.card_menu);
             pop.show();
-        });
+        });*/
 
     }
 

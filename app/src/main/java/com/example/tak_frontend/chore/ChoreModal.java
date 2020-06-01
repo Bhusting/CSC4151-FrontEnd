@@ -89,9 +89,29 @@ public class ChoreModal extends Fragment {
             if(timePicker.getHour() < 10){
                 hour = '0' + hour;
             }
-            String date = String.valueOf(datePicker.getMonth() + 1) + '/' + String.valueOf(datePicker.getDayOfMonth()) + '/' + String.valueOf(datePicker.getYear());
-            String time = String.valueOf(timePicker.getHour()) + ':' + minutes;
+
+            String months = String.valueOf(datePicker.getMonth() + 1);
+            String days = String.valueOf(datePicker.getDayOfMonth());
+            String year = String.valueOf(datePicker.getYear());
+
+            if(datePicker.getMonth() < 10){
+                months = '0' + months;
+            }
+            if(datePicker.getDayOfMonth() < 10){
+                days = '0' + days;
+            }
+            if(datePicker.getYear() < 10){
+                year = '0' + year;
+            }
+
+
+
+            String date = months + '/' + days + '/' + year;//'00/00/00'
+            String time = hour + ':' + minutes; //'00:00'
             short choreType = getChoreType(radioGroup);
+
+
+            Log.d(TAG, "Date and Time: " + date + " - " + time);
 
             ChoreData chore = new ChoreData();
             chore.choreName = choreName.getText().toString();

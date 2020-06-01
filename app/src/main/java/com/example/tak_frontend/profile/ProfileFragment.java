@@ -1,6 +1,9 @@
 package com.example.tak_frontend.profile;
 
+import android.app.Service;
+import android.content.ClipData;
 import android.content.ClipboardManager;
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
@@ -9,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -94,7 +98,10 @@ public class ProfileFragment extends Fragment {
         });
 
         getHouseCode.setOnClickListener(v -> {
-            ClipboardManager clipboard;
+            ClipboardManager clipboard = (ClipboardManager) ((MainActivity) getActivity()).getSystemService(Context.CLIPBOARD_SERVICE);
+            ClipData clip = ClipData.newPlainText("houseId", _viewModel.getLiveProfile().getValue().houseId.toString());
+            clipboard.setPrimaryClip(clip);
+            Toast.makeText(getContext(), "Copied to Clipboard!", Toast.LENGTH_SHORT).show();
         });
         _viewModel.getLiveProfile().observe(getViewLifecycleOwner(), profile -> refreshProfile(profile));
 

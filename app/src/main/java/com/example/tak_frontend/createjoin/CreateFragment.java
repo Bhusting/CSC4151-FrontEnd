@@ -45,7 +45,7 @@ public class CreateFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        getActivity().setTitle("createhouse");
+        getActivity().setTitle("Create a House");
     }
 
     @Override

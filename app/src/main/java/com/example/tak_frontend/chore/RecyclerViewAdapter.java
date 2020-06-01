@@ -16,6 +16,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.tak_frontend.MVVM.ViewModel.NewTakViewModel;
 import com.example.tak_frontend.R;
 
+import java.sql.Date;
+import java.time.Instant;
 import java.util.LinkedList;
 
 public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.ViewHolder> {
@@ -46,7 +48,8 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         final ChoreData chore = chores.get(position);
 
         holder.imageTitle.setText(chore.choreName);
-        holder.imageDate.setText(chore.completionDate);
+        holder.imageDate.setText(chore.completionTime);
+        holder.imageStatus.setText("");
         holder.options.setOnClickListener(v -> {
             PopupMenu pop = new PopupMenu(mContext, holder.options);
             pop.setOnMenuItemClickListener(item -> {

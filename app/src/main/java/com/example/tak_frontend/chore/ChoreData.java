@@ -43,6 +43,15 @@ public class ChoreData {
         houseId = data.houseId;
         choreTypeId = data.choreTypeId;
     }
+
+    public static ChoreData dummy(){
+        ChoreData data = new ChoreData();
+        data.choreName = "dummy";
+        data.completionDate = "00/00/00";
+        data.completionTime = "00:00";
+        data.choreTypeId = 1;
+        return data;
+    }
     public static LinkedList<ChoreData> DeserializeList(String json) {
 
         Gson gson = new Gson();

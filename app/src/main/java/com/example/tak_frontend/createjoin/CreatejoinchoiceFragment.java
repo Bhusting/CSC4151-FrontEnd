@@ -36,7 +36,7 @@ public class CreatejoinchoiceFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        getActivity().setTitle("Createjoinchoice");
+        getActivity().setTitle("House?");
     }
 
     @Override

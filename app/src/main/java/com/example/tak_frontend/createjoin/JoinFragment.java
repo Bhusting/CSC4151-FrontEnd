@@ -46,7 +46,7 @@ public class JoinFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        getActivity().setTitle("joinhouse");
+        getActivity().setTitle("Join a House");
 
     }
 

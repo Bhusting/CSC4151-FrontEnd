@@ -115,12 +115,12 @@ public class MainActivity extends AppCompatActivity {
 
 
     public void refreshAll(){
+
         viewModel.GetAllTasks();
         viewModel.getProfile();
         viewModel.GetHouse();
         viewModel.GetTodaysChores();
         viewModel.getLeaderboard();
-
     }
 
     BottomNavigationView.OnNavigationItemSelectedListener navigationItemSelectedListener =
