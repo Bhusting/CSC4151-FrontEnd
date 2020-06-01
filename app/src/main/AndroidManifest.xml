@@ -20,7 +20,9 @@
             </intent-filter>
         </activity>
         <activity android:name=".HouseActivity" />
-        <activity android:name=".MainActivity" />
+        <activity
+            android:name=".MainActivity"
+            android:windowSoftInputMode="adjustPan"/>
 
         <service
             android:name=".services.BackgroundService"
