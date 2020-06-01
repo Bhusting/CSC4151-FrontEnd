@@ -91,7 +91,11 @@ public class TaskModal extends Fragment {
                     if(timePicker.getMinute() < 10){
                         minutes = '0' + minutes;
                     }
-                    String time = String.valueOf(timePicker.getHour()) + ':' + minutes;
+                    String hours = String.valueOf(timePicker.getHour());
+                    if(timePicker.getHour() < 10){
+                        hours = '0' + hours;
+                    }
+                    String time = hours + ':' + minutes;
 
                     newTask.setDuration(time);
                     newTask.setTaskName(taskTitleText.getText().toString());

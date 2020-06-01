@@ -118,7 +118,7 @@ public class MainActivity extends AppCompatActivity {
         viewModel.GetAllTasks();
         viewModel.getProfile();
         viewModel.GetHouse();
-        viewModel.GetAllChores();
+        viewModel.GetTodaysChores();
         viewModel.getLeaderboard();
 
     }

@@ -1,5 +1,6 @@
 package com.example.tak_frontend.profile;
 
+import android.content.ClipboardManager;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
@@ -93,7 +94,7 @@ public class ProfileFragment extends Fragment {
         });
 
         getHouseCode.setOnClickListener(v -> {
-
+            ClipboardManager clipboard;
         });
         _viewModel.getLiveProfile().observe(getViewLifecycleOwner(), profile -> refreshProfile(profile));
 
