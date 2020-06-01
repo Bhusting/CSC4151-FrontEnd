@@ -98,6 +98,7 @@ public class ChoreModal extends Fragment {
             chore.ChoreTypeId = choreType;
             chore.CompletionDate = date;
             chore.CompletionTime = time;
+            chore.HouseId = _viewModel.getLiveHouse().getValue().houseId;
 
             _viewModel.CreateChore(chore);
 

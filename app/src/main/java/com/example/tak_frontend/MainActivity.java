@@ -120,7 +120,7 @@ public class MainActivity extends AppCompatActivity {
         viewModel.GetAllTasks();
         viewModel.getProfile();
         viewModel.GetHouse();
-        viewModel.GetTodaysChores();
+        viewModel.GetAllChores();
     }
 
     BottomNavigationView.OnNavigationItemSelectedListener navigationItemSelectedListener =

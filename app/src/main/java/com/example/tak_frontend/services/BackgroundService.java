@@ -20,7 +20,7 @@ public class BackgroundService extends Service {
         pusher.connect();
 
         private Channel channel = pusher.subscribe("my-channel");
-        
+
         channel.bind("my-event", new SubscriptionEventListener() {
         @Override
         public void onEvent(String channelName, String eventName, String data) {

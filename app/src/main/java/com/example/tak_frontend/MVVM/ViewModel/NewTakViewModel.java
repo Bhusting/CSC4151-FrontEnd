@@ -235,9 +235,24 @@ public class NewTakViewModel extends AndroidViewModel {
         return chores;
     }
 
+    public LinkedList<ChoreData> GetAllChores() {
+
+        LinkedList<ChoreData> chores = _choreRepository.GetAllChores(profileLiveData.getValue().houseId);
+
+        allChores.setValue(chores);
+
+        return chores;
+    }
+
     public void CreateChore(ChoreData chore) {
 
         UUID choreId = _choreRepository.CreateChore(chore);
+
+        try {
+            wait(2000);
+        }catch (Exception e){
+
+        }
 
         LinkedList<ChoreData> chores = _choreRepository.GetChoresForToday(profileLiveData.getValue().houseId);
 

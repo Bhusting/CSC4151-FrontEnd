@@ -3,5 +3,8 @@
     <item
         android:id="@+id/complete_card"
         android:title="Complete" />
+    <item
+        android:id="@+id/ignore_card"
+        android:title="Ignore" />
 
 </menu>

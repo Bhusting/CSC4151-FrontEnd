@@ -97,7 +97,7 @@ public class ProfileFragment extends Fragment {
     }
     public void refreshProfile(Profile profile){
         profileName.setText(profile.firstName + " " + profile.lastName);
-        //xpTextView.setText(profile.xp);
+        xpTextView.setText(String.valueOf(profile.xp));
     }
 
     public void refreshHouse(House house){

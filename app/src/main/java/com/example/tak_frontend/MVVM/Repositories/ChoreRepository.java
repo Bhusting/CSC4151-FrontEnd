@@ -41,6 +41,23 @@ public class ChoreRepository {
 
     }
 
+    public LinkedList<ChoreData> GetAllChores(UUID houseId){
+        Request request = _requestBuilder.BuildGet("Chore/House/" + houseId.toString());
+
+        try {
+            TakDao takDao = new TakDao();
+            String json = takDao.execute(request).get();
+
+            LinkedList<ChoreData> list =  ChoreData.DeserializeList(json);
+
+            return list;
+
+        } catch (Exception e){
+
+        }
+        return null;
+    }
+
     public UUID CreateChore(ChoreData chore) {
 
         Request request = _requestBuilder.BuildPost("Chore/", MediaType.parse("application/json; charset=utf-8"), gson.toJson(chore));

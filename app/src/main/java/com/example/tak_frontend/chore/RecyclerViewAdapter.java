@@ -53,12 +53,15 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
             PopupMenu pop = new PopupMenu(mContext, holder.options);
             pop.setOnMenuItemClickListener(item -> {
                 switch (item.getItemId()){
-                    case R.id.card_completed:
+                    case R.id.complete_card:
                         _viewModel.CompleteChore(chore.ChoreId);
                         _viewModel.AddXP();
                         toast.show();
                         Toast.makeText(mContext, "Adding xp", Toast.LENGTH_SHORT);
                         return true;
+                    case R.id.ignore_card:
+                        _viewModel.CompleteChore(chore.ChoreId);
+                        toast.show();
                 }
                 return false;
             });
@@ -71,7 +74,10 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
     @Override
     public int getItemCount() {
-        return chores.size();
+        if (chores == null)
+            return 0;
+        else
+            return chores.size();
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
