@@ -24,6 +24,11 @@ public class Task {
 
     }
 
+    public Task(String name, String time){
+        taskName = name;
+        endTime = time;
+    }
+
     public static LinkedList<Task> toList(String json) {
         Gson gson = new Gson();
 

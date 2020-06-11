@@ -119,6 +119,7 @@ public class MainActivity extends AppCompatActivity {
         viewModel.GetHouse();
         viewModel.GetTodaysChores();
         viewModel.getLeaderboard();
+        viewModel.setDummyData();
     }
 
     BottomNavigationView.OnNavigationItemSelectedListener navigationItemSelectedListener =

@@ -71,6 +71,28 @@ public class NewTakViewModel extends AndroidViewModel {
         _lastName = jwt.getClaim("family_name").asString();
     }
 
+    public void setDummyData(){
+
+        LinkedList<ChoreData> chore = new LinkedList<>();
+        chore.add(new ChoreData("Feed Cat", "06/09/2020", "20:00"));
+        allChores.setValue(chore);
+
+        LinkedList<Task> task = new LinkedList<>();
+        task.add(new Task("Dishwasher", "11:50"));
+        allTasks.setValue(task);
+
+        /*Profile p = new Profile(UUID.fromString("00000000-0000-0000-0000-000000000000"), "Sam", "Wynn", 6, UUID.fromString("00000000-0000-0000-0000-000000000000"), "swynnr@gmail.com");
+        profileLiveData.setValue(p);*/
+
+        Profile temp = new Profile(UUID.fromString("00000000-0000-0000-0000-000000000000"), "Ted", "Allen", 6, UUID.fromString("00000000-0000-0000-0000-000000000000"), "tedAllen@gmail.com");
+        LeaderboardData leaderboard = new LeaderboardData();
+        leaderboard.setLeaderboard(leaderboardLiveData.getValue());
+        //leaderboard.addProfile(p);
+        leaderboard.addProfile(temp);
+        leaderboardLiveData.setValue(leaderboard.getLeaderboard());
+
+    }
+
     //
     //---------------------------------Profile------------------------------------------------------
     //

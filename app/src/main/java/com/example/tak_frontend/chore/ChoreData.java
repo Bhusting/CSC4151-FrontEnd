@@ -35,6 +35,11 @@ public class ChoreData {
         choreId = UUID.fromString("00000000-0000-0000-0000-000000000000");
     }
 
+    public ChoreData(String name, String date, String time){
+        choreName = name;
+        completionDate = date;
+        completionTime = time;
+    }
     public ChoreData(ChoreData data){
         choreId = data.choreId;
         choreName = data.choreName;

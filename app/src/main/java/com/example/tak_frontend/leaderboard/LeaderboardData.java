@@ -38,7 +38,7 @@ public class LeaderboardData
         this.leaderboard = leaderboard;
     }
 
-    protected void addProfile(Profile p){this.leaderboard.addLast(p);}
+    public void addProfile(Profile p){this.leaderboard.addLast(p);}
 
     public static LeaderboardData fromJson(@NotNull JSONArray array) throws IOException, JSONException {
         LeaderboardData leaderboardData = new LeaderboardData();

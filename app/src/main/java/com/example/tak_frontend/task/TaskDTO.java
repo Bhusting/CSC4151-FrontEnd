@@ -4,91 +4,89 @@ import com.example.tak_frontend.profile.House;
 
 import org.jetbrains.annotations.NotNull;
 
-import java.sql.Date;
-import java.time.Instant;
 import java.util.UUID;
 
 public class TaskDTO {
 
-    private UUID TaskId;
-    private String TaskName;
-    private UUID HouseId;
-    private String Duration;
-    private UUID Channel;
+    private UUID taskId;
+    private String taskName;
+    private UUID houseId;
+    private String duration;
+    private UUID channel;
 
 
 
     @NotNull
     public static TaskDTO dishwasher(House house){
         TaskDTO task = new TaskDTO();
-        task.TaskName = "Dishwasher";
-        task.Duration = "1:00";
-        task.HouseId = house.houseId;
-        task.Channel = house.channel;
-        task.TaskId = UUID.fromString("00000000-0000-0000-0000-000000000000");
+        task.taskName = "Dishwasher";
+        task.duration = "01:00";
+        task.houseId = house.houseId;
+        task.channel = house.channel;
+        task.taskId = UUID.fromString("00000000-0000-0000-0000-000000000000");
         return task;
     }
 
     @NotNull
     public static TaskDTO dryer(House house){
         TaskDTO task = new TaskDTO();
-        task.TaskName = "Dryer";
-        task.Duration = "1:30";
-        task.HouseId = house.houseId;
-        task.Channel = house.channel;
-        task.TaskId = UUID.fromString("00000000-0000-0000-0000-000000000000");
+        task.taskName = "Dryer";
+        task.duration = "01:30";
+        task.houseId = house.houseId;
+        task.channel = house.channel;
+        task.taskId = UUID.fromString("00000000-0000-0000-0000-000000000000");
         return task;
     }
 
     @NotNull
     public static TaskDTO washer(House house){
         TaskDTO task = new TaskDTO();
-        task.TaskName = "Washer";
-        task.Duration = "1:30";
-        task.HouseId = house.houseId;
-        task.Channel = house.channel;
-        task.TaskId = UUID.fromString("00000000-0000-0000-0000-000000000000");
+        task.taskName = "Washer";
+        task.duration = "01:30";
+        task.houseId = house.houseId;
+        task.channel = house.channel;
+        task.taskId = UUID.fromString("00000000-0000-0000-0000-000000000000");
         return task;
     }
 
     public UUID getTaskId() {
-        return TaskId;
+        return taskId;
     }
 
     public void setTaskId(UUID taskId) {
-        TaskId = taskId;
+        this.taskId = taskId;
     }
 
     public String getTaskName() {
-        return TaskName;
+        return taskName;
     }
 
     public void setTaskName(String taskName) {
-        TaskName = taskName;
+        this.taskName = taskName;
     }
 
     public UUID getHouseId() {
-        return HouseId;
+        return houseId;
     }
 
     public void setHouseId(UUID houseId) {
-        HouseId = houseId;
+        this.houseId = houseId;
     }
 
     public String getDuration() {
-        return Duration;
+        return duration;
     }
 
     public void setDuration(String duration) {
-        Duration = duration;
+        this.duration = duration;
     }
 
     public UUID getChannel() {
-        return Channel;
+        return channel;
     }
 
     public void setChannel(UUID channel) {
-        Channel = channel;
+        this.channel = channel;
     }
 
 }

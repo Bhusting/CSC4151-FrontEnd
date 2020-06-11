@@ -55,28 +55,23 @@ public class TaskRecyclerViewAdapter extends RecyclerView.Adapter<TaskRecyclerVi
         holder.imageDate.setText(task.endTime);
         holder.imageTitle.setText(task.taskName);
         holder.imageStatus.setText("Running. . .");
-        //Toast toast = Toast.makeText(mContext, "Clicked Card :" + String.valueOf(position), Toast.LENGTH_LONG);
-/*        holder.options.setOnClickListener(v -> {
+
+        holder.options.setOnClickListener(v -> {
             PopupMenu pop = new PopupMenu(mContext, holder.options);
             pop.setOnMenuItemClickListener(item -> {
                 switch (item.getItemId()){
                     case R.id.edit_card:
                         //_viewModel.
-                        toast.setText("WIP");
-                        toast.show();
                         return true;
                     case R.id.delete_card:
-
                         _viewModel.DeleteTask(task.taskId);
-                        Log.d(TAG, "ViewHolder: delete task UUID: " + task.taskId);
-                        toast.show();
                         return true;
                 }
                 return false;
             });
             pop.inflate(R.menu.card_menu);
             pop.show();
-        });*/
+        });
 
     }
 

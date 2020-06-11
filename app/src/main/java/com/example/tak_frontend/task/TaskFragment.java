@@ -113,8 +113,24 @@ public class TaskFragment extends Fragment {
     }
 
     public void refreshTasks(LinkedList<Task> tasks){
-        adapter = new TaskRecyclerViewAdapter(context, tasks, _viewModel);
-        recyclerView.setLayoutManager( new LinearLayoutManager(context));
-        recyclerView.setAdapter(adapter);
+
+
+        if(tasks != null){
+
+            if(tasks.size() == 1){
+                adapter = new TaskRecyclerViewAdapter(context, tasks, _viewModel);
+                recyclerView.setLayoutManager( new LinearLayoutManager(context));
+                recyclerView.setAdapter(adapter);
+            } else {
+                LinkedList<Task> flip = new LinkedList<>();
+                for (int i = (tasks.size() - 1); i > 0; i--) {
+                    flip.add(tasks.get(i));
+                }
+                adapter = new TaskRecyclerViewAdapter(context, flip, _viewModel);
+                recyclerView.setLayoutManager(new LinearLayoutManager(context));
+                recyclerView.setAdapter(adapter);
+            }
+        }
+
     }
 };
