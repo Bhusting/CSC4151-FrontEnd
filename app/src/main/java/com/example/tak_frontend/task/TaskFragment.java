@@ -24,6 +24,9 @@ import com.example.tak_frontend.profile.Profile;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.sql.Date;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.time.Instant;
 import java.util.LinkedList;
 import java.util.UUID;
@@ -71,7 +74,10 @@ public class TaskFragment extends Fragment {
                              Bundle savedInstanceState) {
 
         //Get Tasks
-        _viewModel.getLiveTasks().observe(getViewLifecycleOwner(), tasks -> refreshTasks(tasks));
+        _viewModel.getLiveTasks().observe(getViewLifecycleOwner(), tasks -> {
+            TaskList = tasks;
+            refreshTasks();
+        });
         //Declare View to be Returned
         View rootView = inflater.inflate(R.layout.fragment_task, container, false);
         //Find RecyclerView
@@ -91,12 +97,15 @@ public class TaskFragment extends Fragment {
                 switch (item.getItemId()){
                     case R.id.default_dishwasher:
                         _viewModel.CreateTask(TaskDTO.dishwasher(_viewModel.getLiveHouse().getValue()));
+                        refreshTasks();
                         return true;
                     case R.id.default_washer:
                         _viewModel.CreateTask(TaskDTO.washer(_viewModel.getLiveHouse().getValue()));
+                        refreshTasks();
                         return true;
                     case R.id.default_dryer:
                         _viewModel.CreateTask(TaskDTO.dryer(_viewModel.getLiveHouse().getValue()));
+                        refreshTasks();
                         return true;
                     case R.id.new_task:
                         ((MainActivity) getActivity()).openFragment(TaskModal.newInstance());
@@ -112,25 +121,68 @@ public class TaskFragment extends Fragment {
         return rootView;
     }
 
-    public void refreshTasks(LinkedList<Task> tasks){
-
-
+    public void refreshTasks(){
+        LinkedList<Task> tasks = TaskList;
         if(tasks != null){
 
             if(tasks.size() == 1){
+
+                fixDate(tasks);
                 adapter = new TaskRecyclerViewAdapter(context, tasks, _viewModel);
                 recyclerView.setLayoutManager( new LinearLayoutManager(context));
                 recyclerView.setAdapter(adapter);
             } else {
                 LinkedList<Task> flip = new LinkedList<>();
-                for (int i = (tasks.size() - 1); i > 0; i--) {
+                for (int i = (tasks.size() - 1); i >= 0; i--) {
                     flip.add(tasks.get(i));
                 }
+                fixDate(tasks);
                 adapter = new TaskRecyclerViewAdapter(context, flip, _viewModel);
                 recyclerView.setLayoutManager(new LinearLayoutManager(context));
                 recyclerView.setAdapter(adapter);
             }
         }
 
+    }
+
+    public void fixDate(LinkedList<Task> tasks) {
+        for(int i = 0; i< tasks.size(); i++){
+            Task temp = tasks.get(i);
+
+            String hour = Character.toString(temp.endTime.charAt(0)) + Character.toString(temp.endTime.charAt(1));
+            int curHour = Integer.parseInt(hour);
+            String curMin = temp.endTime.substring(2);
+            if(curHour < 7){
+                switch (curHour){
+                    case 0:
+                        temp.endTime = "17" + curMin;
+                        break;
+                    case 1:
+                        temp.endTime = "18" + curMin;
+                        break;
+                    case 2:
+                        temp.endTime = "19" + curMin;
+                        break;
+                    case 3:
+                        temp.endTime = "20" + curMin;
+                        break;
+                    case 4:
+                        temp.endTime = "21" + curMin;
+                        break;
+                    case 5:
+                        temp.endTime = "22" + curMin;
+                        break;
+                    case 6:
+                        temp.endTime = "23" + curMin;
+                        break;
+                }
+            } else {
+                if(curHour < 17){
+                    temp.endTime = '0' + String.valueOf(curHour - 7) + curMin;
+                } else
+                    temp.endTime = String.valueOf(curHour - 7) + curMin;
+            }
+
+        }
     }
 };

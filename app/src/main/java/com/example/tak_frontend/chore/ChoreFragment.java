@@ -18,6 +18,8 @@ import com.example.tak_frontend.MVVM.ViewModel.NewTakViewModel;
 import com.example.tak_frontend.MVVM.ViewModel.TakViewModelFactory;
 import com.example.tak_frontend.MainActivity;
 import com.example.tak_frontend.R;
+import com.example.tak_frontend.task.Task;
+import com.example.tak_frontend.task.TaskRecyclerViewAdapter;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.LinkedList;
@@ -61,12 +63,6 @@ public class ChoreFragment extends Fragment  {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-
-
-
-
-
-
         //Declare View to be Returned
         View rootView = inflater.inflate(R.layout.fragment_chore, container, false);
         //Find RecyclerView
@@ -76,8 +72,6 @@ public class ChoreFragment extends Fragment  {
         //Create and Set View Adapter
         adapter = new RecyclerViewAdapter(this.getContext(), choreList, _viewModel);
         recyclerView.setAdapter(adapter);
-
-
 
         //Get Chores
         _viewModel.getLiveChores().observe(getViewLifecycleOwner(), chores -> refreshChores(chores));
@@ -91,8 +85,25 @@ public class ChoreFragment extends Fragment  {
     }
 
     public void refreshChores(LinkedList<ChoreData> chores){
-        adapter = new RecyclerViewAdapter(getContext(), chores, _viewModel);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        recyclerView.setAdapter(adapter);
+        if(chores != null){
+
+            if(chores.size() == 1){
+
+               // fixDate(tasks);
+                adapter = new RecyclerViewAdapter(getContext(), chores, _viewModel);
+                recyclerView.setLayoutManager( new LinearLayoutManager(getContext()));
+                recyclerView.setAdapter(adapter);
+            } else {
+/*                LinkedList<ChoreData> flip = new LinkedList<>();
+                for (int i = (chores.size() - 1); i >= 0; i--) {
+                    flip.add(chores.get(i));
+                }*/
+                //fixDate(tasks);
+                adapter = new RecyclerViewAdapter(getContext(), chores, _viewModel);
+                recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+                recyclerView.setAdapter(adapter);
+            }
+        }
+
     }
 };
