@@ -146,6 +146,7 @@ public class TaskFragment extends Fragment {
     }
 
     public void fixDate(LinkedList<Task> tasks) {
+        LinkedList<Task> newList = tasks;
         for(int i = 0; i< tasks.size(); i++){
             Task temp = tasks.get(i);
 
